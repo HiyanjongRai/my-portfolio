@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+  :root {
+    --bg: #003153;
+    --bg-soft: rgba(1,39,67,0.9);
+    --text: #eef6ff;
+    --muted: #dbe6f4;
+    --border: rgba(255,255,255,0.08);
+    --brand: #0ea5e9;
+    --brand-700: #0284c7;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --gap: 20px;
+  }
+  body { margin:0; font-family:"Roboto Condensed",sans-serif; background:var(--bg); color:var(--text);}
+  header {position:sticky;top:0;background:rgba(0,49,83,.95);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;padding:16px 24px;z-index:100;}
+  header h1 {margin:0;font-size:1.6rem;color:#fff;}
+  nav ul {display:flex;list-style:none;gap:16px;margin:0;padding:0;}
+  nav ul li a {color:#fff;text-decoration:none;font-weight:500;padding:6px 12px;border-radius:var(--radius-md);transition:background .2s;}
+  nav ul li a:hover {background:var(--brand-700);}
+  main {padding:24px;max-width:1200px;margin:auto;}
+  section {display:none;}
+  section.active {display:block;}
+  .section-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+  .section-title {font-size:1.5rem;position:relative;margin:8px 0;}
+  .section-title::after {content:"";width:60px;height:3px;background:var(--brand);position:absolute;bottom:-8px;left:0;border-radius:2px;}
+  .btn {padding:8px 14px;border:none;border-radius:var(--radius-md);background:var(--brand);color:#fff;cursor:pointer;font-weight:500;margin:4px;transition:.2s;}
+  .btn:hover {background:var(--brand-700);}
+  .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap);margin-top:16px;}
+  .card {background:var(--bg-soft);padding:16px;border-radius:var(--radius-lg);box-shadow:0 4px 10px rgba(0,0,0,.2);}
+  .card img {width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:8px;}
+  .card-title {font-weight:700;color:var(--brand);}
+  .card-text {font-size:.9rem;color:var(--muted);}
+  .card-actions {margin-top:8px;display:flex;gap:8px;}
+  .btn-small {padding:4px 8px;font-size:.8rem;}
+  .btn-danger {background:#dc2626;}
+  .btn-danger:hover {background:#a61b1b;}
+  form {margin-top:12px;display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,0.05);padding:12px;border-radius:var(--radius-md);}
+  input,textarea {padding:8px;border-radius:var(--radius-md);border:1px solid var(--border);background:#fff;color:#000;}
+  label {font-size:.9rem;}
+
+  /* Modal Styles */
+  .modal {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200;}
+  .modal-content {background:#fff;color:#000;padding:20px;border-radius:var(--radius-md);max-width:400px;text-align:center;}
+  .modal-buttons {margin-top:20px;display:flex;justify-content:space-around;}
+  .modal .btn {margin:0;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Admin Dashboard</h1>
+  <nav>
+    <ul>
+      <li><a id="nav-projects">Projects</a></li>
+      <li><a id="nav-highlights">Highlights</a></li>
+      <li><a id="logout">Logout</a></li>
+      <li><span id="username">Hi, Admin</span></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- Projects -->
+  <section id="projects-section" class="active">
+    <div class="section-header">
+      <h2 class="section-title">Projects</h2>
+      <button class="btn" id="show-project-form">+ Add Project</button>
+    </div>
+    <form id="project-form" style="display:none;">
+      <label>Title <input type="text" name="title" required></label>
+      <label>Description <textarea name="description" required></textarea></label>
+      <label>Tech Stack <input type="text" name="techStack"></label>
+      <label>Image <input type="file" name="file" required></label>
+      <label>Demo Link <input type="url" name="demoLink"></label>
+      <label>Code Link <input type="url" name="codeLink"></label>
+      <button class="btn" type="submit">Save Project</button>
+    </form>
+    <div id="projects-list" class="grid"></div>
+    <p id="projects-empty" style="text-align:center;display:none;">No projects yet.</p>
+  </section>
+
+  <!-- Highlights (Posts) -->
+  <section id="highlights-section">
+    <div class="section-header">
+      <h2 class="section-title">Highlights</h2>
+      <button class="btn" id="show-highlight-form">+ Add Highlight</button>
+    </div>
+    <form id="highlight-form" style="display:none;">
+      <label>Name <input type="text" name="name" required></label>
+      <label>Description <textarea name="description" required></textarea></label>
+      <label>Image <input type="file" name="file" required></label>
+      <button class="btn" type="submit">Save Highlight</button>
+    </form>
+    <div id="highlights-list" class="grid"></div>
+    <p id="highlights-empty" style="text-align:center;display:none;">No highlights yet.</p>
+  </section>
+</main>
+
+<!-- Modal -->
+<div class="modal" id="confirmModal">
+  <div class="modal-content">
+    <h3 id="confirmMessage">Are you sure?</h3>
+    <div class="modal-buttons">
+      <button class="btn btn-danger" id="confirmYes">Yes</button>
+      <button class="btn" id="confirmNo">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_PROJECTS   = "http://localhost:8080/api/projects";
+const API_HIGHLIGHTS = "http://localhost:8080/api/images";
+
+const token = localStorage.getItem("jwtToken");
+if(!token){ alert("Unauthorized"); window.location.href="index.html"; }
+
+document.getElementById("username").textContent = "Hi, " + (localStorage.getItem("username")||"Admin");
+
+// --- Confirmation Modal Logic ---
+let confirmCallback = null;
+function showConfirm(message, callback){
+  document.getElementById("confirmMessage").textContent = message;
+  document.getElementById("confirmModal").style.display = "flex";
+  confirmCallback = callback;
+}
+document.getElementById("confirmYes").onclick = ()=> {
+  document.getElementById("confirmModal").style.display="none";
+  if(confirmCallback) confirmCallback(true);
+};
+document.getElementById("confirmNo").onclick = ()=> {
+  document.getElementById("confirmModal").style.display="none";
+  if(confirmCallback) confirmCallback(false);
+};
+
+// NAV
+document.getElementById("nav-projects").onclick = ()=>showSection("projects-section");
+document.getElementById("nav-highlights").onclick = ()=>showSection("highlights-section");
+document.getElementById("logout").onclick = ()=>{
+  showConfirm("Are you sure you want to logout?", (ok)=>{
+    if(ok){ localStorage.clear(); window.location="index.html"; }
+  });
+};
+
+function showSection(id){
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// Load projects
+async function loadProjects(){
+  const list=document.getElementById("projects-list"), empty=document.getElementById("projects-empty");
+  list.innerHTML="Loading...";
+  try{
+    const res=await fetch(API_PROJECTS,{headers:{Authorization:`Bearer ${token}`}});
+    if(!res.ok){list.innerHTML="Error";return;}
+    const projects=await res.json();
+    if(projects.length===0){list.innerHTML="";empty.style.display="block";return;}
+    empty.style.display="none";
+    list.innerHTML=projects.map(p=>`
+      <div class="card">
+        <img src="${API_PROJECTS}/image/${p.id}" alt="${p.title}">
+        <div class="card-title">${p.title}</div>
+        <div class="card-text">${p.description||""}</div>
+        <div class="card-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteProject(${p.id})">Delete</button>
+        </div>
+      </div>`).join("");
+  }catch(e){list.innerHTML="Error loading";console.error(e);}
+}
+
+// Load highlights (posts)
+async function loadHighlights(){
+  const list=document.getElementById("highlights-list"), empty=document.getElementById("highlights-empty");
+  list.innerHTML="Loading...";
+  try{
+    const res=await fetch(API_HIGHLIGHTS,{headers:{Authorization:`Bearer ${token}`}});
+    if(!res.ok){list.innerHTML="Error";return;}
+    const posts=await res.json();
+    if(posts.length===0){list.innerHTML="";empty.style.display="block";return;}
+    empty.style.display="none";
+    list.innerHTML=posts.map(i=>`
+      <div class="card">
+        <img src="${API_HIGHLIGHTS}/${i.id}" alt="${i.name}">
+        <div class="card-title">${i.name}</div>
+        <div class="card-text">${i.description||""}</div>
+        <div class="card-actions">
+          <button class="btn btn-small btn-danger" onclick="deleteHighlight(${i.id})">Delete</button>
+        </div>
+      </div>`).join("");
+  }catch(e){list.innerHTML="Error loading";console.error(e);}
+}
+
+// DELETE
+async function deleteProject(id){
+  showConfirm("Are you sure you want to delete this project?", async(ok)=>{
+    if(ok){
+      await fetch(`${API_PROJECTS}/${id}`,{method:"DELETE",headers:{Authorization:`Bearer ${token}`}});
+      loadProjects();
+    }
+  });
+}
+async function deleteHighlight(id){
+  showConfirm("Are you sure you want to delete this highlight?", async(ok)=>{
+    if(ok){
+      await fetch(`${API_HIGHLIGHTS}/${id}`,{method:"DELETE",headers:{Authorization:`Bearer ${token}`}});
+      loadHighlights();
+    }
+  });
+}
+
+// FORMS
+document.getElementById("show-project-form").onclick=()=>{
+  document.getElementById("project-form").style.display="block";
+};
+document.getElementById("project-form").onsubmit=async(e)=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const res=await fetch(API_PROJECTS,{method:"POST",headers:{Authorization:`Bearer ${token}`},body:fd});
+  if(res.ok){alert("Project saved");e.target.reset();e.target.style.display="none";loadProjects();}
+};
+
+document.getElementById("show-highlight-form").onclick=()=>{
+  document.getElementById("highlight-form").style.display="block";
+};
+document.getElementById("highlight-form").onsubmit=async(e)=>{
+  e.preventDefault();
+  const fd=new FormData(e.target);
+  const res=await fetch(`${API_HIGHLIGHTS}/upload`,{method:"POST",headers:{Authorization:`Bearer ${token}`},body:fd});
+  if(res.ok){alert("Highlight saved");e.target.reset();e.target.style.display="none";loadHighlights();}
+};
+
+// Native confirm for back/refresh/close
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "Are you sure you want to leave the dashboard? You will be logged out.";
+});
+
+// INIT
+loadProjects();loadHighlights();
+</script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Roboto+Condensed:wght@300;400;500;600&family=Libertinus+Serif+Display:opsz,wght@8..144,600;8..144,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Oswald:wght@200;300;400;700&display=swap" rel="stylesheet">
+
+
+  <!--Icon-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="./CSS/style.css" />
+
+  <!--Icon-->
+  <title>Portfolio • Hiyan Jong Rai</title>
+</head>
+<body>
+
+<header>
+  <nav aria-label="Main">
+    <div class="logo">
+      <a href="index.html" aria-label="Go to homepage">
+        <h1>HIYAN JONG RAI</h1>
+      </a>
+    </div>
+
+    <!-- Hamburger button (open) -->
+    <div class="menu-toggle" id="menu-open">☰</div>
+
+    <!-- Nav links -->
+    <ul id="nav-links">
+      <!-- Close button inside side menu -->
+      <li><span class="menu-close" id="menu-close">✕</span></li>
+
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#project">Projects</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+
+      <!-- Login dropdown -->
+      <li class="login-dropdown">
+        <a href="#" id="login-toggle">Login ▾</a>
+        <div class="dropdown-content">
+          <form id="dropdown-login-form">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Login</button>
+            <div class="error" id="errorMsg"></div>
+          </form>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+
+
+    <!-- About Me -->
+   <main>
+  <section class="container">
+    <!-- Text Section -->
+    <div class="container-text">
+      <h1>Hello,</h1>
+      <h2>I'm Hiyan Jong Rai</h2>
+      <h3>Software Developer</h3>
+    </div>
+
+    <!-- Image Section -->
+    <div class="container-image">
+      <img src="./images/me (5).png" alt="Portrait of Hiyan Jong Rai, software developer" />
+    </div>
+  </section>
+
+  <!-- About Me -->
+  <section class="about-section" id="about">
+    <div class="about">
+      <h2>About Me</h2>
+    </div>
+
+    <div class="about-me">
+      <p>
+        Hi, <br>
+        I'm<strong>Hiyanjong Rai</strong><br />
+        A passionate software developer and a BCA student at Tribhuvan University. I enjoy turning ideas into real-world applications, combining creativity with problem-solving to build solutions that make an impact.
+      </p>
+      <p>I'm originally from Udayapur, Nepal, but I'm currently based in Kathmandu for my studies and projects.</p>
+      <p>
+        Over the past few years, I've worked on projects ranging from e-commerce platforms (Jhapcham) to emergency service apps (Sparsha), as well as event management systems, parcel delivery systems, and notice boards…
+      </p>
+    </div>
+    </section>
+    <!-- Expertise Section -->
+<div class="text" id="expertise">
+  <h1> My Expertise </h1>
+</div>
+
+<div class="description">
+  <p> About My Expertise
+I have strong knowledge of HTML, CSS, basic JavaScript, PHP, and Java. I’ve created several projects demonstrating my skills, ranging from web development to database-driven applications. Currently, I’m interning at Kritimmind Technology in Kathmandu, where I’m gaining hands-on experience as an SEO Assistant, learning to optimize websites and improve their visibility online. I enjoy combining technical skills with creativity to deliver practical and impactful solutions.
+</p>
+</div>
+
+<div class="expertise" id="expertise">
+  <!-- Web -->
+  <div class="card web" role="button" aria-expanded="false">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-browser-edge" viewBox="0 0 16 16">
+  <path d="M9.482 9.341c-.069.062-.17.153-.17.309 0 .162.107.325.3.456.877.613 2.521.54 2.592.538h.002c.667 0 1.32-.18 1.894-.519A3.84 3.84 0 0 0 16 6.819c.018-1.316-.44-2.218-.666-2.664l-.04-.08C13.963 1.487 11.106 0 8 0A8 8 0 0 0 .473 5.29C1.488 4.048 3.183 3.262 5 3.262c2.83 0 5.01 1.885 5.01 4.797h-.004v.002c0 .338-.168.832-.487 1.244l.006-.006z"/>
+  <path d="M.01 7.753a8.14 8.14 0 0 0 .753 3.641 8 8 0 0 0 6.495 4.564 5 5 0 0 1-.785-.377h-.01l-.12-.075a5.5 5.5 0 0 1-1.56-1.463A5.543 5.543 0 0 1 6.81 5.8l.01-.004.025-.012c.208-.098.62-.292 1.167-.285q.194.001.384.033a4 4 0 0 0-.993-.698l-.01-.005C6.348 4.282 5.199 4.263 5 4.263c-2.44 0-4.824 1.634-4.99 3.49m10.263 7.912q.133-.04.265-.084-.153.047-.307.086z"/>
+  <path d="M10.228 15.667a5 5 0 0 0 .303-.086l.082-.025a8.02 8.02 0 0 0 4.162-3.3.25.25 0 0 0-.331-.35q-.322.168-.663.294a6.4 6.4 0 0 1-2.243.4c-2.957 0-5.532-2.031-5.532-4.644q.003-.203.046-.399a4.54 4.54 0 0 0-.46 5.898l.003.005c.315.441.707.821 1.158 1.121h.003l.144.09c.877.55 1.721 1.078 3.328.996"/>
+</svg>
+    </span>
+    <h4>Web Design</h4>
+    <div class="details">
+      <p>I have created a <strong>web design</strong> using <strong>HTML</strong> and <strong>CSS</strong>.</p>
+    </div>
+  </div>
+
+  <!-- Backend -->
+  <div class="card backend"  role="button" aria-expanded="false">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-filetype-java" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.521 15.175a1.3 1.3 0 0 1-.082-.466h.765a.6.6 0 0 0 .073.27.5.5 0 0 0 .454.246q.285 0 .422-.164.138-.165.138-.466V11.85h.79v2.725q0 .66-.357 1.005-.354.345-.984.345a1.6 1.6 0 0 1-.568-.094 1.1 1.1 0 0 1-.408-.266 1.1 1.1 0 0 1-.243-.39m3.972-.354-.314 1.028h-.8l1.342-3.999h.926l1.336 3.999h-.84l-.314-1.028zm1.178-.59-.49-1.616h-.035l-.49 1.617zm2.342 1.618h.952l1.327-3.999h-.878l-.888 3.138h-.038L8.59 11.85h-.917zm3.087-1.028-.314 1.028h-.8l1.342-3.999h.926l1.336 3.999h-.84l-.314-1.028zm1.178-.59-.49-1.616h-.035l-.49 1.617z"/>
+</svg>
+    </span>
+    <h4>Backend</h4>
+    <div class="details">
+      <p>In my project I have used <strong>MySQL</strong> for the database and built REST APIs.</p>
+    </div>
+  </div>
+
+  <!-- PHP -->
+  <div class="card php"  role="button" aria-expanded="false">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-filetype-php" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.182.185.522m4.48 2.666V11.85h-.79v1.626H4.153V11.85h-.79v3.999h.79v-1.714h1.682v1.714zm.703-3.999h1.6q.433 0 .732.179.3.175.46.477.158.302.158.677t-.161.677q-.159.299-.463.474a1.45 1.45 0 0 1-.733.173H8.12v1.342h-.791zm2.06 1.714a.8.8 0 0 0 .084-.381q0-.34-.184-.521-.184-.182-.513-.182h-.66v1.406h.66a.8.8 0 0 0 .375-.082.57.57 0 0 0 .237-.24Z"/>
+</svg>
+    </span>
+    <h4>PHP</h4>
+    <div class="details">
+      <p>I created an <strong>e-commerce</strong> application using <strong>PHP</strong> (auth, cart, checkout).</p>
+    </div>
+  </div>
+
+  <!-- MySQL -->
+  <div class="card mysql" role="button" aria-expanded="false">
+    <span class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-filetype-sql" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2v-1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM0 14.841a1.13 1.13 0 0 0 .401.823q.194.162.478.252c.284.09.411.091.665.091q.507 0 .858-.158.355-.159.54-.44a1.17 1.17 0 0 0 .187-.656q0-.336-.135-.56a1 1 0 0 0-.375-.357 2 2 0 0 0-.565-.21l-.621-.144a1 1 0 0 1-.405-.176.37.37 0 0 1-.143-.299q0-.234.184-.384.187-.152.513-.152.214 0 .37.068a.6.6 0 0 1 .245.181.56.56 0 0 1 .12.258h.75a1.1 1.1 0 0 0-.199-.566 1.2 1.2 0 0 0-.5-.41 1.8 1.8 0 0 0-.78-.152q-.44 0-.776.15-.337.149-.528.421-.19.273-.19.639 0 .302.123.524t.351.367q.229.143.54.213l.618.144q.31.073.462.193a.39.39 0 0 1 .153.325q0 .165-.085.29A.56.56 0 0 1 2 15.31q-.167.07-.413.07-.176 0-.32-.04a.8.8 0 0 1-.248-.115.58.58 0 0 1-.255-.384zm6.878 1.489-.507-.739q.264-.243.401-.6.138-.358.138-.806v-.501q0-.556-.208-.967a1.5 1.5 0 0 0-.589-.636q-.383-.225-.917-.225-.527 0-.914.225-.384.223-.592.636a2.14 2.14 0 0 0-.205.967v.5q0 .554.205.965.208.41.592.636a1.8 1.8 0 0 0 .914.222 1.8 1.8 0 0 0 .6-.1l.294.422h.788ZM4.262 14.2v-.522q0-.369.114-.63a.9.9 0 0 1 .325-.398.9.9 0 0 1 .495-.138q.288 0 .495.138a.9.9 0 0 1 .325.398q.115.261.115.63v.522q0 .246-.053.445-.053.196-.155.34l-.106-.14-.105-.147h-.733l.451.65a.6.6 0 0 1-.251.047.87.87 0 0 1-.487-.147.9.9 0 0 1-.32-.404 1.7 1.7 0 0 1-.11-.644m3.986 1.057h1.696v.674H7.457v-3.999h.79z"/>
+</svg>
+    </span>
+    <h4>MySQL</h4>
+    <div class="details">
+      <p>Designed normalized <strong>MySQL</strong> schemas and wrote optimized queries.</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Education -->
+<section class="education-section" id="education">
+  <h2>Education</h2>
+
+  <div class="edu-card-full">
+    <ol class="edu-date">
+      <li class="edu-card">
+        <div class="edu-body">
+          <div class="edu-title">
+            <div>
+              <h3>Secondary Education Examination (Class 10)</h3>
+              <p class="edu-location">Crimson Academy • Udayapur, Nepal</p>
+            </div>
+            <div class="edu-desc">
+              <span class="edu-year">2018 – 2020</span>
+              <span class="edu-score">GPA 3.65</span>
+            </div>
+          </div>
+          <p class="edu-discription">Completed core subjects with strong academic performance.</p>
+          <ul class="edu-list">
+            <li>Foundation in science, math, languages, and social studies</li>
+            <li>Exam-focused study habits and discipline</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="edu-card">
+        <div class="edu-body">
+          <div class="edu-title">
+            <div>
+              <h3>Higher Secondary Education (+2)</h3>
+              <p class="edu-location">Triyuga Janta Multiple Campus • Udayapur, Nepal</p>
+            </div>
+            <div class="edu-desc">
+              <span class="edu-year">2020 – 2022</span>
+              <span class="edu-score">GPA 3.55</span>
+            </div>
+          </div>
+          <p class="edu-discription">Balanced academic track with project and activity participation.</p>
+          <ul class="edu-list">
+            <li>Strengthened analytical and communication skills</li>
+            <li>Collaborated on coursework and small projects</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="edu-card">
+        <div class="edu-body">
+          <div class="edu-title">
+            <div>
+              <h3>Bachelor’s Degree (BCA)</h3>
+              <p class="edu-location">Aadim National College • Kathmandu, Nepal</p>
+            </div>
+            <div class="edu-desc">
+              <span class="edu-year">2023 – Present</span>
+              <span class="edu-status">Ongoing</span>
+            </div>
+          </div>
+          <p class="edu-discription">BCA student focusing on software development and real-world apps.</p>
+          <ul class="edu-list">
+            <li>Coursework: programming, databases, web technologies</li>
+            <li>Projects: e-commerce, emergency services, event & parcel systems</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!--Projects-->
+<section class="project" id="project">
+  <h1>My Projects</h1>
+
+  <section class="projects" id="projects-container">
+  </section>
+</section>
+
+<!-- Gallery -->
+<section class="highlights" id="highlights">
+  <h1>Highlights</h1>
+
+  <ul id="gallery" class="gallery"></ul>
+
+  <!-- Lightbox -->
+  <div id="lightbox">
+    <span id="close">&times;</span>
+    <img id="lightbox-img" src="" alt="">
+    <p id="lightbox-caption"></p>
+  </div>
+</section>
+
+<section id="contact">
+    <h1></i> Contact Me </h1>
+    <div class="contact-wrapper">
+      
+      <!-- Form -->
+      <div class="contact-card">
+        <form id="contact-form">
+          <input type="text" class="form-control" placeholder="Name" required>
+          <input type="email" class="form-control" placeholder="Email" required>
+          <textarea class="form-control" rows="5" placeholder="Message" required></textarea>
+          <button type="submit" class="send-button"><i class="fa fa-paper-plane"></i> Send</button>
+        </form>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="contact-card">
+        <ul class="contact-list">
+  <li class="list-item"><i class="fa fa-map-marker-alt"></i> <span class="contact-text">Nepal, Udayapur</span></li>
+  <li class="list-item"><i class="fa fa-phone"></i> <span class="contact-text"><a href="tel:+9779765006485">+9779765006485</a></span></li>
+  <li class="list-item"><i class="fa fa-envelope"></i> <span class="contact-text"><a href="mailto:raihenjong332@gmail.com">raihenjong332@gmail.com</a></span></li>
+</ul>
+
+
+         <ul class="social-media-list">
+    <li><a href="#"><i class="fab fa-github"></i></a></li>
+<li><a href="#"><i class="fab fa-facebook"></i></a></li>
+<li><a href="#"><i class="fab fa-instagram"></i></a></li>
+
+  </ul>
+        
+      </div>
+
+    </div>
+  </section>
+
+ </main>
+  <!--footer-->
+<footer style="text-align:center; padding:15px; background:#003153; margin-top:10px;">
+  All rights reserved by @Hiyanjongrai 2025
+</footer>
+
+
+</body>
+<script>
+const menuOpen = document.getElementById("menu-open");
+const menuClose = document.getElementById("menu-close");
+const navLinks = document.getElementById("nav-links");
+
+menuOpen.addEventListener("click", () => navLinks.classList.add("show"));
+menuClose.addEventListener("click", () => navLinks.classList.remove("show"));
+
+const loginDropdown = document.querySelector(".login-dropdown");
+const loginToggle = document.getElementById("login-toggle");
+const dropdownForm = loginDropdown.querySelector(".dropdown-content");
+
+// Toggle dropdown on click
+loginToggle.addEventListener("click", function(e) {
+  e.preventDefault(); // prevent link navigation
+  loginDropdown.classList.toggle("open");
+});
+
+// Prevent clicks inside the form from closing the dropdown
+dropdownForm.addEventListener("click", function(e) {
+  e.stopPropagation();
+});
+
+// Close login dropdown if user clicks outside
+document.addEventListener("click", function(e) {
+  if (!loginDropdown.contains(e.target)) {
+    loginDropdown.classList.remove("open");
+  }
+});
+
+// Handle login form submission
+document.getElementById("dropdown-login-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  await login();
+});
+
+async function login() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const errorMsg = document.getElementById('errorMsg');
+  errorMsg.textContent = '';
+
+  if (!username || !password) {
+    errorMsg.textContent = 'Please enter both username and password.';
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:8080/api/auth/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.token) {
+      localStorage.setItem('jwtToken', data.token);
+      localStorage.setItem('username', data.username || username);
+      window.location.href = 'dashboard.html';
+    } else {
+      errorMsg.textContent = data.error || 'Login failed. Please check your credentials.';
+    }
+  } catch (err) {
+    console.error(err);
+    errorMsg.textContent = 'Unable to connect to server. Try again later.';
+  }
+}
+</script>
+
+
+
+<!-- Expertise cards-->
+<script>
+  const cards = document.querySelectorAll('#expertise .card');
+
+  function toggleCard(card) {
+    const isOpen = card.classList.toggle('open');
+    card.setAttribute('aria-expanded', isOpen);
+  }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => toggleCard(card));
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleCard(card);
+      }
+    });
+  });
+</script>
+
+
+<!--project-->
+<script>
+  const apiUrl = "http://localhost:8080/api/projects"; 
+
+  function createProjectCard(project) {
+    const imageUrl = `${apiUrl}/image/${project.id}`; // ✅ build image URL using id
+
+    return `
+      <div class="project-card">
+        <img src="${imageUrl}" alt="${project.title}">
+        <div class="project-content">
+          <h2>${project.title}</h2>
+          <p>${project.description}</p>
+          <p class="tech-stack">Tech: ${project.techStack}</p>
+          <div class="project-links">
+            ${project.demoLink ? `<a href="${project.demoLink}" class="demo" target="_blank">Live Demo</a>` : ""}
+            ${project.codeLink ? `<a href="${project.codeLink}" class="code" target="_blank">GitHub</a>` : ""}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById("projects-container");
+      if (!data || data.length === 0) {
+        container.innerHTML = "<p>No projects found.</p>";
+      } else {
+        container.innerHTML = data.map(createProjectCard).join('');
+      }
+    })
+    .catch(error => {
+      console.error("Error fetching projects:", error);
+      document.getElementById("projects-container").innerHTML = "<p>No projects found.</p>";
+    });
+</script>
+
+<!--Highlight-->
+  <script>
+  const API_URL = "http://localhost:8080/api/images"; // Backend API
+
+  const gallery = document.getElementById("gallery");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxCaption = document.getElementById("lightbox-caption");
+  const closeBtn = document.getElementById("close");
+
+  async function loadImages() {
+    try {
+      const res = await fetch(API_URL, { headers: { Accept: "application/json" } });
+      const data = await res.json();
+
+      gallery.innerHTML = "";
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <img src="${API_URL}/${item.id}" alt="${item.name}">
+          <div class="caption">${item.name || "Untitled"}</div>
+        `;
+
+        li.querySelector("img").addEventListener("click", () => {
+          lightboxImg.src = `${API_URL}/${item.id}`;
+          lightboxCaption.textContent = item.description || "No description available";
+          lightbox.style.display = "flex";
+        });
+
+        gallery.appendChild(li);
+      });
+    } catch (err) {
+      console.error("Gallery load error:", err);
+      gallery.innerHTML = "<p style='text-align:center;color:white;'>No images found.</p>";
+    }
+  }
+
+  closeBtn.addEventListener("click", () => {
+    lightbox.style.display = "none";
+  });
+
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) lightbox.style.display = "none";
+  });
+
+  loadImages();
+</script>
+</html>
