@@ -282,13 +282,17 @@ nav ul li a:hover::after {
   transform: scale(1.03);
 }
 
-/* About Section */
 :target {
   scroll-margin-top: 90px;
 }
 
 .about-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center horizontally */
+  justify-content: center;
   width: 100%;
+  padding: 40px 0;
 }
 
 .about h2 {
@@ -311,12 +315,19 @@ nav ul li a:hover::after {
   box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
 }
 
+.about-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .about-me {
+ width: 70%; /* card width */
   background-color: #012743;
-  border: 1px solid rgba(255,255,255,.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   padding: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
 }
 
 .about-me p {
@@ -326,6 +337,7 @@ nav ul li a:hover::after {
   color: #eef6ff;
   text-align: justify;
 }
+
 
 /* Expertise Section */
 .text {
