@@ -1,248 +1,772 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
-<style>
-  :root {
-    --bg: #003153;
-    --bg-soft: rgba(1,39,67,0.9);
-    --text: #eef6ff;
-    --muted: #dbe6f4;
-    --border: rgba(255,255,255,0.08);
-    --brand: #0ea5e9;
-    --brand-700: #0284c7;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --gap: 20px;
-  }
-  body { margin:0; font-family:"Roboto Condensed",sans-serif; background:var(--bg); color:var(--text);}
-  header {position:sticky;top:0;background:rgba(0,49,83,.95);backdrop-filter:blur(10px);display:flex;justify-content:space-between;align-items:center;padding:16px 24px;z-index:100;}
-  header h1 {margin:0;font-size:1.6rem;color:#fff;}
-  nav ul {display:flex;list-style:none;gap:16px;margin:0;padding:0;}
-  nav ul li a {color:#fff;text-decoration:none;font-weight:500;padding:6px 12px;border-radius:var(--radius-md);transition:background .2s;}
-  nav ul li a:hover {background:var(--brand-700);}
-  main {padding:24px;max-width:1200px;margin:auto;}
-  section {display:none;}
-  section.active {display:block;}
-  .section-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
-  .section-title {font-size:1.5rem;position:relative;margin:8px 0;}
-  .section-title::after {content:"";width:60px;height:3px;background:var(--brand);position:absolute;bottom:-8px;left:0;border-radius:2px;}
-  .btn {padding:8px 14px;border:none;border-radius:var(--radius-md);background:var(--brand);color:#fff;cursor:pointer;font-weight:500;margin:4px;transition:.2s;}
-  .btn:hover {background:var(--brand-700);}
-  .grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--gap);margin-top:16px;}
-  .card {background:var(--bg-soft);padding:16px;border-radius:var(--radius-lg);box-shadow:0 4px 10px rgba(0,0,0,.2);}
-  .card img {width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:8px;}
-  .card-title {font-weight:700;color:var(--brand);}
-  .card-text {font-size:.9rem;color:var(--muted);}
-  .card-actions {margin-top:8px;display:flex;gap:8px;}
-  .btn-small {padding:4px 8px;font-size:.8rem;}
-  .btn-danger {background:#dc2626;}
-  .btn-danger:hover {background:#a61b1b;}
-  form {margin-top:12px;display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,0.05);padding:12px;border-radius:var(--radius-md);}
-  input,textarea {padding:8px;border-radius:var(--radius-md);border:1px solid var(--border);background:#fff;color:#000;}
-  label {font-size:.9rem;}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
 
-  /* Modal Styles */
-  .modal {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200;}
-  .modal-content {background:#fff;color:#000;padding:20px;border-radius:var(--radius-md);max-width:400px;text-align:center;}
-  .modal-buttons {margin-top:20px;display:flex;justify-content:space-around;}
-  .modal .btn {margin:0;}
-</style>
+  <link rel="stylesheet" href="./CSS/adminDashbord.css">
 </head>
 <body>
-
-<header>
-  <h1>Admin Dashboard</h1>
-  <nav>
-    <ul>
-      <li><a id="nav-projects">Projects</a></li>
-      <li><a id="nav-highlights">Highlights</a></li>
-      <li><a id="logout">Logout</a></li>
-      <li><span id="username">Hi, Admin</span></li>
-    </ul>
-  </nav>
-</header>
-
-<main>
-  <!-- Projects -->
-  <section id="projects-section" class="active">
-    <div class="section-header">
-      <h2 class="section-title">Projects</h2>
-      <button class="btn" id="show-project-form">+ Add Project</button>
-    </div>
-    <form id="project-form" style="display:none;">
-      <label>Title <input type="text" name="title" required></label>
-      <label>Description <textarea name="description" required></textarea></label>
-      <label>Tech Stack <input type="text" name="techStack"></label>
-      <label>Image <input type="file" name="file" required></label>
-      <label>Demo Link <input type="url" name="demoLink"></label>
-      <label>Code Link <input type="url" name="codeLink"></label>
-      <button class="btn" type="submit">Save Project</button>
-    </form>
-    <div id="projects-list" class="grid"></div>
-    <p id="projects-empty" style="text-align:center;display:none;">No projects yet.</p>
-  </section>
-
-  <!-- Highlights (Posts) -->
-  <section id="highlights-section">
-    <div class="section-header">
-      <h2 class="section-title">Highlights</h2>
-      <button class="btn" id="show-highlight-form">+ Add Highlight</button>
-    </div>
-    <form id="highlight-form" style="display:none;">
-      <label>Name <input type="text" name="name" required></label>
-      <label>Description <textarea name="description" required></textarea></label>
-      <label>Image <input type="file" name="file" required></label>
-      <button class="btn" type="submit">Save Highlight</button>
-    </form>
-    <div id="highlights-list" class="grid"></div>
-    <p id="highlights-empty" style="text-align:center;display:none;">No highlights yet.</p>
-  </section>
-</main>
-
-<!-- Modal -->
-<div class="modal" id="confirmModal">
-  <div class="modal-content">
-    <h3 id="confirmMessage">Are you sure?</h3>
-    <div class="modal-buttons">
-      <button class="btn btn-danger" id="confirmYes">Yes</button>
-      <button class="btn" id="confirmNo">No</button>
-    </div>
-  </div>
+  <div class="layout">
+    <main class="main">
+      <header class="topbar">
+        <div class="brand">
+          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu">☰</button>
+          <div class="avatar"></div>
+          <div>
+            
+            <div style="font-weight:800; font-size:18px">
+  Welcome, <span id="welcomeUser"></span>
 </div>
 
+          </div>
+        </div>
+        <div class="toggle-desktop">
+          <button id="logoutBtnTop" class="btn warn">Logout</button>
+        </div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="#" class="active">
+        <div class="cards grid-2">
+          <div class="card span-6">
+            <div class="kpi">
+              <div>
+                <h3>Total Images (Posts)</h3>
+                <div id="postCount" class="num">0</div>
+              </div>
+            </div>
+          </div>
+          <div class="card span-6">
+            <div class="kpi">
+              <div>
+                <h3>Total Projects</h3>
+                <div id="projectCount" class="num">0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POSTS (IMAGES) -->
+      <section id="posts">
+        <div class="card">
+          <h2 style="margin:0 0 8px">Images / Posts</h2>
+          <div class="toolbar">
+            <input id="postSearch" class="input" type="text" placeholder="Search by name/description…" />
+            <button class="sort-btn" data-sort="name">Sort by Name</button>
+            <button class="sort-btn" data-sort="id">Sort by ID</button>
+          </div>
+          <div id="postAlert"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Preview</th>
+                  <th style="width:160px">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="postRows">
+                <tr><td colspan="4">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 6px">Upload New Image</h3>
+          <form id="postForm">
+            <div class="row">
+              <div>
+                <label>Name *</label>
+                <input name="name" type="text" required />
+              </div>
+              <div>
+                <label>File (jpg/png/webp) *</label>
+                <input name="file" type="file" accept="image/png,image/jpeg,image/webp" required />
+              </div>
+            </div>
+            <div>
+              <label>Description</label>
+              <textarea name="description"></textarea>
+            </div>
+            <div id="postPreview" class="subtitle"></div>
+            <div>
+              <button class="btn" type="submit">Upload</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section id="projects">
+        <div class="card">
+          <h2 style="margin:0 0 8px">Projects</h2>
+          <div class="toolbar">
+            <input id="projectSearch" class="input" type="text" placeholder="Search projects…" />
+            <button class="sort-btn" data-sort="title" data-scope="projects">Sort by Title</button>
+            <button class="sort-btn" data-sort="id" data-scope="projects">Sort by ID</button>
+          </div>
+          <div id="projectAlert"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Tech Stack</th>
+                  <th>Links</th>
+                  <th>Preview</th>
+                  <th style="width:160px">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectRows">
+                <tr><td colspan="6">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 6px">Create New Project</h3>
+          <form id="projectForm">
+            <div class="row">
+              <div>
+                <label>Title *</label>
+                <input name="title" type="text" required />
+              </div>
+              <div>
+                <label>Image (jpg/png/webp) *</label>
+                <input name="file" type="file" accept="image/png,image/jpeg,image/webp" required />
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <label>Description *</label>
+                <textarea name="description" required></textarea>
+              </div>
+              <div>
+                <label>Tech Stack</label>
+                <input name="techStack" type="text" placeholder="e.g. Spring Boot, React" />
+              </div>
+            </div>
+            <div class="row">
+              <div>
+                <label>Demo Link</label>
+                <input name="demoLink" type="url" placeholder="https://…" />
+              </div>
+              <div>
+                <label>Code Link</label>
+                <input name="codeLink" type="url" placeholder="https://…" />
+              </div>
+            </div>
+            <div id="projectPreview" class="subtitle"></div>
+            <div>
+              <button class="btn" type="submit">Create Project</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <aside class="sidebar" id="sidebar">
+      <div>
+        <nav class="nav">
+          <a href="#dashboard" data-route>Dashboard <span class="kbd">⌘1</span></a>
+          <a href="#posts" data-route>Posts <span id="navPostCount" class="badge">0</span></a>
+          <a href="#projects" data-route>Projects <span id="navProjectCount" class="badge">0</span></a>
+        </nav>
+      </div>
+      <div class="logout">
+        <button id="logoutBtn" class="btn warn">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Backdrop for off-canvas -->
+    <div class="backdrop" id="backdrop" hidden></div>
+  </div>
+
+  <dialog id="editDialog">
+    <div class="modal">
+      <form id="editForm">
+        <h3 id="editTitle" style="margin:0 0 10px">Edit</h3>
+        <div id="editFields" style="display:grid; gap:12px"></div>
+        <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end">
+          <button type="button" class="btn secondary" id="cancelEdit">Cancel</button>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
 <script>
-const API_PROJECTS   = "http://localhost:8080/api/projects";
-const API_HIGHLIGHTS = "http://localhost:8080/api/images";
+async function setWelcomeUsername() {
+  const el = document.getElementById('welcomeUser');
+  if (!el) return;
 
-const token = localStorage.getItem("jwtToken");
-if(!token){ alert("Unauthorized"); window.location.href="index.html"; }
+  try {
+    const me = await http('/api/auth/profile');
+    if (me && typeof me.username === 'string' && me.username.trim()) {
+      el.textContent = me.username.trim();
+      return;
+    }
+  } catch (e) {
+    console.warn('Profile fetch failed:', e);
+  }
 
-document.getElementById("username").textContent = "Hi, " + (localStorage.getItem("username")||"Admin");
+  try {
+    const raw = (localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '').trim();
+    const token = raw.startsWith('Bearer ') ? raw.slice(7) : raw;
+    if (token) {
+      const [, payload] = token.split('.');
+      const json = atob(payload.replace(/-/g,'+').replace(/_/g,'/'));
+      const p = JSON.parse(decodeURIComponent(escape(json)));
+      const u =
+        p.userName ||                 
+        p.username ||
+        p.preferred_username ||
+        (p.email ? p.email.split('@')[0] : '') ||
+        p.sub;                        
 
-// --- Confirmation Modal Logic ---
-let confirmCallback = null;
-function showConfirm(message, callback){
-  document.getElementById("confirmMessage").textContent = message;
-  document.getElementById("confirmModal").style.display = "flex";
-  confirmCallback = callback;
+      if (u && String(u).trim()) {
+        el.textContent = String(u).trim();
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('JWT decode fallback failed:', e);
+  }
+  el.textContent = '';
 }
-document.getElementById("confirmYes").onclick = ()=> {
-  document.getElementById("confirmModal").style.display="none";
-  if(confirmCallback) confirmCallback(true);
+(async function init(){
+  if (!assertAuthOrRedirect()) return;
+
+  await setWelcomeUsername();               
+  await Promise.all([loadPosts(), loadProjects()]);
+  renderCounts();
+
+  console.log('[dashboard] BASE_URL =', BASE_URL, '| token present?', !!getBearer());
+})();
+
+
+// Call this inside your init() function
+(async function init(){
+  if (!assertAuthOrRedirect()) return;
+  await loadProfile();   // <<< add this line
+  await Promise.all([loadPosts(), loadProjects()]);
+  renderCounts();
+})();
+
+
+/* ========= CONFIG ========= */
+const BASE_URL = (localStorage.getItem('apiBaseUrl') || 'http://localhost:8080').replace(/\/+$/, '');
+const ENDPOINTS = {
+  posts: '/api/images',
+  postGetBytes: id => `/api/images/${id}`,
+  postUpload: '/api/images/upload',
+  postById: id => `/api/images/${id}`,
+
+  projects: '/api/projects',
+  projectById: id => `/api/projects/${id}`,
+  projectImage: id => `/api/projects/image/${id}`, // thumbnail
 };
-document.getElementById("confirmNo").onclick = ()=> {
-  document.getElementById("confirmModal").style.display="none";
-  if(confirmCallback) confirmCallback(false);
+const TRY_PUT_THEN_POST_FOR_UPDATE = true;
+
+/* ========= UTILS ========= */
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = (s='') => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+
+function getBearer() {
+  const raw = (localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '').trim();
+  if (!raw) return '';
+  return raw.startsWith('Bearer ') ? raw : `Bearer ${raw}`;
+}
+function authHeaders() {
+  const b = getBearer();
+  return b ? { Authorization: b } : {};
+}
+async function http(path, { method='GET', body=null, expectJson=true, extraHeaders={} } = {}) {
+  const res = await fetch(BASE_URL + path, { method, body, headers: { ...authHeaders(), ...extraHeaders } });
+  if (!res.ok) {
+    const text = await res.text().catch(()=> '');
+    const detail = text ? ` – ${text}` : '';
+    if (res.status === 401) throw new Error(`HTTP 401 Unauthorized${detail}\nTip: set localStorage.jwtToken`);
+    if (res.status === 403) throw new Error(`HTTP 403 Forbidden${detail}\nTip: your user needs ROLE_ADMIN for this action`);
+    if (res.status === 405) throw new Error(`HTTP 405 Method Not Allowed${detail}`);
+    throw new Error(`HTTP ${res.status} ${res.statusText}${detail}`);
+  }
+  if (!expectJson) return res;
+  const ct = res.headers.get('content-type') || '';
+  return ct.includes('application/json') ? res.json() : {};
+}
+const toast = (container, msg, type='error') => {
+  const el = document.createElement('div');
+  el.className = `alert ${type === 'success' ? 'success' : 'error'}`;
+  el.textContent = msg;
+  container.innerHTML = '';
+  container.appendChild(el);
+  setTimeout(()=> el.remove(), 3500);
 };
 
-// NAV
-document.getElementById("nav-projects").onclick = ()=>showSection("projects-section");
-document.getElementById("nav-highlights").onclick = ()=>showSection("highlights-section");
-document.getElementById("logout").onclick = ()=>{
-  showConfirm("Are you sure you want to logout?", (ok)=>{
-    if(ok){ localStorage.clear(); window.location="index.html"; }
+/* ========= AUTH GUARD + USERNAME ========= */
+function getRawToken() {
+  const t = (localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '').trim();
+  return t.startsWith('Bearer ') ? t.slice(7) : t;
+}
+function parseJwt(token) {
+  try {
+    const [, payload] = token.split('.');
+    const json = atob(payload.replace(/-/g,'+').replace(/_/g,'/'));
+    return JSON.parse(decodeURIComponent(escape(json)));
+  } catch { return null; }
+}
+function isJwtExpired(token) {
+  const p = parseJwt(token);
+  if (!p || !p.exp) return false;
+  const now = Math.floor(Date.now()/1000);
+  return p.exp <= now;
+}
+function redirectToLogin() { location.replace('index.html'); }
+function assertAuthOrRedirect() {
+  const token = getRawToken();
+  if (!token || isJwtExpired(token)) {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('authToken');
+    redirectToLogin();
+    return false;
+  }
+  return true;
+}
+function getUsernameFromJwt(){
+  const raw = getRawToken();
+  if (!raw) return null;
+  const p = parseJwt(raw) || {};
+  // Common fields across providers
+  const candidate =
+    p.name ||
+    p.preferred_username ||
+    p.username ||
+    (p.given_name && p.family_name ? `${p.given_name} ${p.family_name}` : null) ||
+    (p.email ? p.email.split('@')[0] : null);
+  return typeof candidate === 'string' && candidate.trim() ? candidate.trim() : null;
+}
+
+/* ========= STATE ========= */
+let state = {
+  posts: [], projects: [],
+  sort: {
+    posts:    { key: 'id', dir: 'desc' },
+    projects: { key: 'id', dir: 'desc' },
+  },
+  filters: { posts:'', projects:'' },
+};
+
+/* ========= FILTER + SORT ========= */
+const filterItems = (arr, q) => {
+  const s = (q||'').toLowerCase();
+  if (!s) return arr;
+  return arr.filter(o => JSON.stringify(o).toLowerCase().includes(s));
+};
+const sortItems = (arr, key, dir) => {
+  const copy = [...arr];
+  const mul = dir === 'asc' ? 1 : -1;
+  copy.sort((a,b)=>{
+    const va = (a?.[key] ?? '').toString().toLowerCase();
+    const vb = (b?.[key] ?? '').toString().toLowerCase();
+    const na = !isNaN(+va), nb = !isNaN(+vb);
+    if (na && nb) return ((+va) - (+vb)) * mul;
+    if (va < vb) return -1 * mul;
+    if (va > vb) return  1 * mul;
+    return 0;
   });
+  return copy;
 };
 
-function showSection(id){
-  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+/* ========= RENDER ========= */
+function renderCounts(){
+  const postsLen = state.posts.length || 0;
+  const projLen  = state.projects.length || 0;
+  $('#postCount').textContent    = String(postsLen);
+  $('#projectCount').textContent = String(projLen);
+  // update sidebar badges too
+  const navPost = $('#navPostCount'); if (navPost) navPost.textContent = String(postsLen);
+  const navProj = $('#navProjectCount'); if (navProj) navProj.textContent = String(projLen);
+}
+function renderPosts(){
+  const body = $('#postRows');
+  const { key, dir } = state.sort.posts;
+  const items = sortItems(filterItems(state.posts, state.filters.posts), key, dir);
+
+  if (!items.length){
+    body.innerHTML = `<tr><td colspan="4">No images found.</td></tr>`;
+    return;
+  }
+  body.innerHTML = items.map(p => `
+    <tr>
+      <td><strong>${esc(p.name||'')}</strong></td>
+      <td>${esc(p.description||'')}</td>
+      <td>${
+        p.id
+          ? `<img src="${BASE_URL + ENDPOINTS.postGetBytes(p.id)}"
+                  alt="${esc(p.name||'')}"
+                  style="max-width:140px;max-height:100px;border-radius:8px;border:1px solid #233046" />`
+          : '—'
+      }</td>
+      <td class="actions">
+        <button class="btn secondary" onclick='openEditPost(${JSON.stringify(p.id)})'>Edit</button>
+        <button class="btn warn" onclick='deletePost(${JSON.stringify(p.id)})'>Delete</button>
+      </td>
+    </tr>
+  `).join('');
+}
+function renderProjects(){
+  const body = $('#projectRows');
+  const { key, dir } = state.sort.projects;
+  const items = sortItems(filterItems(state.projects, state.filters.projects), key, dir);
+
+  if (!items.length){
+    body.innerHTML = `<tr><td colspan="6">No projects found.</td></tr>`;
+    return;
+  }
+  body.innerHTML = items.map(pr => `
+    <tr>
+      <td><strong>${esc(pr.title||'')}</strong></td>
+      <td>${esc(pr.description||'')}</td>
+      <td>${esc(pr.techStack||'—')}</td>
+      <td>
+        ${pr.demoLink ? `<a href="${pr.demoLink}" target="_blank" rel="noreferrer">demo</a>` : '—'}
+        ${pr.codeLink ? ` <a href="${pr.codeLink}" target="_blank" rel="noreferrer">code</a>` : ''}
+      </td>
+      <td>
+        ${pr.id
+          ? `<img class="thumb" src="${BASE_URL + ENDPOINTS.projectImage(pr.id)}" alt="${esc(pr.title||'')}" />`
+          : '—'}
+      </td>
+      <td class="actions">
+        <button class="btn warn" onclick='deleteProject(${JSON.stringify(pr.id)})'>Delete</button>
+      </td>
+    </tr>
+  `).join('');
 }
 
-// Load projects
+/* ========= LOAD ========= */
+async function loadPosts(){
+  const rows = $('#postRows');
+  rows.innerHTML = `<tr><td colspan="4">Loading…</td></tr>`;
+  try {
+    const data = await http(ENDPOINTS.posts);
+    state.posts = Array.isArray(data) ? data : [];
+    renderPosts();
+    renderCounts();
+  } catch (e) {
+    rows.innerHTML = `<tr><td colspan="4">Failed to load images (${esc(e.message)}).</td></tr>`;
+    console.error(e);
+  }
+}
 async function loadProjects(){
-  const list=document.getElementById("projects-list"), empty=document.getElementById("projects-empty");
-  list.innerHTML="Loading...";
+  const rows = $('#projectRows');
+  rows.innerHTML = `<tr><td colspan="6">Loading…</td></tr>`;
+  try {
+    const data = await http(ENDPOINTS.projects);
+    state.projects = Array.isArray(data) ? data : [];
+    renderProjects();
+    renderCounts();
+  } catch (e) {
+    rows.innerHTML = `<tr><td colspan="6">Failed to load projects (${esc(e.message)}).</td></tr>`;
+    console.error(e);
+  }
+}
+
+/* ========= CREATE/EDIT/DELETE POSTS ========= */
+$('#postForm').addEventListener('submit', async (ev)=>{
+  ev.preventDefault();
+  const f = ev.currentTarget;
+  const alertBox = $('#postAlert');
+
+  const name = f.name.value.trim();
+  const file = f.file.files[0];
+  if (!name){ toast(alertBox, 'Name is required.'); return; }
+  if (!file){ toast(alertBox, 'Image file is required.'); return; }
+
+  const fd = new FormData();
+  fd.append('name', name);
+  if (f.description.value) fd.append('description', f.description.value);
+  fd.append('file', file);
+
   try{
-    const res=await fetch(API_PROJECTS,{headers:{Authorization:`Bearer ${token}`}});
-    if(!res.ok){list.innerHTML="Error";return;}
-    const projects=await res.json();
-    if(projects.length===0){list.innerHTML="";empty.style.display="block";return;}
-    empty.style.display="none";
-    list.innerHTML=projects.map(p=>`
-      <div class="card">
-        <img src="${API_PROJECTS}/image/${p.id}" alt="${p.title}">
-        <div class="card-title">${p.title}</div>
-        <div class="card-text">${p.description||""}</div>
-        <div class="card-actions">
-          <button class="btn btn-small btn-danger" onclick="deleteProject(${p.id})">Delete</button>
-        </div>
-      </div>`).join("");
-  }catch(e){list.innerHTML="Error loading";console.error(e);}
-}
-
-// Load highlights (posts)
-async function loadHighlights(){
-  const list=document.getElementById("highlights-list"), empty=document.getElementById("highlights-empty");
-  list.innerHTML="Loading...";
-  try{
-    const res=await fetch(API_HIGHLIGHTS,{headers:{Authorization:`Bearer ${token}`}});
-    if(!res.ok){list.innerHTML="Error";return;}
-    const posts=await res.json();
-    if(posts.length===0){list.innerHTML="";empty.style.display="block";return;}
-    empty.style.display="none";
-    list.innerHTML=posts.map(i=>`
-      <div class="card">
-        <img src="${API_HIGHLIGHTS}/${i.id}" alt="${i.name}">
-        <div class="card-title">${i.name}</div>
-        <div class="card-text">${i.description||""}</div>
-        <div class="card-actions">
-          <button class="btn btn-small btn-danger" onclick="deleteHighlight(${i.id})">Delete</button>
-        </div>
-      </div>`).join("");
-  }catch(e){list.innerHTML="Error loading";console.error(e);}
-}
-
-// DELETE
-async function deleteProject(id){
-  showConfirm("Are you sure you want to delete this project?", async(ok)=>{
-    if(ok){
-      await fetch(`${API_PROJECTS}/${id}`,{method:"DELETE",headers:{Authorization:`Bearer ${token}`}});
-      loadProjects();
+    const created = await http(ENDPOINTS.postUpload, { method:'POST', body: fd });
+    if (created?.id){
+      state.posts.unshift(created);
+      renderPosts();
+      renderCounts();
     }
-  });
-}
-async function deleteHighlight(id){
-  showConfirm("Are you sure you want to delete this highlight?", async(ok)=>{
-    if(ok){
-      await fetch(`${API_HIGHLIGHTS}/${id}`,{method:"DELETE",headers:{Authorization:`Bearer ${token}`}});
-      loadHighlights();
-    }
-  });
-}
-
-// FORMS
-document.getElementById("show-project-form").onclick=()=>{
-  document.getElementById("project-form").style.display="block";
-};
-document.getElementById("project-form").onsubmit=async(e)=>{
-  e.preventDefault();
-  const fd=new FormData(e.target);
-  const res=await fetch(API_PROJECTS,{method:"POST",headers:{Authorization:`Bearer ${token}`},body:fd});
-  if(res.ok){alert("Project saved");e.target.reset();e.target.style.display="none";loadProjects();}
-};
-
-document.getElementById("show-highlight-form").onclick=()=>{
-  document.getElementById("highlight-form").style.display="block";
-};
-document.getElementById("highlight-form").onsubmit=async(e)=>{
-  e.preventDefault();
-  const fd=new FormData(e.target);
-  const res=await fetch(`${API_HIGHLIGHTS}/upload`,{method:"POST",headers:{Authorization:`Bearer ${token}`},body:fd});
-  if(res.ok){alert("Highlight saved");e.target.reset();e.target.style.display="none";loadHighlights();}
-};
-
-// Native confirm for back/refresh/close
-window.addEventListener("beforeunload", function (e) {
-  e.preventDefault();
-  e.returnValue = "Are you sure you want to leave the dashboard? You will be logged out.";
+    f.reset();
+    $('#postPreview').innerHTML = '';
+    toast(alertBox, 'Uploaded', 'success');
+  }catch(e){
+    toast(alertBox, `Failed: ${e.message}`);
+    console.error(e);
+  }
+});
+$('#postForm input[name="file"]').addEventListener('change', (e)=>{
+  const target = $('#postPreview');
+  const file = e.target.files?.[0];
+  if (!file){ target.innerHTML=''; return; }
+  const allowed = ['image/jpeg','image/png','image/webp'];
+  if (!allowed.includes(file.type)){
+    e.target.value='';
+    target.innerHTML = '<div class="alert error">Only JPG, PNG, or WEBP allowed.</div>';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    target.innerHTML = `<div class="alert success">Preview ready</div>
+      <img src="${reader.result}" alt="preview"
+           style="max-width:200px;border-radius:10px;border:1px solid #233046;display:block;margin-top:8px">`;
+  };
+  reader.readAsDataURL(file);
 });
 
-// INIT
-loadProjects();loadHighlights();
+const editDlg = $('#editDialog');
+$('#cancelEdit').addEventListener('click', ()=> editDlg.close());
+window.openEditPost = (id) => {
+  const p = state.posts.find(x => x.id === id);
+  if (!p) return;
+  $('#editTitle').textContent = 'Edit Image/Post';
+  const fields = $('#editFields');
+  fields.innerHTML = `
+    <label>Name *<input name="name" type="text" value="${esc(p.name||'')}" required></label>
+    <label>Description <textarea name="description">${esc(p.description||'')}</textarea></label>
+    <label>Replace Image <input name="file" type="file" accept="image/png,image/jpeg,image/webp"></label>
+  `;
+  editDlg.dataset.postId = id;
+  editDlg.showModal();
+};
+$('#editForm').addEventListener('submit', async (ev)=>{
+  ev.preventDefault();
+  const id  = editDlg.dataset.postId;
+  const f   = ev.currentTarget;
+  const name = f.querySelector('input[name="name"]').value.trim();
+  const desc = f.querySelector('textarea[name="description"]').value ?? '';
+  const file = f.querySelector('input[name="file"]').files[0];
+
+  const fd = new FormData();
+  if (name) fd.append('name', name);
+  fd.append('description', desc);
+  if (file) fd.append('file', file);
+
+  try{
+    let updated;
+    if (TRY_PUT_THEN_POST_FOR_UPDATE) {
+      try { updated = await http(ENDPOINTS.postById(id), { method:'PUT', body: fd }); }
+      catch (err) {
+        if (String(err.message).includes('HTTP 405')) {
+          updated = await http(ENDPOINTS.postById(id), { method:'POST', body: fd });
+        } else { throw err; }
+      }
+    } else {
+      updated = await http(ENDPOINTS.postById(id), { method:'POST', body: fd });
+    }
+    const ix = state.posts.findIndex(x => x.id == id);
+    if (ix > -1 && updated?.id){
+      state.posts[ix] = updated;
+      renderPosts();
+      renderCounts();
+    }
+    editDlg.close();
+  }catch(e){
+    alert('Failed to update: ' + e.message);
+    console.error(e);
+  }
+});
+window.deletePost = async (id)=>{
+  if (!confirm('Delete this image/post?')) return;
+  try{
+    await http(ENDPOINTS.postById(id), { method:'DELETE', expectJson:false });
+    state.posts = state.posts.filter(p => p.id !== id);
+    renderPosts();
+    renderCounts();
+  }catch(e){
+    alert('Failed to delete: ' + e.message);
+    console.error(e);
+  }
+};
+
+/* ========= PROJECTS ========= */
+$('#projectForm').addEventListener('submit', async (ev)=>{
+  ev.preventDefault();
+  const f = ev.currentTarget;
+  const alertBox = $('#projectAlert');
+
+  const title = f.title.value.trim();
+  const description = f.description.value.trim();
+  const file = f.file.files[0];
+
+  if (!title || !description){ toast(alertBox, 'Title and description are required.'); return; }
+  if (!file){ toast(alertBox, 'Project image file is required.'); return; }
+
+  const fd = new FormData();
+  fd.append('title', title);
+  fd.append('description', description);
+  if (f.techStack.value) fd.append('techStack', f.techStack.value);
+  fd.append('file', file);
+  if (f.demoLink.value) fd.append('demoLink', f.demoLink.value);
+  if (f.codeLink.value) fd.append('codeLink', f.codeLink.value);
+
+  try{
+    const created = await http(ENDPOINTS.projects, { method:'POST', body: fd });
+    if (created?.id){
+      state.projects.unshift(created);
+      renderProjects();
+      renderCounts();
+    }
+    f.reset();
+    $('#projectPreview').innerHTML = '';
+    toast(alertBox, 'Project created', 'success');
+  }catch(e){
+    toast(alertBox, `Failed: ${e.message}`);
+    console.error(e);
+  }
+});
+$('#projectForm input[name="file"]').addEventListener('change', (e)=>{
+  const file = e.target.files?.[0];
+  const box = $('#projectPreview');
+  if (!file){ box.innerHTML=''; return; }
+  const allowed = ['image/jpeg','image/png','image/webp'];
+  if (!allowed.includes(file.type)){
+    e.target.value='';
+    box.innerHTML = '<div class="alert error">Only JPG, PNG, or WEBP allowed.</div>';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    box.innerHTML = `<div class="alert success">Preview ready</div>
+      <img src="${reader.result}" alt="preview"
+           style="max-width:200px;border-radius:10px;border:1px solid #233046;display:block;margin-top:8px">`;
+  };
+  reader.readAsDataURL(file);
+});
+window.deleteProject = async (id) => {
+  if (!confirm('Delete this project?')) return;
+  try {
+    await http(ENDPOINTS.projectById(id), { method: 'DELETE', expectJson: false });
+    state.projects = state.projects.filter(p => p.id !== id);
+    renderProjects();
+    renderCounts();
+  } catch (e) {
+    alert('Failed to delete: ' + e.message);
+    console.error(e);
+  }
+};
+
+/* ========= SEARCH & SORT ========= */
+$('#postSearch').addEventListener('input', (e)=>{ state.filters.posts = e.target.value; renderPosts(); });
+$('#projectSearch').addEventListener('input', (e)=>{ state.filters.projects = e.target.value; renderProjects(); });
+$$('.sort-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const scope = btn.dataset.scope || 'posts';
+    const key = btn.dataset.sort;
+    const cur = state.sort[scope];
+    const dir = (cur.key === key && cur.dir === 'asc') ? 'desc' : 'asc';
+    state.sort[scope] = { key, dir };
+    (scope === 'posts' ? renderPosts : renderProjects)();
+  });
+});
+
+/* ========= ROUTER ========= */
+function setActiveRoute(hash){
+  $$('section').forEach(s => s.classList.remove('active'));
+  $$('.nav a').forEach(a => a.classList.remove('active'));
+  const targetId = (hash || '#dashboard').replace('#','');
+  const target = document.getElementById(targetId) || $('#dashboard');
+  target.classList.add('active');
+  $$('.nav a').forEach(a => { if (a.getAttribute('href') === `#${target.id}`) a.classList.add('active'); });
+}
+window.addEventListener('hashchange', ()=> { assertAuthOrRedirect(); setActiveRoute(location.hash); closeSidebar(); });
+setActiveRoute(location.hash || '#dashboard');
+
+/* ========= SIDEBAR (off-canvas) ========= */
+const sidebar  = $('#sidebar');
+const backdrop = $('#backdrop');
+const toggleBtn= $('#sidebarToggle');
+
+function openSidebar(){
+  if (!sidebar) return;
+  sidebar.classList.add('open');
+  if (backdrop){ backdrop.hidden = false; requestAnimationFrame(()=> backdrop.classList.add('show')); }
+  document.documentElement.classList.add('no-scroll');
+  document.body.classList.add('no-scroll');
+}
+function closeSidebar(){
+  if (!sidebar) return;
+  sidebar.classList.remove('open');
+  if (backdrop){
+    backdrop.classList.remove('show');
+    setTimeout(()=> { backdrop.hidden = true; }, 200);
+  }
+  document.documentElement.classList.remove('no-scroll');
+  document.body.classList.remove('no-scroll');
+}
+toggleBtn?.addEventListener('click', ()=>{
+  if (sidebar.classList.contains('open')) closeSidebar();
+  else openSidebar();
+});
+backdrop?.addEventListener('click', closeSidebar);
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'Escape') closeSidebar();
+});
+$$('[data-route]').forEach(a => a.addEventListener('click', closeSidebar));
+
+/* ========= LOGOUT ========= */
+function doLogout() {
+  if (!confirm('Log out of the dashboard?')) return;
+  localStorage.removeItem('jwtToken');
+  localStorage.removeItem('authToken');
+  window.location.replace('index.html'); // replace so Back won't return
+}
+$('#logoutBtn')?.addEventListener('click', doLogout);
+$('#logoutBtnTop')?.addEventListener('click', doLogout);
+
+/* ========= INIT ========= */
+(async function init(){
+  if (!assertAuthOrRedirect()) return;
+
+  // Set welcome user from JWT
+  const user = getUsernameFromJwt();
+  if (user) $('#welcomeUser').textContent = user;
+
+  await Promise.all([loadPosts(), loadProjects()]);
+  renderCounts();
+  console.log('[dashboard] BASE_URL =', BASE_URL, '| token present?', !!getBearer());
+})();
+window.addEventListener('pageshow', () => assertAuthOrRedirect());
+
+/* ========= BACK BUTTON -> CONFIRM LOGOUT AT ROOT ========= */
+(function backLogoutAtRoot() {
+  const SENTINEL = { t: 'DASH_TRAP' };
+  const atRoot = () => !location.hash || location.hash === '#dashboard';
+
+  function armTrap() {
+    if (!atRoot()) return;
+    try { history.pushState(SENTINEL, '', location.href); } catch {}
+  }
+  window.addEventListener('hashchange', armTrap);
+  window.addEventListener('popstate', () => {
+    if (atRoot()) {
+      const ok = confirm('Do you want to log out of the admin dashboard?');
+      if (ok) doLogout(); else armTrap();
+    }
+  });
+  window.addEventListener('pageshow', (e) => {
+    const nav = performance.getEntriesByType('navigation')[0];
+    if (e.persisted || nav?.type === 'back_forward') armTrap();
+  });
+  armTrap();
+})();
 </script>
 </body>
 </html>

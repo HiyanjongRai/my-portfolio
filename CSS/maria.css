@@ -1,0 +1,226 @@
+/* =========
+   Base & tokens
+   ========= */
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #1f2328;
+  --muted: #667085;
+  --brand: #e63946;
+  --brand-hover: #d62828;
+  --border: #e5e7eb;
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(0,0,0,.06);
+  --maxw: 1120px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* =========
+   Layout wrappers
+   ========= */
+header, section, footer {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 16px auto;
+  padding: 20px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+footer {
+  background: #111417;
+  color: #fff;
+  text-align: center;
+  border: none;
+}
+
+/* =========
+   Header
+   ========= */
+header {
+  background: #111417;
+  color: #fff;
+  border: none;
+}
+header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(22px, 3.5vw, 34px);
+  letter-spacing: .2px;
+}
+header nav {
+  margin: 6px 0 8px;
+}
+header nav a {
+  color: #e9eaee;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}
+header nav a:hover,
+header nav a:focus {
+  background: rgba(255,255,255,.12);
+  outline: none;
+}
+header p { margin: 6px 0 0; }
+header a { color: #ffdfe1; }
+
+/* =========
+   Typography
+   ========= */
+h2 {
+  margin: 0 0 10px;
+  font-size: clamp(20px, 3vw, 28px);
+}
+h3 {
+  margin: 10px 0 6px;
+  font-size: 18px;
+}
+p { margin: 8px 0; }
+.muted { color: var(--muted); }
+
+/* =========
+   Media / figures
+   ========= */
+figure { margin: 12px 0; }
+figure img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: block;
+}
+figure figcaption {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* =========
+   Lists
+   ========= */
+ul {
+  padding-left: 18px;
+  margin: 8px 0;
+}
+li { margin: 6px 0; }
+
+/* =========
+   Shop grid (articles)
+   ========= */
+#shop {
+  display: grid;
+  gap: 16px;
+}
+#shop article {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+#shop article img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  margin: 8px 0;
+}
+
+@media (min-width: 720px) {
+  #shop { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  #shop { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* =========
+   Forms
+   ========= */
+form {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+form p { margin: 0; }
+label { font-weight: 600; display: block; }
+input, textarea, button { font: inherit; }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+input[type="file"],
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+}
+textarea { min-height: 120px; resize: vertical; }
+
+button {
+  width: max-content;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  cursor: pointer;
+  transition: transform .02s ease, background .15s ease;
+}
+button:hover { background: var(--brand-hover); }
+button:active { transform: translateY(1px); }
+
+/* Optional two-column helper for forms on wide screens */
+@media (min-width: 760px) {
+  #appointment form,
+  #quote form {
+    grid-template-columns: 1fr 1fr;
+  }
+  #appointment form p:nth-last-child(-n+2),
+  #quote form p:nth-last-child(-n+2) {
+    grid-column: 1 / -1; /* buttons and final field full width */
+  }
+  textarea { grid-column: 1 / -1; }
+}
+
+/* =========
+   Links inside content
+   ========= */
+section a {
+  color: var(--brand);
+  text-decoration: none;
+}
+section a:hover { text-decoration: underline; }
+
+/* =========
+   Spacing tweaks per section
+   ========= */
+#home figure { margin-right: 12px; }
+#home { display: grid; gap: 10px; }
+@media (min-width: 860px) {
+  #home {
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
+  }
+  #home figure { margin: 0; }
+}
+
+/* =========
+   Footer
+   ========= */
+footer p { margin: 0; }
