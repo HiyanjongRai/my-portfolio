@@ -278,89 +278,120 @@
       
       <!-- Form -->
       <div class="contact-card reveal">
-      
-     <!-- Your Form -->
-<form id="contact-form">
-  <input type="text" class="form-control" placeholder="Name" required>
-  <input type="email" class="form-control" placeholder="Email" required>
-  <textarea class="form-control" rows="5" placeholder="Message" required></textarea>
-  <button type="submit" class="send-button"><i class="fa fa-paper-plane"></i> Send</button>
-</form>
+  <!-- Your Form -->
+  <form id="contact-form">
+    <input type="text" id="name" class="form-control" placeholder="Name" required>
+    <input type="email" id="email" class="form-control" placeholder="Email" required>
+    <textarea id="message" class="form-control" rows="5" placeholder="Message" required></textarea>
+    <button type="submit" class="send-button">
+      <i class="fa fa-paper-plane"></i> Send
+    </button>
+  </form>
 
-<!-- Center Message -->
-<div id="thankyou-popup" class="popup">
-  <div class="popup-content">
-    <p>✅ Thank you for your message.<br>Please wait while I check that.</p>
-    <button id="close-popup">OK</button>
+  <!-- Center Message -->
+  <div id="thankyou-popup" class="popup">
+    <div class="popup-content">
+      <p id="popup-message" class="success">✅ Thank you for your message.<br>Please wait while I check that.</p>
+      <button id="close-popup">OK</button>
+    </div>
   </div>
 </div>
 
 <style>
+  /* Popup background */
+  .popup {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+  }
 
-.popup {
-  display: none; 
-  position: fixed;
-  inset: 0; 
-  display: flex;
-  align-items: center;  
-  justify-content: center; 
-  z-index: 9999;
-}
+  /* Popup box */
+  .popup-content {
+    background: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  }
 
-/* Box in center */
-.popup-content {
-  background: #fff;
-  padding: 25px 30px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-  animation: scaleIn 0.25s ease;
-}
+  /* Button */
+  #close-popup {
+    margin-top: 15px;
+    padding: 8px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
-.popup-content p {
-  margin-bottom: 16px;
-  font-size: 18px;
-  color: #333;
-}
+  /* Message colors */
+  #popup-message.success { color: green; }
+  #popup-message.error { color: red; }
+  #popup-message.warning { color: orange; }
 
-#close-popup {
-  background: #16a34a;
-  color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-#close-popup:hover {
-  background: #15803d;
-}
+  /* Optional: Form styling */
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }
 
-@keyframes scaleIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
+  .send-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .send-button i {
+    margin-right: 5px;
+  }
 </style>
 
 <script>
-const form = document.getElementById("contact-form");
-const popup = document.getElementById("thankyou-popup");
-const closeBtn = document.getElementById("close-popup");
+  const form = document.getElementById("contact-form");
+  const popup = document.getElementById("thankyou-popup");
+  const popupMessage = document.getElementById("popup-message");
+  const closePopup = document.getElementById("close-popup");
 
-form.addEventListener("submit", function(e){
-  e.preventDefault();        
-  popup.style.display = "flex"; 
-  form.reset();              
-});
+  form.addEventListener("submit", function(e) {
+    e.preventDefault(); 
+    
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
 
-closeBtn.addEventListener("click", function(){
-  popup.style.display = "none"; 
-});
+    if(name && email && message){
+      
+      popupMessage.className = "success";
+      popupMessage.innerHTML = ` Thank you, <b>${name}</b>!<br>Your message has been received. please wait till i check it `;
+    } else {
+
+      popupMessage.className = "warning";
+      popupMessage.innerHTML = "⚠️ Please fill all fields!";
+    }
+
+
+    popup.style.display = "flex";
+
+   
+    if(popupMessage.className === "success") form.reset();
+  });
+
+  closePopup.addEventListener("click", function() {
+    popup.style.display = "none";
+  });
 </script>
 
-
-      </div>
 
       <!-- Info -->
       <div class="contact-card reveal">
