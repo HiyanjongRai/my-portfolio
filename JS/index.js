@@ -1,10 +1,12 @@
-
-const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
-
+// main.js
 document.addEventListener("DOMContentLoaded", () => {
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const on = (el, ev, cb) => el && el.addEventListener(ev, cb);
+
+  // ---------- API base ----------
+  const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
+  if (!API_BASE) console.warn("[front] window.API_BASE is empty. Did you include config.js first?");
 
   // ---------- NAV MENU ----------
   const menuOpen  = $("#menu-open");
@@ -14,10 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
   on(menuClose, "click", () => navLinks && navLinks.classList.remove("show"));
 
   // ---------- LOGIN DROPDOWN + AUTH ----------
-  const loginDropdown  = $(".login-dropdown");
-  const loginToggle    = $("#login-toggle");
-  const dropdownContent= loginDropdown?.querySelector(".dropdown-content");
-  const loginForm      = $("#dropdown-login-form");
+  const loginDropdown   = $(".login-dropdown");
+  const loginToggle     = $("#login-toggle");
+  const dropdownContent = loginDropdown?.querySelector(".dropdown-content");
+  const loginForm       = $("#dropdown-login-form");
 
   on(loginToggle, "click", e => {
     e.preventDefault();
@@ -53,13 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
-
-      // Try to parse json even on errors (so we can show backend message)
       let data = {};
       try { data = await res.json(); } catch {}
 
       if (res.ok && data.token) {
-        localStorage.setItem("jwtToken", data.token);            // raw token is fine
+        localStorage.setItem("jwtToken", data.token);
         localStorage.setItem("username", data.username || username);
         window.location.href = "dashboard.html";
       } else {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---------- EXPERTISE CARDS  ----------
+  // ---------- EXPERTISE CARDS ----------
   $$("#expertise-heading .card").forEach(card => {
     on(card, "click", () => toggleCard(card));
     on(card, "keydown", e => {
@@ -133,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!el.classList.contains("is-visible")) io.observe(el);
     });
   }
+
   addRevealTargets();
 
   async function getJSON(url) {

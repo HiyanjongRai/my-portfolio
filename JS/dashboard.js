@@ -1,0 +1,524 @@
+/* JS/dashboard.js
+   Requires: config.js (defines window.API_BASE)
+*/
+(() => {
+  'use strict';
+
+  // ====== CONFIG ======
+  const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
+  if (!API_BASE) console.warn("[dashboard] window.API_BASE is empty. Did you include config.js first?");
+
+  const ENDPOINTS = {
+    posts: '/api/images',
+    postGetBytes: id => `/api/images/${id}`,
+    postUpload: '/api/images/upload',
+    postById: id => `/api/images/${id}`,
+    projects: '/api/projects',
+    projectById: id => `/api/projects/${id}`,
+    projectImage: id => `/api/projects/image/${id}`
+  };
+  const TRY_PUT_THEN_POST_FOR_UPDATE = true;
+
+  // ====== UTILS ======
+  const $  = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const esc = (s='') => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+
+  function getRawToken() {
+    const v = (localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '').trim();
+    return v.startsWith('Bearer ') ? v.slice(7) : v;
+  }
+  function getBearer() {
+    const raw = getRawToken();
+    return raw ? `Bearer ${raw}` : '';
+  }
+  function authHeaders() {
+    const b = getBearer();
+    return b ? { Authorization: b } : {};
+  }
+  async function http(path, { method='GET', body=null, expectJson=true, extraHeaders={} } = {}) {
+    const res = await fetch(API_BASE + path, { method, body, headers: { ...authHeaders(), ...extraHeaders } });
+    if (!res.ok) {
+      const text = await res.text().catch(()=> '');
+      const detail = text ? ` – ${text}` : '';
+      if (res.status === 401) throw new Error(`HTTP 401 Unauthorized${detail}`);
+      if (res.status === 403) throw new Error(`HTTP 403 Forbidden${detail}`);
+      if (res.status === 405) throw new Error(`HTTP 405 Method Not Allowed${detail}`);
+      throw new Error(`HTTP ${res.status} ${res.statusText}${detail}`);
+    }
+    if (!expectJson) return res;
+    const ct = res.headers.get('content-type') || '';
+    return ct.includes('application/json') ? res.json() : {};
+  }
+  const toast = (container, msg, type='error') => {
+    if (!container) return alert(msg);
+    const el = document.createElement('div');
+    el.className = `alert ${type === 'success' ? 'success' : 'error'}`;
+    el.textContent = msg;
+    container.innerHTML = '';
+    container.appendChild(el);
+    setTimeout(()=> el.remove(), 3500);
+  };
+
+  // ====== AUTH / PROFILE ======
+  function parseJwt(token) {
+    try {
+      const [, payload] = token.split('.');
+      const json = atob(payload.replace(/-/g,'+').replace(/_/g,'/'));
+      return JSON.parse(decodeURIComponent(escape(json)));
+    } catch { return null; }
+  }
+  function isJwtExpired(token) {
+    const p = parseJwt(token);
+    if (!p || !p.exp) return false;
+    return p.exp <= Math.floor(Date.now()/1000);
+  }
+  function redirectToLogin() { location.replace('index.html'); }
+  function assertAuthOrRedirect() {
+    const raw = getRawToken();
+    if (!raw || isJwtExpired(raw)) {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('authToken');
+      redirectToLogin();
+      return false;
+    }
+    return true;
+  }
+  async function setWelcomeUsername() {
+    const el = $('#welcomeUser');
+    if (!el) return;
+    try {
+      const me = await http('/api/auth/profile');
+      if (me && typeof me.username === 'string' && me.username.trim()) {
+        el.textContent = me.username.trim();
+        return;
+      }
+    } catch (e) {
+      console.warn('[dashboard] /api/auth/profile failed:', e.message);
+    }
+    const p = parseJwt(getRawToken()) || {};
+    const user = p.userName || p.username || p.preferred_username || (p.email ? p.email.split('@')[0] : '') || p.sub || '';
+    el.textContent = (user || '').toString().trim();
+  }
+
+  // ====== STATE ======
+  const state = {
+    posts: [],
+    projects: [],
+    sort: { posts: { key:'id', dir:'desc' }, projects: { key:'id', dir:'desc' } },
+    filters: { posts:'', projects:'' }
+  };
+
+  // ====== FILTER & SORT ======
+  const filterItems = (arr, q) => {
+    const s = (q||'').toLowerCase();
+    if (!s) return arr;
+    return arr.filter(o => JSON.stringify(o).toLowerCase().includes(s));
+  };
+  const sortItems = (arr, key, dir) => {
+    const list = [...arr];
+    const mul = dir === 'asc' ? 1 : -1;
+    list.sort((a,b)=>{
+      const va = (a?.[key] ?? '').toString().toLowerCase();
+      const vb = (b?.[key] ?? '').toString().toLowerCase();
+      const na = !isNaN(+va), nb = !isNaN(+vb);
+      if (na && nb) return ((+va) - (+vb)) * mul;
+      if (va < vb) return -1 * mul;
+      if (va > vb) return  1 * mul;
+      return 0;
+    });
+    return list;
+  };
+
+  // ====== RENDER ======
+  function renderCounts(){
+    const postsLen = state.posts.length || 0;
+    const projLen  = state.projects.length || 0;
+    $('#postCount')?.textContent    = String(postsLen);
+    $('#projectCount')?.textContent = String(projLen);
+    $('#navPostCount')?.textContent = String(postsLen);
+    $('#navProjectCount')?.textContent = String(projLen);
+  }
+  function renderPosts(){
+    const body = $('#postRows');
+    if (!body) return;
+    const { key, dir } = state.sort.posts;
+    const items = sortItems(filterItems(state.posts, state.filters.posts), key, dir);
+
+    if (!items.length){
+      body.innerHTML = `<tr><td colspan="4">No images found.</td></tr>`;
+      return;
+    }
+    body.innerHTML = items.map(p => `
+      <tr>
+        <td><strong>${esc(p.name||'')}</strong></td>
+        <td>${esc(p.description||'')}</td>
+        <td>${
+          p.id
+            ? `<img src="${API_BASE + ENDPOINTS.postGetBytes(p.id)}"
+                    alt="${esc(p.name||'')}"
+                    style="max-width:140px;max-height:100px;border-radius:8px;border:1px solid #233046" />`
+            : '—'
+        }</td>
+        <td class="actions">
+          <button class="btn secondary" data-edit-post="${esc(p.id)}">Edit</button>
+          <button class="btn warn" data-delete-post="${esc(p.id)}">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+  function renderProjects(){
+    const body = $('#projectRows');
+    if (!body) return;
+    const { key, dir } = state.sort.projects;
+    const items = sortItems(filterItems(state.projects, state.filters.projects), key, dir);
+
+    if (!items.length){
+      body.innerHTML = `<tr><td colspan="6">No projects found.</td></tr>`;
+      return;
+    }
+    body.innerHTML = items.map(pr => `
+      <tr>
+        <td><strong>${esc(pr.title||'')}</strong></td>
+        <td>${esc(pr.description||'')}</td>
+        <td>${esc(pr.techStack||'—')}</td>
+        <td>
+          ${pr.demoLink ? `<a href="${pr.demoLink}" target="_blank" rel="noreferrer">demo</a>` : '—'}
+          ${pr.codeLink ? ` <a href="${pr.codeLink}" target="_blank" rel="noreferrer">code</a>` : ''}
+        </td>
+        <td>
+          ${pr.id
+            ? `<img class="thumb" src="${API_BASE + ENDPOINTS.projectImage(pr.id)}" alt="${esc(pr.title||'')}" />`
+            : '—'}
+        </td>
+        <td class="actions">
+          <button class="btn warn" data-delete-project="${esc(pr.id)}">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ====== LOAD ======
+  async function loadPosts(){
+    const rows = $('#postRows');
+    if (rows) rows.innerHTML = `<tr><td colspan="4">Loading…</td></tr>`;
+    try {
+      const data = await http(ENDPOINTS.posts);
+      state.posts = Array.isArray(data) ? data : [];
+      renderPosts(); renderCounts();
+    } catch (e) {
+      if (rows) rows.innerHTML = `<tr><td colspan="4">Failed to load images (${esc(e.message)}).</td></tr>`;
+      console.error('[dashboard] loadPosts:', e);
+    }
+  }
+  async function loadProjects(){
+    const rows = $('#projectRows');
+    if (rows) rows.innerHTML = `<tr><td colspan="6">Loading…</td></tr>`;
+    try {
+      const data = await http(ENDPOINTS.projects);
+      state.projects = Array.isArray(data) ? data : [];
+      renderProjects(); renderCounts();
+    } catch (e) {
+      if (rows) rows.innerHTML = `<tr><td colspan="6">Failed to load projects (${esc(e.message)}).</td></tr>`;
+      console.error('[dashboard] loadProjects:', e);
+    }
+  }
+
+  // ====== POSTS: CREATE / EDIT / DELETE ======
+  $('#postForm')?.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const f = ev.currentTarget;
+    const alertBox = $('#postAlert');
+
+    const name = f.name.value.trim();
+    const file = f.file.files[0];
+    if (!name){ toast(alertBox, 'Name is required.'); return; }
+    if (!file){ toast(alertBox, 'Image file is required.'); return; }
+
+    const fd = new FormData();
+    fd.append('name', name);
+    if (f.description.value) fd.append('description', f.description.value);
+    fd.append('file', file);
+
+    try{
+      const created = await http(ENDPOINTS.postUpload, { method:'POST', body: fd });
+      if (created?.id){
+        state.posts.unshift(created);
+        renderPosts(); renderCounts();
+      }
+      f.reset();
+      $('#postPreview').innerHTML = '';
+      toast(alertBox, 'Uploaded', 'success');
+    }catch(e){
+      toast(alertBox, `Failed: ${e.message}`);
+      console.error('[dashboard] upload post:', e);
+    }
+  });
+
+  $('#postForm input[name="file"]')?.addEventListener('change', (e)=>{
+    const target = $('#postPreview');
+    const file = e.target.files?.[0];
+    if (!file){ if (target) target.innerHTML=''; return; }
+    const allowed = ['image/jpeg','image/png','image/webp'];
+    if (!allowed.includes(file.type)){
+      e.target.value='';
+      if (target) target.innerHTML = '<div class="alert error">Only JPG, PNG, or WEBP allowed.</div>';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      if (!target) return;
+      target.innerHTML = `<div class="alert success">Preview ready</div>
+        <img src="${reader.result}" alt="preview"
+             style="max-width:200px;border-radius:10px;border:1px solid #233046;display:block;margin-top:8px">`;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const editDlg = $('#editDialog');
+  $('#cancelEdit')?.addEventListener('click', ()=> editDlg?.close());
+
+  function openEditPost(id) {
+    const p = state.posts.find(x => x.id == id);
+    if (!p || !editDlg) return;
+    $('#editTitle').textContent = 'Edit Image/Post';
+    const fields = $('#editFields');
+    fields.innerHTML = `
+      <label>Name *<input name="name" type="text" value="${esc(p.name||'')}" required></label>
+      <label>Description <textarea name="description">${esc(p.description||'')}</textarea></label>
+      <label>Replace Image <input name="file" type="file" accept="image/png,image/jpeg,image/webp"></label>
+    `;
+    editDlg.dataset.postId = id;
+    editDlg.showModal();
+  }
+  async function doUpdatePost(id, formEl) {
+    const name = formEl.querySelector('input[name="name"]').value.trim();
+    const desc = formEl.querySelector('textarea[name="description"]').value ?? '';
+    const file = formEl.querySelector('input[name="file"]').files[0];
+
+    const fd = new FormData();
+    if (name) fd.append('name', name);
+    fd.append('description', desc);
+    if (file) fd.append('file', file);
+
+    if (TRY_PUT_THEN_POST_FOR_UPDATE) {
+      try { return await http(ENDPOINTS.postById(id), { method:'PUT', body: fd }); }
+      catch (err) {
+        if (String(err.message).includes('HTTP 405')) {
+          return await http(ENDPOINTS.postById(id), { method:'POST', body: fd });
+        }
+        throw err;
+      }
+    } else {
+      return await http(ENDPOINTS.postById(id), { method:'POST', body: fd });
+    }
+  }
+  $('#editForm')?.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const id = editDlg?.dataset.postId;
+    if (!id) return;
+    try{
+      const updated = await doUpdatePost(id, ev.currentTarget);
+      const ix = state.posts.findIndex(x => x.id == id);
+      if (ix > -1 && updated?.id){
+        state.posts[ix] = updated;
+        renderPosts(); renderCounts();
+      }
+      editDlg?.close();
+    } catch (e) {
+      alert('Failed to update: ' + e.message);
+      console.error('[dashboard] update post:', e);
+    }
+  });
+
+  async function deletePost(id){
+    if (!confirm('Delete this image/post?')) return;
+    try{
+      await http(ENDPOINTS.postById(id), { method:'DELETE', expectJson:false });
+      state.posts = state.posts.filter(p => p.id != id);
+      renderPosts(); renderCounts();
+    }catch(e){
+      alert('Failed to delete: ' + e.message);
+      console.error('[dashboard] delete post:', e);
+    }
+  }
+  $('#postRows')?.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.getAttribute('data-edit-post') ?? btn.getAttribute('data-delete-post');
+    if (!id) return;
+    if (btn.hasAttribute('data-edit-post')) openEditPost(id);
+    if (btn.hasAttribute('data-delete-post')) deletePost(id);
+  });
+
+  // ====== PROJECTS: CREATE / DELETE ======
+  $('#projectForm')?.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    const f = ev.currentTarget;
+    const alertBox = $('#projectAlert');
+
+    const title = f.title.value.trim();
+    const description = f.description.value.trim();
+    const file = f.file.files[0];
+
+    if (!title || !description){ toast(alertBox, 'Title and description are required.'); return; }
+    if (!file){ toast(alertBox, 'Project image file is required.'); return; }
+
+    const fd = new FormData();
+    fd.append('title', title);
+    fd.append('description', description);
+    if (f.techStack.value) fd.append('techStack', f.techStack.value);
+    fd.append('file', file);
+    if (f.demoLink.value) fd.append('demoLink', f.demoLink.value);
+    if (f.codeLink.value) fd.append('codeLink', f.codeLink.value);
+
+    try{
+      const created = await http(ENDPOINTS.projects, { method:'POST', body: fd });
+      if (created?.id){
+        state.projects.unshift(created);
+        renderProjects(); renderCounts();
+      }
+      f.reset();
+      $('#projectPreview').innerHTML = '';
+      toast(alertBox, 'Project created', 'success');
+    }catch(e){
+      toast(alertBox, `Failed: ${e.message}`);
+      console.error('[dashboard] create project:', e);
+    }
+  });
+
+  $('#projectForm input[name="file"]')?.addEventListener('change', (e)=>{
+    const file = e.target.files?.[0];
+    const box = $('#projectPreview');
+    if (!file){ if (box) box.innerHTML=''; return; }
+    const allowed = ['image/jpeg','image/png','image/webp'];
+    if (!allowed.includes(file.type)){
+      e.target.value='';
+      if (box) box.innerHTML = '<div class="alert error">Only JPG, PNG, or WEBP allowed.</div>';
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = ()=>{
+      if (!box) return;
+      box.innerHTML = `<div class="alert success">Preview ready</div>
+        <img src="${reader.result}" alt="preview"
+             style="max-width:200px;border-radius:10px;border:1px solid #233046;display:block;margin-top:8px">`;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  async function deleteProject(id){
+    if (!confirm('Delete this project?')) return;
+    try {
+      await http(ENDPOINTS.projectById(id), { method: 'DELETE', expectJson: false });
+      state.projects = state.projects.filter(p => p.id != id);
+      renderProjects(); renderCounts();
+    } catch (e) {
+      alert('Failed to delete: ' + e.message);
+      console.error('[dashboard] delete project:', e);
+    }
+  }
+  $('#projectRows')?.addEventListener('click', (e)=>{
+    const btn = e.target.closest('button[data-delete-project]');
+    if (!btn) return;
+    const id = btn.getAttribute('data-delete-project');
+    if (id) deleteProject(id);
+  });
+
+  // ====== SEARCH & SORT ======
+  $('#postSearch')?.addEventListener('input', (e)=>{ state.filters.posts = e.target.value; renderPosts(); });
+  $('#projectSearch')?.addEventListener('input', (e)=>{ state.filters.projects = e.target.value; renderProjects(); });
+  $$('.sort-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const scope = btn.dataset.scope || 'posts';
+      const key = btn.dataset.sort;
+      const cur = state.sort[scope];
+      const dir = (cur.key === key && cur.dir === 'asc') ? 'desc' : 'asc';
+      state.sort[scope] = { key, dir };
+      (scope === 'posts' ? renderPosts : renderProjects)();
+    });
+  });
+
+  // ====== ROUTER ======
+  function setActiveRoute(hash){
+    $$('section').forEach(s => s.classList.remove('active'));
+    $$('.nav a').forEach(a => a.classList.remove('active'));
+    const targetId = (hash || '#dashboard').replace('#','');
+    const target = document.getElementById(targetId) || document.getElementById('dashboard');
+    if (target) target.classList.add('active');
+    $$('.nav a').forEach(a => { if (a.getAttribute('href') === `#${target?.id}`) a.classList.add('active'); });
+  }
+  window.addEventListener('hashchange', ()=> { if (assertAuthOrRedirect()) setActiveRoute(location.hash); closeSidebar(); });
+  setActiveRoute(location.hash || '#dashboard');
+
+  // ====== SIDEBAR (off-canvas) ======
+  const sidebar  = $('#sidebar');
+  const backdrop = $('#backdrop');
+  const toggleBtn= $('#sidebarToggle');
+
+  function openSidebar(){
+    if (!sidebar) return;
+    sidebar.classList.add('open');
+    if (backdrop){ backdrop.hidden = false; requestAnimationFrame(()=> backdrop.classList.add('show')); }
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+  }
+  function closeSidebar(){
+    if (!sidebar) return;
+    sidebar.classList.remove('open');
+    if (backdrop){
+      backdrop.classList.remove('show');
+      setTimeout(()=> { backdrop.hidden = true; }, 200);
+    }
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+  }
+  toggleBtn?.addEventListener('click', ()=>{ sidebar?.classList.contains('open') ? closeSidebar() : openSidebar(); });
+  backdrop?.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', (e)=>{ if (e.key === 'Escape') closeSidebar(); });
+  $$('[data-route]').forEach(a => a.addEventListener('click', closeSidebar));
+
+  // ====== LOGOUT ======
+  function doLogout() {
+    if (!confirm('Log out of the dashboard?')) return;
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('authToken');
+    window.location.replace('index.html');
+  }
+  $('#logoutBtn')?.addEventListener('click', doLogout);
+  $('#logoutBtnTop')?.addEventListener('click', doLogout);
+
+  // ====== INIT ======
+  async function init(){
+    if (!assertAuthOrRedirect()) return;
+    await setWelcomeUsername();
+    await Promise.all([loadPosts(), loadProjects()]);
+    renderCounts();
+    console.log('[dashboard] API_BASE =', API_BASE, '| token present?', !!getBearer());
+  }
+  window.addEventListener('pageshow', () => assertAuthOrRedirect());
+  init();
+
+  // ====== BACK BUTTON -> confirm logout at root ======
+  (function backLogoutAtRoot() {
+    const SENTINEL = { t: 'DASH_TRAP' };
+    const atRoot = () => !location.hash || location.hash === '#dashboard';
+    function armTrap() {
+      if (!atRoot()) return;
+      try { history.pushState(SENTINEL, '', location.href); } catch {}
+    }
+    window.addEventListener('hashchange', armTrap);
+    window.addEventListener('popstate', () => {
+      if (atRoot()) {
+        const ok = confirm('Do you want to log out of the admin dashboard?');
+        if (ok) doLogout(); else armTrap();
+      }
+    });
+    window.addEventListener('pageshow', (e) => {
+      const nav = performance.getEntriesByType('navigation')[0];
+      if (e.persisted || nav?.type === 'back_forward') armTrap();
+    });
+    armTrap();
+  })();
+
+})();
