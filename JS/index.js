@@ -1,14 +1,10 @@
-// main.js
+
+const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
+
 document.addEventListener("DOMContentLoaded", () => {
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const on = (el, ev, cb) => el && el.addEventListener(ev, cb);
-
-  // ---------- API base ----------
-  const API_BASE =
-    (location.hostname === "localhost" || location.hostname === "127.0.0.1")
-      ? "http://localhost:8080"
-      : "http://localhost:8080"; 
 
   // ---------- NAV MENU ----------
   const menuOpen  = $("#menu-open");
@@ -18,10 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
   on(menuClose, "click", () => navLinks && navLinks.classList.remove("show"));
 
   // ---------- LOGIN DROPDOWN + AUTH ----------
-  const loginDropdown = $(".login-dropdown");
-  const loginToggle   = $("#login-toggle");
-  const dropdownContent  = loginDropdown?.querySelector(".dropdown-content");
-  const loginForm     = $("#dropdown-login-form");
+  const loginDropdown  = $(".login-dropdown");
+  const loginToggle    = $("#login-toggle");
+  const dropdownContent= loginDropdown?.querySelector(".dropdown-content");
+  const loginForm      = $("#dropdown-login-form");
 
   on(loginToggle, "click", e => {
     e.preventDefault();
@@ -57,14 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password })
       });
-      const data = await res.json();
+
+      // Try to parse json even on errors (so we can show backend message)
+      let data = {};
+      try { data = await res.json(); } catch {}
 
       if (res.ok && data.token) {
-        localStorage.setItem("jwtToken", data.token);
+        localStorage.setItem("jwtToken", data.token);            // raw token is fine
         localStorage.setItem("username", data.username || username);
         window.location.href = "dashboard.html";
       } else {
-        errorMsg.textContent = data.error || "Login failed. Please check your credentials.";
+        errorMsg.textContent = data.error || `Login failed (HTTP ${res.status}).`;
       }
     } catch (err) {
       console.error(err);
@@ -134,7 +133,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!el.classList.contains("is-visible")) io.observe(el);
     });
   }
-
   addRevealTargets();
 
   async function getJSON(url) {
@@ -172,12 +170,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const html = list.map(project => {
-      const id = project.id ?? project.projectId ?? project.imageId;
+      const id    = project.id ?? project.projectId ?? project.imageId;
       const title = project.title ?? project.name ?? "Untitled";
-      const desc = project.description ?? "";
-      const tech = project.techStack ?? (Array.isArray(project.tech) ? project.tech.join(", ") : (project.tech || ""));
-      const demo = project.demoLink ?? project.demo_url ?? "";
-      const code = project.codeLink ?? project.github ?? "";
+      const desc  = project.description ?? "";
+      const tech  = project.techStack ?? (Array.isArray(project.tech) ? project.tech.join(", ") : (project.tech || ""));
+      const demo  = project.demoLink ?? project.demo_url ?? "";
+      const code  = project.codeLink ?? project.github ?? "";
       const imageUrl = `${API_BASE}/api/projects/image/${id}`;
 
       return `
@@ -200,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addRevealTargets(container);
   })();
 
+  // ---------- IMAGES ----------
   (async function loadImages() {
     const gallery = $("#gallery");
     const lightbox = $("#lightbox");
