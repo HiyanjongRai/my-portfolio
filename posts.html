@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin | Posts</title>
+  <link rel="stylesheet" href="./CSS/adminDashbord.css">
+</head>
+<body>
+  <div class="layout">
+    <main class="main">
+      <header class="topbar">
+        <div class="brand">
+          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu">☰</button>
+          <div class="avatar"></div>
+          <div>
+            <div style="font-weight:800; font-size:18px">
+              Welcome, <span id="welcomeUser"></span>
+            </div>
+          </div>
+        </div>
+        <div class="toggle-desktop">
+          <button id="logoutBtnTop" class="btn warn">Logout</button>
+        </div>
+      </header>
+
+      <!-- POSTS -->
+      <section id="posts" class="active">
+        <div class="card">
+          <h2 style="margin:0 0 8px">Images / Posts</h2>
+          <div class="toolbar">
+            <input id="postSearch" class="input" type="text" placeholder="Search by name/description…" />
+            <button class="sort-btn" data-sort="name">Sort by Name</button>
+            <button class="sort-btn" data-sort="id">Sort by ID</button>
+          </div>
+          <div id="postAlert"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Preview</th>
+                  <th style="width:160px">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="postRows">
+                <tr><td colspan="4">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 6px">Upload New Image</h3>
+          <form id="postForm">
+            <div class="row">
+              <div>
+                <label>Name *</label>
+                <input name="name" type="text" required />
+              </div>
+              <div>
+                <label>File (jpg/png/webp) *</label>
+                <input name="file" type="file" accept="image/png,image/jpeg,image/webp" required />
+              </div>
+            </div>
+            <div>
+              <label>Description</label>
+              <textarea name="description"></textarea>
+            </div>
+            <div id="postPreview" class="subtitle"></div>
+            <div>
+              <button class="btn" type="submit">Upload</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <aside class="sidebar" id="sidebar">
+      <div>
+        <nav class="nav">
+          <a href="./dashboard.html" data-route>Dashboard <span class="kbd">⌘1</span></a>
+          <a href="./posts.html" data-route class="active">Posts <span id="navPostCount" class="badge">0</span></a>
+          <a href="./projects.html" data-route>Projects <span id="navProjectCount" class="badge">0</span></a>
+        </nav>
+      </div>
+      <div class="logout">
+        <button id="logoutBtn" class="btn warn">Logout</button>
+      </div>
+    </aside>
+
+    <div class="backdrop" id="backdrop" hidden></div>
+  </div>
+
+  <!-- Edit Modal -->
+  <dialog id="editDialog">
+    <div class="modal">
+      <form id="editForm">
+        <h3 id="editTitle" style="margin:0 0 10px">Edit</h3>
+        <div id="editFields" style="display:grid; gap:12px"></div>
+        <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end">
+          <button type="button" class="btn secondary" id="cancelEdit">Cancel</button>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script src="./config.js"></script>
+<script src="./JS/common.js"></script>
+<script src="./JS/posts.js"></script>
+
+</body>
+</html>
