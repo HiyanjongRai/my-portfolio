@@ -166,8 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---------- PROJECTS ----------
+
   (async function loadProjects() {
-    const container = $("#projects-container");
+    const container = document.querySelector("#projects-container");
     if (!container) return;
 
     const apiUrl = `${API_BASE}/api/projects`;
@@ -185,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const html = list.map(project => {
-      const id    = project.id ?? project.projectId ?? project.imageId;
+      const id    = project.id ?? project.projectId ?? project.imageId ?? Math.random().toString(36).slice(2);
       const title = project.title ?? project.name ?? "Untitled";
       const desc  = project.description ?? "";
       const tech  = project.techStack ?? (Array.isArray(project.tech) ? project.tech.join(", ") : (project.tech || ""));
@@ -194,24 +195,56 @@ document.addEventListener("DOMContentLoaded", () => {
       const imageUrl = `${API_BASE}/api/projects/image/${id}`;
 
       return `
-        <div class="project-card reveal">
-          <img src="${imageUrl}" alt="${title}">
-          <div class="project-content">
+        <article class="project-card reveal" role="button" tabindex="0" aria-expanded="false" aria-controls="details-${id}">
+          <div class="project-header">
+            <img src="${imageUrl}" alt="${title}">
             <h2>${title}</h2>
-            <p>${desc}</p>
-            ${tech ? `<p class="tech-stack">Tech: ${tech}</p>` : ""}
-            <div class="project-links">
-              ${demo ? `<a href="${demo}" class="demo" target="_blank" rel="noopener">Live Demo</a>` : ""}
-              ${code ? `<a href="${code}" class="code" target="_blank" rel="noopener">GitHub</a>` : ""}
-            </div>
           </div>
-        </div>
+
+          <div class="project-details" id="details-${id}">
+            ${desc ? `<p>${desc}</p>` : ""}
+            ${tech ? `<p class="tech-stack">Tech: ${tech}</p>` : ""}
+            ${(demo || code) ? `
+              <div class="project-links">
+                ${demo ? `<a class="demo" href="${demo}" target="_blank" rel="noopener">Live Demo</a>` : ""}
+                ${code ? `<a class="code" href="${code}" target="_blank" rel="noopener">GitHub</a>` : ""}
+              </div>` : ""}
+          </div>
+        </article>
       `;
     }).join("");
 
     container.innerHTML = html;
-    addRevealTargets(container);
+
+    // toggle handlers
+    container.addEventListener("click", (e) => {
+      const card = e.target.closest(".project-card");
+      if (!card) return;
+      toggleCard(card);
+    });
+    container.addEventListener("keydown", (e) => {
+      const card = e.target.closest(".project-card");
+      if (!card) return;
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleCard(card);
+      }
+    });
+
+    function toggleCard(card){
+      const open = card.classList.toggle("is-open");
+      card.setAttribute("aria-expanded", String(open));
+      // optional: close others
+      [...container.querySelectorAll(".project-card.is-open")].forEach(c=>{
+        if(c!==card){ c.classList.remove("is-open"); c.setAttribute("aria-expanded","false"); }
+      });
+    }
+
+    // keep your reveal helper if you use it
+    if (typeof addRevealTargets === "function") addRevealTargets(container);
   })();
+
+
 
   // ---------- IMAGES ----------
   (async function loadImages() {
