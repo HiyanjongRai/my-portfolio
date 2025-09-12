@@ -252,4 +252,27 @@ document.addEventListener("DOMContentLoaded", () => {
       if (e.target === lightbox) lightbox.style.display = "none";
     });
   })();
+
+
+  const openLightbox = (src, caption) => {
+  if (!lightbox || !lightboxImg || !lightboxCaption) return;
+  lightboxImg.src = src;
+  lightboxCaption.textContent = caption || "";
+  lightbox.classList.add("open");         
+  lightbox.style.display = "block";       
+
+  lightbox.scrollIntoView({ behavior: "smooth", block: "start" });
+};
+
+const closeLightbox = () => {
+  lightbox.classList.remove("open");
+  lightbox.style.display = "none";
+  lightboxImg.removeAttribute("src");
+};
+
+
+on(img, "click", () => openLightbox(`${apiUrl}/${id}`, desc));
+on(closeBtn, "click", closeLightbox);
+
+
 });
