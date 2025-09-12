@@ -1,4 +1,18 @@
 // JS/posts.js
+// preconnect-supabase.js
+(function addPreconnect(url) {
+  if (!url) return;
+  const make = (rel) => {
+    const link = document.createElement('link');
+    link.rel = rel;
+    link.href = url;
+    if (rel === 'preconnect') link.crossOrigin = '';
+    document.head.appendChild(link);
+  };
+  make('preconnect');
+  make('dns-prefetch');
+})('https://brzzpwmuixjslgnwlgvw.supabase.co');
+
 (() => {
   'use strict';
 
