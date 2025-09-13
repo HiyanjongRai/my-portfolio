@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gallery (auto-fit lightbox)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <!-- Styles -->
+  <link rel="stylesheet" href="./CSS/gallery.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="site-header">
+    <nav aria-label="Main">
+      <div class="logo">
+        <a href="index.html" aria-label="Go to homepage">
+          <h1>HIYAN JONG RAI</h1>
+        </a>
+      </div>
+
+      <!-- mobile open button -->
+      <div class="menu-toggle" id="menu-open" aria-label="Open menu" role="button" tabindex="0">☰</div>
+
+      <!-- Nav links -->
+      <ul id="nav-links" aria-label="Primary">
+        <li><span class="menu-close" id="menu-close" aria-label="Close menu" role="button" tabindex="0">✕</span></li>
+
+        <li><a href="index.html#about">About Me</a></li>
+        <li><a href="index.html#expertise">Expertise</a></li>
+        <li><a href="index.html#education">Education</a></li>
+        <li><a href="index.html#project">Projects</a></li>
+        <li><a href="./gallery.html" aria-current="page">My Gallery</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+
+        <!-- Login dropdown -->
+        <li class="login-dropdown">
+          <a href="#" id="login-toggle" aria-haspopup="true" aria-expanded="false">Login ▾</a>
+          <div class="dropdown-content" role="dialog" aria-label="Login form">
+            <form id="dropdown-login-form">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" placeholder="Username" required />
+
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Password" required />
+
+              <button type="submit">Login</button>
+              <div class="error" id="errorMsg"></div>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== PAGE TITLE ===== -->
+  <header class="page-head">
+    <h1>Gallery</h1>
+    <div class="sub">Hover or drag to preview the title. Click to open the image with details.</div>
+  </header>
+
+  <!-- ===== GALLERY ===== -->
+  <main>
+    <section class="gallery" id="gallery">
+      <div class="loading">Loading images, please wait…</div>
+    </section>
+  </main>
+
+  <!-- ===== LIGHTBOX ===== -->
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
+    <div class="sheet" role="document">
+      <button class="close" id="lb-close" aria-label="Close">✕</button>
+      <div class="media">
+        <img id="lb-img" class="fullimg" alt="" />
+      </div>
+      <div class="info">
+        <div class="title" id="lb-title"></div>
+        <div class="fulldesc" id="lb-desc"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="config.js" defer></script>
+  <script src="./JS/nav.js" defer></script>
+  <script src="./JS/gallery.js" defer></script>
+</body>
+</html>
