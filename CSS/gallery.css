@@ -115,8 +115,8 @@ main { padding:16px; }
 
 /* States */
 .loading,.empty,.error{
-  grid-column:1 / -1; text-align:center; padding:40px 10px; font-size:1.1rem; color:var(--muted);
-  border:1px dashed rgba(255,255,255,.18); border-radius:14px; background:rgba(255,255,255,.04);
+  grid-column:1 / -1; text-align:center; padding:40px 10px; font-size:1.1rem;
+  border-radius:14px; 
 }
 
 /* ===== Lightbox ===== */
