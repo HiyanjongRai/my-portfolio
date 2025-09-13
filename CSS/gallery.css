@@ -7,7 +7,6 @@
   --radius:16px;
 }
 
-/* Reset + base */
 *,
 *::before,
 *::after { box-sizing: border-box; }
@@ -29,7 +28,7 @@ main { padding:16px; }
 .site-header nav{
   height:auto; width:100%;
   display:flex; justify-content:space-between; align-items:center;
-  padding:18px;
+  padding: 5px;
   background-color:rgba(0,49,83,0.85);
   backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);

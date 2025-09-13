@@ -252,13 +252,53 @@
   </div>
 
 
-  <!-- Projects -->
 <div class="card web reveal">
   <section class="project" id="project">
     <h1>My Projects</h1>
+
+    <!-- Loading message -->
+    <div id="loading-message">Project is loading, please wait...</div>
+
+    <!-- Container for projects -->
     <section class="projects" id="projects-container"></section>
   </section>
 </div>
+
+<script>
+  const loadingMessage = document.getElementById("loading-message");
+  const projectsContainer = document.getElementById("projects-container");
+
+  // Show loading message initially
+  loadingMessage.style.display = "block";
+
+  // Example: simulate fetching projects with timeout
+  setTimeout(() => {
+    // hide loading
+    loadingMessage.style.display = "none";
+
+    // show projects (replace this with your real fetch logic)
+    projectsContainer.innerHTML = `
+      <div class="project-card">Project 1</div>
+      <div class="project-card">Project 2</div>
+    `;
+  }, 2000); // simulate 2s delay
+</script>
+
+<style>
+  #loading-message {
+    text-align: center;
+    font-size: 1.1rem;
+    color: white;
+    padding: 15px 0;
+  }
+  .project-card {
+    background: #f7f7f7;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 6px;
+    text-align: center;
+  }
+</style>
 
 
 
