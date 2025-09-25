@@ -1,5 +1,4 @@
-// main.js
-// preconnect-supabase.js
+
 (function addPreconnect(url) {
   if (!url) return;
   const make = (rel) => {
@@ -77,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("username", data.username || username);
         window.location.href = "dashboard.html";
       } else {
-        errorMsg.textContent = data.error || `Login failed (HTTP ${res.status}).`;
+        errorMsg.textContent = data.error || `Login failed (Please Check your Details).`;
       }
     } catch (err) {
       console.error(err);

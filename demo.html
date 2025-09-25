@@ -1,4 +1,3 @@
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,7 +15,6 @@
   <link rel="stylesheet" href="./CSS/style.css" />
   <link rel="stylesheet" href="./CSS/responsive.css">
   <link rel="stylesheet" href="./CSS/animited.css">
-  <link rel="stylesheet" href="./CSS/hero.css">
 
   <!-- Title -->
   <title>Portfolio • Hiyan Jong Rai</title>
@@ -72,33 +70,21 @@
 </header>
 
 <main>
-  <section id="home" class="hero">
-    <div class="hero-track" id="heroTrack">
-      <div class="hero-slide" data-bg="images/me (1).jpg"></div>
-      <div class="hero-slide" data-bg="images/me.jpg"></div>
-      <div class="hero-slide" data-bg="images/me (3).jpg"></div>
-    </div>
 
-    <div class="hero-inner">
-      <span class="eyebrow">Udayapur • Nepal</span>
-      <h1 class="title">Hi, I’m Hiyan Jong Rai</h1>
-      <div class="typed" id="typed" aria-live="polite"></div>
-      <p class="lead">I build clean, reliable web apps with Spring Boot, PostgreSQL/MySQL, and solid HTML/CSS.</p>
-    </div>
+  <!-- Hero / Intro -->
+  <div class="card web reveal">
+    <section class="container">
+      <div class="container-text">
+        <h1>Hello,</h1>
+        <h2>I'm Hiyan Jong Rai</h2>
+      </div>
 
-    <!-- side arrows -->
-    <button class="nav-btn prev" id="prevBtn" aria-label="Previous slide">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <button class="nav-btn next" id="nextBtn" aria-label="Next slide">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </section>
 
+      <div class="container-image">
+        <img src="./images/me (5).png" alt="Portrait of Hiyan Jong Rai, software developer" />
+      </div>
+    </section>
+  </div>
 
   <!-- About Me -->
   <div class="card web reveal">
@@ -451,7 +437,6 @@
 </footer>
 
 <script src="./config.js"></script>
-<script src="/JS/hero.js" defer></script>
 <script src="./JS/index.js" defer></script>
 </body>
 </html>

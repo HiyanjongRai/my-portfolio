@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hiyan Jong Rai • Calvin-style Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{
+      --bg:#0a0e13; --text:#eaf2ff; --muted:#a6b2c3;
+      --brand:#2d96b1; --brand2:#7bdff6;
+      --shadow:0 14px 36px rgba(0,0,0,.34);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Poppins,system-ui,Segoe UI,Roboto,Arial}
+    img{max-width:100%;display:block}
+    a{color:#bff1ff;text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* ===== Hero with background image ===== */
+    .hero{
+      min-height:92dvh;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      background:linear-gradient(rgba(10,14,19,.78), rgba(10,14,19,.85)), 
+                 url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop") center/cover no-repeat;
+    }
+    .hero-inner{display:grid;gap:1rem;place-items:center;padding:2rem}
+    .eyebrow{letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#cfefff}
+    .title{margin:.2rem 0 0;font-weight:700;font-size:clamp(1.6rem,4.6vw,3rem)}
+    .typed{font-weight:600;color:#9fe6ff;min-height:1.4em}
+    .lead{color:var(--muted);max-width:60ch}
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container hero-inner reveal">
+      <span class="eyebrow">Backend Developer • BCA Student</span>
+      <h2 class="title">Hi, I’m Hiyan Jong Rai</h2>
+      <div class="typed" id="typed"></div>
+      <p class="lead">
+        Based in Kathmandu, originally from Udayapur. I build clean, reliable web apps with Spring Boot, PostgreSQL/MySQL, and solid HTML/CSS. 
+        Currently interning at <strong>KritimMind Technology</strong>.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const phrases=[
+      'Backend Developer',
+      'Spring Boot + PostgreSQL',
+      'Clean APIs. Simple UX.',
+      'Based in Kathmandu'
+    ];
+    const typedEl=document.getElementById('typed');
+    let pi=0, ci=0, dir=1;
+    function tick(){
+      const full=phrases[pi];
+      ci+=dir;
+      typedEl.textContent=full.slice(0,ci);
+      if(ci===full.length){ dir=-1; setTimeout(tick, 1400); return; }
+      if(ci===0){ dir=1; pi=(pi+1)%phrases.length; }
+      setTimeout(tick, dir>0? 80 : 40);
+    }
+    tick();
+  </script>
+</body>
+</html>
