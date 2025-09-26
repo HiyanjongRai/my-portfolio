@@ -73,3 +73,18 @@
   }
   init();
 })();
+
+
+const loadingMessage = document.getElementById("loading-message");
+  const projectsContainer = document.getElementById("projects-container");
+
+  // Show loading message initially
+  loadingMessage.style.display = "block";
+
+  // Example: simulate fetching projects with timeout
+  setTimeout(() => {
+    // hide loading
+    loadingMessage.style.display = "none";
+
+ 
+  }, 2000);

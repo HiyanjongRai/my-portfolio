@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -14,15 +14,19 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="./CSS/style.css" />
+  <link rel="stylesheet" href="./CSS/navbar.css" />
   <link rel="stylesheet" href="./CSS/responsive.css">
   <link rel="stylesheet" href="./CSS/animited.css">
   <link rel="stylesheet" href="./CSS/hero.css">
+  <link rel="stylesheet" href="./CSS/education.css">
+  <link rel="stylesheet" href="./CSS/expertise.css">
+  <link rel="stylesheet" href="./CSS/aboutus.css">
 
   <!-- Title -->
   <title>Portfolio • Hiyan Jong Rai</title>
 
 
-  <link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
+<link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
 <link rel="dns-prefetch" href="https://brzzpwmuixjslgnwlgvw.supabase.co">
 
 
@@ -30,46 +34,54 @@
 
 <body>
 
+
 <header>
   <nav aria-label="Main">
-    <div class="logo">
-      <a href="index.html" aria-label="Go to homepage">
-        <h1>HIYAN JONG RAI</h1>
-      </a>
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="logo">
+        <a href="index.html" aria-label="Go to homepage">
+          <h1>HIYAN JONG RAI</h1>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="menu-toggle" id="menu-open">☰</div>
+
+      <!-- Navigation Links -->
+      <ul id="nav-links">
+        <li><span class="menu-close" id="menu-close">✕</span></li>
+        <li><a href="#about">About Me</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#project">Projects</a></li>
+        <li><a href="./gallery.html">My Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+
+        <!-- Login dropdown -->
+        <li class="login-dropdown">
+          <a href="#" id="login-toggle">Login ▾</a>
+          <div class="dropdown-content">
+            <form id="dropdown-login-form">
+              <label for="username">Username or Email</label>
+              <input type="text" id="username" name="username" placeholder="Enter username or email" required>
+
+              <label for="password">Password</label>
+              <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                <span class="toggle-password" id="togglePassword">👁</span>
+              </div>
+
+              <button type="submit">Login</button>
+              <div class="error" id="errorMsg"></div>
+            </form>
+          </div>
+        </li>
+      </ul>
     </div>
-
-    <div class="menu-toggle" id="menu-open">☰</div>
-
-    <!-- Nav links -->
-    <ul id="nav-links">
-      <li><span class="menu-close" id="menu-close">✕</span></li>
-
-      <li><a href="#about">About Me</a></li>
-      <li><a href="#expertise">Expertise</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#project">Projects</a></li>
-      <li><a href="./gallery.html">My Gallery</a></li>
-      <li><a href="#contact">Contact</a></li>
-
-      <!-- Login dropdown -->
-      <li class="login-dropdown">
-        <a href="#" id="login-toggle">Login ▾</a>
-        <div class="dropdown-content">
-          <form id="dropdown-login-form">
-            <label for="username">Username or Email</label>
-            <input type="text" id="username" name="username" placeholder="Enter username or email" required>
-
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter Password" required>
-
-            <button type="submit">Login</button>
-            <div class="error" id="errorMsg"></div>
-          </form>
-        </div>
-      </li>
-    </ul>
   </nav>
 </header>
+
 
 <main>
   <section id="home" class="hero">
@@ -100,170 +112,251 @@
   </section>
 
 
-  <!-- About Me -->
-  <div class="card web reveal">
-    <section class="about-section" id="about">
-      <div class="about">
-        <h2>About Me</h2>
-      </div>
 
-      <div class="about-container">
-        <div class="about-me">
-          <h3>About Me ?</h3>
-          <p>Hi, I'm Hiyanjong Rai<br />A passionate learner and a BCA student at Tribhuvan University. I enjoy turning ideas into real-world applications.</p>
-          <p>I'm originally from Udayapur, Nepal, but I'm currently based in Kathmandu for my studies.</p>
-          <p>I'm currently doing an internship at KritimMind Technology.</p>
-          <p>Over the past few years, I've created projects ranging from e-commerce platforms to emergency service apps, as well as event management systems, parcel delivery systems, and task boards.
-            I have a strong interest in both frontend and backend development. I enjoy exploring how user interfaces are designed and function, while also diving into the backend to understand the logic, processes, and data handling that make everything work together.</p>
+  <!-- About Me -->
+ <section id="about" class="about-section">
+  <!-- Section heading -->
+  <div class="about-title">
+    <h2>About Me</h2>
+    <span class="line"></span>
+  </div>
+
+  <div class="about-grid">
+    <!-- LEFT -->
+    <aside class="about-left">
+      <figure class="avatar">
+        <img src="images/me.jpg" alt="Hiyan Jong Rai portrait">
+      </figure>
+
+      <ul class="facts">
+        <li><strong>Job Role:</strong> Backend / Full-stack</li>
+        <li><strong>Experience:</strong> 3+ Years (projects & internship)</li>
+        <li><strong>Address:</strong> Kathmandu, Nepal</li>
+      </ul>
+
+      <h3 class="skills-title">Skills</h3>
+
+      <div class="bar">
+        <div class="bar-top"><span>SQL</span><b>95%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:95%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>Python</span><b>85%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:85%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>Data Visualization</span><b>90%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:90%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>Statistical Analysis</span><b>85%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:85%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>Machine Learning</span><b>80%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:80%"></i></div>
+      </div>
+    </aside>
+
+    <!-- RIGHT -->
+    <section class="about-right">
+      <p class="lead">
+        Hi, I’m <strong>Hiyan Jong Rai</strong> — a BCA student at Tribhuvan University and a developer who likes turning ideas into clean, working software.  
+        I’m from Udayapur, currently based in Kathmandu, and interning at <strong>KritimMind Technology</strong>.
+      </p>
+      <p>
+        I’ve built e-commerce platforms, emergency-service apps, event managers, parcel systems, and task boards. I enjoy both the UI side and the backend:
+        Spring Boot, PostgreSQL/MySQL, and solid HTML/CSS.
+      </p>
+
+      <dl class="profile">
+        <div><dt>Profile:</dt><dd>Data / Backend • Analytics</dd></div>
+        <div><dt>Domain:</dt><dd>Retail, E-commerce, BFSI, Digital</dd></div>
+        <div><dt>Education:</dt><dd>Bachelor in Computer Applications</dd></div>
+        <div><dt>Languages:</dt><dd>English, Nepali, Hindi</dd></div>
+        <div><dt>Tech:</dt><dd>Spring Boot, PostgreSQL, MySQL, HTML/CSS</dd></div>
+        <div><dt>Other:</dt><dd>Git, Jira, Google Analytics</dd></div>
+      </dl>
+
+      <div class="metrics">
+        <div class="metric">
+          <b class="count" data-target="30">0</b>
+          <span>+ Projects completed</span>
         </div>
       </div>
+
+      <a class="btn badge" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
     </section>
   </div>
+</section>
 
-  <!-- Expertise Section -->
-  <div class="card web reveal">
-    <section class="text" id="expertise">
-      <h1> My Expertise </h1>
-    </section>
+<!-- Expertise -->
+ <div class="card web reveal">
+  <section class="xp-section" aria-label="My Expertise" id="expertise">
+  <div class="xp-header">
+    <h2>My Expertise</h2>
+    <p>
+      Showcasing a comprehensive skill set in modern technology and creative
+      solutions, I bring a blend of technical prowess and innovative thinking to every project.
+    </p>
   </div>
 
-  <div class="card web reveal">
-    <section class="description">
-      <p><strong>About My Expertise</strong><br/>
-        I have strong knowledge of HTML, CSS, basic JavaScript, PHP, and Java. I’ve created several projects demonstrating my skills, ranging from web development to database-driven applications. Currently, I’m interning at KritimMind Technology in Kathmandu, where I’m gaining hands-on experience as a Back-End Developer, learning to optimize websites, create logic for the frontend and improve their visibility online. I enjoy combining technical skills with creativity to deliver practical and impactful solutions.
+  <div class="xp-grid">
+    <!-- Web Development -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- code brackets -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M12 4l-1 16" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Web Development</h3>
+      <p class="xp-copy">
+        Building responsive, high-performance web apps with modern frameworks and robust backend solutions.
       </p>
-    </section>
+    </article>
+
+    <!-- UI/UX Design -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- pencil -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 21l3.5-.6L20.4 6.5a2.1 2.1 0 0 0 0-3L18.6 1.7a2.1 2.1 0 0 0-3 0L4.9 12.4 4.3 16.1 3 21z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M14.5 4.5l5 5" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">UI/UX Design</h3>
+      <p class="xp-copy">
+        Crafting intuitive, aesthetically pleasing interfaces that deliver exceptional user experiences.
+      </p>
+    </article>
+
+    <!-- Cloud Architecture -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- cloud -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M7 18h9a4 4 0 0 0 0-8 6 6 0 0 0-11.7 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Cloud Architecture</h3>
+      <p class="xp-copy">
+        Designing and deploying scalable, secure, cost-effective cloud infrastructure on leading platforms.
+      </p>
+    </article>
+
+    <!-- Data Management -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- database -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <ellipse cx="12" cy="5" rx="7" ry="3.5" stroke-width="1.6"/>
+          <path d="M5 5v6c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5V5M5 11v6c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5v-6" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Data Management</h3>
+      <p class="xp-copy">
+        Implementing efficient database solutions and managing complex datasets for analytics and operations.
+      </p>
+    </article>
+
+    <!-- Cybersecurity -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- shield -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9.5 12.5l1.8 1.8 3.7-3.7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Cybersecurity</h3>
+      <p class="xp-copy">
+        Ensuring digital asset protection through layered security strategies and proactive threat mitigation.
+      </p>
+    </article>
+
+    <!-- DevOps Automation -->
+    <article class="xp-card">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- settings/gear -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke-width="1.6"/>
+          <path d="M19 12a7 7 0 0 0-.2-1.6l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-2.8-1.6l-.3-2.7h-4l-.3 2.7a7 7 0 0 0-2.8 1.6l-2.5-1-2 3.4 2.1 1.6A7 7 0 0 0 5 12c0 .5.1 1.1.2 1.6L3.1 15.2l2 3.4 2.5-1a7 7 0 0 0 2.8 1.6l.3 2.7h4l.3-2.7a7 7 0 0 0 2.8-1.6l2.5 1 2-3.4-2.1-1.6c.1-.5.1-1.1.1-1.6z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">DevOps Automation</h3>
+      <p class="xp-copy">
+        Streamlining development & operations with CI/CD, observability, and reliable deployment pipelines.
+      </p>
+    </article>
   </div>
+</section>
 
-  <div class="expertise" id="expertise-heading">
-    <!-- Web Design -->
-    <div class="card web reveal" role="button" aria-expanded="false" tabindex="0" style="--reveal-delay: 0">
-      <span class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-browser-edge" viewBox="0 0 16 16">
-          <path d="M9.482 9.341c-.069.062-.17.153-.17.309 0 .162.107.325.3.456.877.613 2.521.54 2.592.538h.002c.667 0 1.32-.18 1.894-.519A3.84 3.84 0 0 0 16 6.819c.018-1.316-.44-2.218-.666-2.664l-.04-.08C13.963 1.487 11.106 0 8 0A8 8 0 0 0 .473 5.29C1.488 4.048 3.183 3.262 5 3.262c2.83 0 5.01 1.885 5.01 4.797h-.004v.002c0 .338-.168.832-.487 1.244l.006-.006z"/>
-          <path d="M.01 7.753a8.14 8.14 0 0 0 .753 3.641 8 8 0 0 0 6.495 4.564 5 5 0 0 1-.785-.377h-.01l-.12-.075a5.5 5.5 0 0 1-1.56-1.463A5.543 5.543 0 0 1 6.81 5.8l.01-.004.025-.012c.208-.098.62-.292 1.167-.285q.194.001.384.033a4 4 0 0 0-.993-.698l-.01-.005C6.348 4.282 5.199 4.263 5 4.263c-2.44 0-4.824 1.634-4.99 3.49m10.263 7.912q.133-.04.265-.084-.153.047-.307.086z"/>
-          <path d="M10.228 15.667a5 5 0 0 0 .303-.086l.082-.025a8.02 8.02 0 0 0 4.162-3.3.25.25 0 0 0-.331-.35q-.322.168-.663.294a6.4 6.4 0 0 1-2.243.4c-2.957 0-5.532-2.031-5.532-4.644q.003-.203.046-.399a4.54 4.54 0 0 0-.46 5.898l.003.005c.315.441.707.821 1.158 1.121h.003l.144.09c.877.55 1.721 1.078 3.328.996"/>
-        </svg>
-      </span>
-      <h4>Web Design</h4>
-      <div class="details">
-        <p>I have a strong foundation in HTML and CSS, and I’m currently learning JavaScript to enhance my skills in building interactive and dynamic web applications.</p>
-      </div>
-    </div>
 
-    <!-- Backend -->
-    <div class="card backend reveal" role="button" aria-expanded="false" tabindex="0" style="--reveal-delay: 120">
-      <span class="icon">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-filetype-java" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.521 15.175a1.3 1.3 0 0 1-.082-.466h.765a.6.6 0 0 0 .073.27.5.5 0 0 0 .454.246q.285 0 .422-.164.138-.165.138-.466V11.85h.79v2.725q0 .66-.357 1.005-.354.345-.984.345a1.6 1.6 0 0 1-.568-.094 1.1 1.1 0 0 1-.408-.266 1.1 1.1 0 0 1-.243-.39m3.972-.354-.314 1.028h-.8l1.342-3.999h.926l1.336 3.999h-.84l-.314-1.028zm1.178-.59-.49-1.616h-.035l-.49 1.617zm2.342 1.618h.952l1.327-3.999h-.878l-.888 3.138h-.038L8.59 11.85h-.917zm3.087-1.028-.314 1.028h-.8l1.342-3.999h.926l1.336 3.999h-.84l-.314-1.028zm1.178-.59-.49-1.616h-.035l-.49 1.617z"/>
-        </svg>
-      </span>
-      <h4>Spring Boot</h4>
-      <div class="details">
-        <p>I’m currently working as a Backend Developer at KritimMind Technology, specializing in the Spring Boot Java framework. I focus on building efficient, secure, and scalable backend systems, and I’m continuously expanding my expertise in Java and backend development.</p>
-      </div>
-    </div>
-
-    <!-- PHP -->
-    <div class="card php reveal" role="button" aria-expanded="false" tabindex="0" style="--reveal-delay: 240">
-      <span class="icon">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-filetype-php" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.182.185.522m4.48 2.666V11.85h-.79v1.626H4.153V11.85h-.79v3.999h.79v-1.714h1.682v1.714zm.703-3.999h1.6q.433 0 .732.179.3.175.46.477.158.302.158.677t-.161.677q-.159.299-.463.474a1.45 1.45 0 0 1-.733.173H8.12v1.342h-.791zm2.06 1.714a.8.8 0 0 0 .084-.381q0-.34-.184-.521-.184-.182-.513-.182h-.66v1.406h.66a.8.8 0 0 0 .375-.082.57.57 0 0 0 .237-.24Z"/>
-        </svg>
-      </span>
-      <h4>PHP</h4>
-      <div class="details">
-        <p>I created an e-commerce project in my 4th semester using PHP, and I have experience building efficient and scalable systems using MySQL.</p>
-      </div>
-    </div>
-
-    <!-- Database -->
-    <div class="card mysql reveal" role="button" aria-expanded="false" tabindex="0" style="--reveal-delay: 360">
-      <span class="icon">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 640 640"> 
-          <path fill="white" d="M544 269.8C529.2 279.6 512.2 287.5 494.5 293.8C447.5 310.6 385.8 320 320 320C254.2 320 192.4 310.5 145.5 293.8C127.9 287.5 110.8 279.6 96 269.8L96 352C96 396.2 196.3 432 320 432C443.7 432 544 396.2 544 352L544 269.8zM544 192L544 144C544 99.8 443.7 64 320 64C196.3 64 96 99.8 96 144L96 192C96 236.2 196.3 272 320 272C443.7 272 544 236.2 544 192zM494.5 453.8C447.6 470.5 385.9 480 320 480C254.1 480 192.4 470.5 145.5 453.8C127.9 447.5 110.8 439.6 96 429.8L96 496C96 540.2 196.3 576 320 576C443.7 576 544 540.2 544 496L544 429.8C529.2 439.6 512.2 447.5 494.5 453.8z"/>
-        </svg>  
-      </span>
-      <h4>Database</h4>
-      <div class="details">
-        <p>I’m currently working at KritimMind Technology with the Spring Boot Java framework, building efficient, secure, and scalable systems using PostgreSQL and MySQL, while continuously expanding my expertise in Java and application development.</p>
-      </div>
-    </div>
-  </div>
 
 <!-- Education -->
   <div class="card web reveal">
-    <section class="education-section" id="education">
-      <h2>Education</h2>
+  <section class="education-section" id="education">
+    <h2>Education</h2>
+     <p class="edu-desc">
+      A journey of continuous learning and growth, blending academic knowledge with practical skills.
+    </p>
+    <div class="edu-grid">
 
-      <div class="edu-card-full">
-        <ol class="edu-date">
-          <li class="edu-card reveal">
-            <div class="edu-body">
-              <div class="edu-title">
-                <div>
-                  <h3>Secondary Education Examination (Class 10)</h3>
-                  <p class="edu-location">Crimson Academy • Udayapur, Nepal</p>
-                </div>
-                <div class="edu-desc">
-                  <span class="chip">2072 – 2076</span>
-                  <span class="chip">GPA 3.50</span>
-                </div>
-              </div>
-              <p class="edu-discription">Completed core subjects with strong academic performance.</p>
-              <ul class="edu-list">
-                <li>Foundation in Science, Math, Computer Science, and Social Studies</li>
-                <li>Exam-focused study habits and discipline</li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="edu-card reveal">
-            <div class="edu-body">
-              <div class="edu-title">
-                <div>
-                  <h3>Higher Secondary Education (+2)</h3>
-                  <p class="edu-location">Triyuga Janta Multiple Campus • Udayapur, Nepal</p>
-                </div>
-                <div class="edu-desc">
-                  <span class="chip">2077 – 2079</span>
-                  <span class="chip">GPA 2.49</span>
-                </div>
-              </div>
-              <p class="edu-discription">Balanced academic track with project and activity participation.</p>
-              <ul class="edu-list">
-                <li>Accounting, English, Computer Science, Social Studies</li>
-                <li>Collaborated on coursework and small projects</li>
-              </ul>
-            </div>
-          </li>
-
-          <li class="edu-card reveal">
-            <div class="edu-body">
-              <div class="edu-title">
-                <div>
-                  <h3>Bachelor’s Degree (BCA)</h3>
-                  <p class="edu-location">Aadim National College • Kathmandu, Nepal</p>
-                </div>
-                <div class="edu-desc">
-                  <span class="chip">2079 – Present</span>
-                  <span class="chip">Ongoing</span>
-                </div>
-              </div>
-              <p class="edu-discription">Balanced academics and skills improvement.</p>
-              <ul class="edu-list">
-                <li>Coursework: CMS, programming, databases, web technologies</li>
-                <li>Projects: e-commerce, emergency services, event & parcel systems</li>
-              </ul>
-            </div>
-          </li>
-        </ol>
+      <!-- Row 1 -->
+      <div class="edu-card reveal">
+        <h3 class="edu-year">Up to Class 5</h3>
+        <h4 class="edu-degree">Primary Education</h4>
+        <p class="edu-school">Puspanjali Shishu Batika Boarding School • Gaighat, Udayapur, Nepal</p>
+        <p class="edu-grade">Completed Foundation Level</p>
+        <p class="edu-desc">Early schooling focused on building strong basics in language, math, and science.</p>
+        <ul class="edu-list">
+          <li>Introduction to Nepali, English, Math, Science</li>
+          <li>Developed reading, writing, and foundational skills</li>
+        </ul>
       </div>
-    </section>
-  </div>
+
+      <div class="edu-card reveal">
+        <h3 class="edu-year">2072 – 2076</h3>
+        <h4 class="edu-degree">Secondary Education Examination (Class 10)</h4>
+        <p class="edu-school">Crimson Academy • Udayapur, Nepal</p>
+        <p class="edu-grade">GPA: 3.50</p>
+        <p class="edu-desc">Completed core subjects with strong academic performance.</p>
+        <ul class="edu-list">
+          <li>Science, Math, Computer Science, Social Studies</li>
+          <li>Exam-focused study habits and discipline</li>
+        </ul>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="edu-card reveal">
+        <h3 class="edu-year">2077 – 2079</h3>
+        <h4 class="edu-degree">Higher Secondary Education (+2)</h4>
+        <p class="edu-school">Triyuga Janta Multiple Campus • Udayapur, Nepal</p>
+        <p class="edu-grade">GPA: 2.49</p>
+        <p class="edu-desc">Balanced academic track with project and activity participation.</p>
+        <ul class="edu-list">
+          <li>Accounting, English, Computer Science, Social Studies</li>
+          <li>Collaborated on coursework and small projects</li>
+        </ul>
+      </div>
+
+      <div class="edu-card reveal">
+        <h3 class="edu-year">2079 – Present</h3>
+        <h4 class="edu-degree">Bachelor’s Degree (BCA)</h4>
+        <p class="edu-school">Aadim National College • Kathmandu, Nepal</p>
+        <p class="edu-grade">Status: Ongoing</p>
+        <p class="edu-desc">Balanced academics and skills improvement.</p>
+        <ul class="edu-list">
+          <li>CMS, Programming, Databases, Web Technologies</li>
+          <li>Projects: E-commerce, Emergency services, Event & parcel systems</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</div>
+
 
 
 <div class="card web reveal">
@@ -275,30 +368,6 @@
 </div>
 </div>
 
-<script>
-  const loadingMessage = document.getElementById("loading-message");
-  const projectsContainer = document.getElementById("projects-container");
-
-  // Show loading message initially
-  loadingMessage.style.display = "block";
-
-  // Example: simulate fetching projects with timeout
-  setTimeout(() => {
-    // hide loading
-    loadingMessage.style.display = "none";
-
- 
-  }, 2000); // simulate 2s delay
-</script>
-
-<style>
-  #loading-message {
-    text-align: center;
-    font-size: 1.1rem;
-    color: white;
-    padding: 15px 0;
-  }
-</style>
 
 
 
@@ -329,101 +398,6 @@
   </div>
 </div>
 
-<style>
-  /* Popup background */
-  .popup {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-  }
-
-  /* Popup box */
-  .popup-content {
-    background: #fff;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 400px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-  }
-
-  /* Button */
-  #close-popup {
-    margin-top: 15px;
-    padding: 8px 15px;
-    border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  /* Message colors */
-  #popup-message.success { color: green; }
-  #popup-message.error { color: red; }
-  #popup-message.warning { color: orange; }
-
-  /* Optional: Form styling */
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-  }
-
-  .send-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  .send-button i {
-    margin-right: 5px;
-  }
-</style>
-
-<script>
-  const form = document.getElementById("contact-form");
-  const popup = document.getElementById("thankyou-popup");
-  const popupMessage = document.getElementById("popup-message");
-  const closePopup = document.getElementById("close-popup");
-
-  form.addEventListener("submit", function(e) {
-    e.preventDefault(); 
-    
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
-
-    if(name && email && message){
-      
-      popupMessage.className = "success";
-      popupMessage.innerHTML = ` Thank you, <b>${name}</b>!<br>Your message has been received. please wait till i check it `;
-    } else {
-
-      popupMessage.className = "warning";
-      popupMessage.innerHTML = "⚠️ Please fill all fields!";
-    }
-
-
-    popup.style.display = "flex";
-
-   
-    if(popupMessage.className === "success") form.reset();
-  });
-
-  closePopup.addEventListener("click", function() {
-    popup.style.display = "none";
-  });
-</script>
-
 
       <!-- Info -->
       <div class="contact-card reveal">
@@ -446,12 +420,19 @@
 </main>
 
 <!-- Footer -->
-<footer style="text-align:center; padding:15px; background:#003153; margin-top:10px;">
+<footer style="text-align:center; padding:15px; background: black; margin-top:10px; color: white;">
   All rights reserved by @Hiyanjongrai 2025
 </footer>
 
 <script src="./config.js"></script>
 <script src="/JS/hero.js" defer></script>
 <script src="./JS/index.js" defer></script>
+<script src="./JS/education.js" defer></script>
+<script src="./JS/expertise.js" defer></script>
+<script src="./JS/project.js" defer></script>
+<script src="./JS/gallery.js" defer></script>
+<script src="./JS/aboutus.js" defer></script>
+<script src="./JS/form.js" defer></script>
+<script src="./JS/nav.js" defer></script>
 </body>
 </html>
