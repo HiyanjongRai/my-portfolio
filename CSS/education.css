@@ -64,11 +64,7 @@
   box-shadow: 0 6px 20px rgba(0,0,0,.45);
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-.edu-card:hover {
-  transform: translateY(-4px);
-  border-color: #fbbf24;
-  box-shadow: 0 10px 30px rgba(0,0,0,.6);
-}
+
 
 /* Year */
 .edu-year {
