@@ -5,8 +5,8 @@
       const phrases = [
         'Backend Developer',
         'BCA Student',
-        'Spring Boot • PostgreSQL',
-        'Clean APIs • Simple UX'
+        'SEO Executive',
+        'Intern'
       ];
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches){
