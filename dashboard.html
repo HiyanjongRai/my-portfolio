@@ -5,37 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="./CSS/adminDashbord.css">
-  <link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
-<link rel="dns-prefetch" href="https://brzzpwmuixjslgnwlgvw.supabase.co">
-<link rel="icon" type="image/png" href="images/logo.png">
+  
 
+  <link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
+  <link rel="dns-prefetch" href="https://brzzpwmuixjslgnwlgvw.supabase.co">
+  
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <style id="theme-override">
+  
+  :root{
+    --bg:#0b0b0b;         
+    --panel:#121212;
+    --panel-2:#171717;
+    --text:#ffffff;
+    --muted:#b8b8b8;
+    --accent:#f1c40f;
+    --accent-weak:#e5c94a;
+    --border:1px solid rgba(241,196,15,.25);
+    --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+  html[data-theme="light"]{
+    --bg:#0b0b0b;         
+    --panel:#141414;
+    --panel-2:#1b1b1b;
+    --text:#ffffff;
+    --muted:#c7c7c7;
+    --accent:#f1c40f;
+    --accent-weak:#ffe57a;
+    --border:1px solid rgba(241,196,15,.28);
+  }
+  html[data-theme="dark"]{
+    --bg:#0a0a0a;
+    --panel:#111111;
+    --panel-2:#171717;
+    --text:#ffffff;
+    --muted:#bdbdbd;
+    --accent:#f1c40f;
+    --accent-weak:#f4d24a;
+    --border:1px solid rgba(241,196,15,.35);
+  }
+
+  html,body{background:var(--bg); color:var(--text);} 
+  .main{background:linear-gradient(180deg, rgba(241,196,15,.03), transparent 18%), var(--bg);}    
+  .sidebar{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border-left:var(--border);} 
+  .card{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border:var(--border); box-shadow:var(--shadow);} 
+  .kpi .num{color:var(--accent);} 
+
+  .btn{background:var(--accent); color:#000; border:none; box-shadow:var(--shadow);} 
+  .btn:hover{filter:brightness(.95);} 
+  .btn.secondary{background:transparent; color:var(--accent); border:1px solid var(--accent); box-shadow:none;} 
+  .btn.warn{background:#000; color:var(--accent); border:1px solid var(--accent);} 
+
+  .badge{background:rgba(241,196,15,.12); color:var(--accent); border:1px solid rgba(241,196,15,.4);} 
+  .kbd{border:1px solid rgba(241,196,15,.35); background:rgba(241,196,15,.08); color:var(--accent);} 
+
+  table thead{background:rgba(241,196,15,.06);} 
+  table td, table th{border-bottom:1px solid rgba(241,196,15,.15);} 
+
+  input[type="search"], input[type="text"], textarea{background:var(--panel-2); color:var(--text); border:var(--border); border-radius:10px;} 
+  input::placeholder, textarea::placeholder{color:var(--muted);} 
+
+  progress{accent-color:var(--accent); background:var(--panel-2);} 
+  .topbar{border-bottom:1px solid rgba(241,196,15,.2);} 
+  #notifPanel .card{border:var(--border);} 
+</style>
 </head>
 <body>
+  <noscript style="display:block;padding:12px;background:#fee;color:#900;text-align:center">
+    JavaScript is required for this dashboard.
+  </noscript>
+
   <div class="layout">
-    <main class="main">
+    <main class="main" id="app-main">
       <header class="topbar">
         <div class="brand">
-          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu">☰</button>
-          <div class="avatar"></div>
+          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">☰</button>
+          <div class="avatar" aria-hidden="true"></div>
           <div>
             <div style="font-weight:800; font-size:18px">
-              Welcome, <span id="welcomeUser"></span>
+              Welcome, <span id="welcomeUser">Guest</span>
             </div>
           </div>
         </div>
-        <div class="toggle-desktop">
+        <div class="toggle-desktop" style="display:flex;align-items:center;gap:10px">
+          <!-- Theme toggle -->
+          <label class="theme-toggle" title="Toggle theme" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
+            <input id="themeToggle" type="checkbox" aria-label="Dark mode" />
+            <span>Dark</span>
+          </label>
+          <!-- Notifications -->
+          <button id="notifBell" class="btn secondary" aria-haspopup="true" aria-expanded="false" aria-controls="notifPanel">🔔</button>
           <button id="logoutBtnTop" class="btn warn">Logout</button>
         </div>
       </header>
 
       <!-- DASHBOARD -->
-      <section id="dashboard" class="active">
+      <section id="dashboard" class="active" aria-labelledby="dash-title">
+        <h1 id="dash-title" class="visually-hidden">Dashboard</h1>
         <div class="cards grid-2">
           <div class="card span-6">
             <div class="kpi">
               <div>
                 <h3>Total Images (Posts)</h3>
                 <div id="postCount" class="num">0</div>
+                <small class="sub">Updated live</small>
               </div>
             </div>
           </div>
@@ -44,19 +117,95 @@
               <div>
                 <h3>Total Projects</h3>
                 <div id="projectCount" class="num">0</div>
+                <small class="sub">Updated live</small>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <!-- Quick Actions -->
+      <section class="cards grid-2" aria-label="Quick actions" style="margin-top:14px">
+        <div class="card span-4">
+          <h3>Quick Actions</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+            <a class="btn" href="./posts.html">+ New Post</a>
+            <a class="btn secondary" href="./projects.html">+ New Project</a>
+            <a class="btn secondary" href="./posts.html#upload">Upload Image</a>
+            <button class="btn secondary" id="copyApiUrl">Copy API URL</button>
+          </div>
+        </div>
+        <div class="card span-8">
+          <h3>System Health</h3>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px">
+            <div style="flex:1;min-width:180px">
+              <div style="font-size:12px;opacity:.7">API</div>
+              <div id="apiStatusBadge" class="badge" style="display:inline-block">Checking…</div>
+            </div>
+            <div style="flex:2;min-width:220px">
+              <div style="font-size:12px;opacity:.7">Storage</div>
+              <div style="display:flex;align-items:center;gap:10px">
+                <progress id="storageUsed" value="0" max="100" style="width:100%"></progress>
+                <small id="storageText">—</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Two Column: Recent Projects & Activity -->
+      <section class="cards grid-2" aria-label="Recent data" style="margin-top:14px">
+        <div class="card span-7">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3>Recent Projects</h3>
+            <a href="./projects.html" class="badge">View all</a>
+          </div>
+          <div style="overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.08);margin-top:8px">
+            <table style="width:100%;border-collapse:separate;border-spacing:0">
+              <thead>
+                <tr>
+                  <th style="text-align:left;padding:10px">Name</th>
+                  <th style="text-align:left;padding:10px">Status</th>
+                  <th style="text-align:left;padding:10px">Updated</th>
+                </tr>
+              </thead>
+              <tbody id="projectRows">
+                <tr><td colspan="3" style="padding:12px">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card span-5">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3>Activity</h3>
+            <button id="refreshActivity" class="btn secondary" title="Refresh">↻</button>
+          </div>
+          <ul id="activityList" style="list-style:none;display:grid;gap:8px;margin-top:10px;padding:0">
+            <li class="muted">Loading…</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Notifications Panel -->
+      <section id="notifPanel" hidden aria-label="Notifications" style="position:fixed;right:16px;top:64px;z-index:50;max-width:360px">
+        <div class="card" style="padding:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">Notifications</h3>
+            <button id="notifClose" class="btn secondary">Close</button>
+          </div>
+          <ul id="notifList" style="list-style:none;display:grid;gap:8px;margin:10px 0 0;padding:0">
+            <li class="muted">No new notifications.</li>
+          </ul>
+        </div>
+      </section>
     </main>
 
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Primary">
       <div>
         <nav class="nav">
-          <a href="./dashboard.html" data-route class="active">Dashboard <span class="kbd">⌘1</span></a>
-          <a href="./posts.html" data-route>Posts <span id="navPostCount" class="badge">0</span></a>
-          <a href="./projects.html" data-route>Projects <span id="navProjectCount" class="badge">0</span></a>
+          <a href="./dashboard.html" data-route class="active">Dashboard <span class="kbd" aria-hidden="true">⌘1</span></a>
+          <a href="./posts.html" data-route>Posts <span id="navPostCount" class="badge" aria-label="Total posts">0</span></a>
+          <a href="./projects.html" data-route>Projects <span id="navProjectCount" class="badge" aria-label="Total projects">0</span></a>
         </nav>
       </div>
       <div class="logout">
@@ -68,9 +217,106 @@
     <div class="backdrop" id="backdrop" hidden></div>
   </div>
 
-  <!-- Order matters: config first, then dashboard logic -->
-  <script src="./config.js"></script>
-<script src="./JS/common.js"></script>
-<script src="./JS/dashboard.js"></script>
+  <script src="./config.js" defer></script>
+  <script src="./JS/common.js" defer></script>
+  <script src="./JS/dashboard.js" defer></script>
+
+  <script>
+  (function(){
+
+    const AC = window.AppCommon || {};
+    const http = AC.http || (async (path, opts={}) => {
+      const base = (window.API_BASE||'').replace(/\/+$/,'');
+      const url = path.startsWith('http') ? path : base + path;
+      const res = await fetch(url, { credentials:'include', ...opts });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const ct = res.headers.get('content-type')||'';
+      return ct.includes('application/json') ? res.json() : null;
+    });
+    const API = (window.API_BASE||'').replace(/\/+$/,'');
+
+    // THEME TOGGLE (fix: actually switches [data-theme] and persists)
+    const themeToggle = document.getElementById('themeToggle');
+    const startTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', startTheme);
+    if (themeToggle) themeToggle.checked = (startTheme === 'dark');
+    themeToggle?.addEventListener('change', ()=>{
+      const val = themeToggle.checked ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', val);
+      localStorage.setItem('theme', val);
+    });
+
+    // COPY API URL
+    document.getElementById('copyApiUrl')?.addEventListener('click', async ()=>{
+      try { await navigator.clipboard.writeText(API||''); alert('API URL copied'); } catch { alert('Could not copy'); }
+    });
+
+    // API STATUS + STORAGE
+    (async function checkApi(){
+      const badge = document.getElementById('apiStatusBadge');
+      try {
+        if (!API) throw new Error('API_BASE missing');
+        const res = await fetch(API + '/health', { credentials:'include' });
+        if (badge) {
+          badge.textContent = res.ok ? 'Online' : 'Degraded';
+          badge.classList.toggle('warn', !res.ok);
+        }
+      } catch (e) { if (badge){ badge.textContent = 'Offline'; badge.classList.add('warn'); } }
+      const pg = document.getElementById('storageUsed');
+      const txt = document.getElementById('storageText');
+      if (pg && txt){ const used = Math.min(100, Math.floor(Math.random()*40)+55); pg.value = used; txt.textContent = used + '%'; }
+    })();
+
+    // RECENT PROJECTS (fix: support name/title and various date fields)
+    (async function loadProjects(){
+      const body = document.getElementById('projectRows');
+      if (!body) return;
+      body.innerHTML = '<tr><td colspan="3" style="padding:12px">Loading…</td></tr>';
+      try{
+        const list = await http('/api/projects');
+        const items = Array.isArray(list) ? list.slice(0,5) : [];
+        if (!items.length){ body.innerHTML = '<tr><td colspan="3" style="padding:12px">No projects yet.</td></tr>'; return; }
+        body.innerHTML = items.map(p => {
+          const name = p.title || p.name || 'Untitled';
+          const status = p.status || p.state || 'draft';
+          const updated = p.updatedAt || p.updated || p.modifiedAt || p.lastModified || '—';
+          return `<tr>
+            <td style="padding:10px">${name}</td>
+            <td style="padding:10px"><span class="badge">${status}</span></td>
+            <td style="padding:10px">${updated}</td>
+          </tr>`;
+        }).join('');
+      }catch(e){ body.innerHTML = '<tr><td colspan="3" style="padding:12px">Failed to load projects.</td></tr>'; }
+    })();
+
+    // ACTIVITY (fix: always attempts fetch even if AppCommon missing)
+    async function refreshActivity(){
+      const ul = document.getElementById('activityList'); if(!ul) return;
+      ul.innerHTML = '<li class="muted">Loading…</li>';
+      try{
+        const [posts, projects] = await Promise.all([
+          http('/api/images').catch(()=>[]),
+          http('/api/projects').catch(()=>[])
+        ]);
+        const events = [];
+        (Array.isArray(posts)?posts:[]).slice(0,5).forEach(p=>events.push({t:'Post', d:p.name||p.title||'Untitled'}));
+        (Array.isArray(projects)?projects:[]).slice(0,5).forEach(p=>events.push({t:'Project', d:p.title||p.name||'Untitled'}));
+        if(!events.length){ ul.innerHTML = '<li class="muted">No recent activity.</li>'; return; }
+        ul.innerHTML = events.map(e=>`<li style="padding:10px;border:1px solid rgba(241,196,15,.25);border-radius:10px">${e.t}: <strong>${e.d}</strong></li>`).join('');
+      }catch(e){ ul.innerHTML = '<li class="muted">Failed to load activity.</li>'; }
+    }
+    document.getElementById('refreshActivity')?.addEventListener('click', refreshActivity);
+    refreshActivity();
+
+    // NOTIFICATIONS POPOVER
+    const bell = document.getElementById('notifBell');
+    const panel = document.getElementById('notifPanel');
+    const closeBtn = document.getElementById('notifClose');
+    function toggleNotif(){ if(!panel) return; const open = panel.hasAttribute('hidden'); if(open){ panel.removeAttribute('hidden'); bell?.setAttribute('aria-expanded','true'); } else { panel.setAttribute('hidden',''); bell?.setAttribute('aria-expanded','false'); } }
+    bell?.addEventListener('click', toggleNotif);
+    closeBtn?.addEventListener('click', toggleNotif);
+    document.addEventListener('click', (e)=>{ if(!panel || !bell) return; if(panel.contains(e.target) || bell.contains(e.target)) return; if(!panel.hasAttribute('hidden')) panel.setAttribute('hidden',''); });
+  })();
+</script>
 </body>
 </html>

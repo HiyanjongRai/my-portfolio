@@ -7,17 +7,16 @@ header {
 
 nav {
   width: 100%;
-  background: rgba(0, 0, 0, 0.85);   /* black with opacity */
+  background: rgba(0, 0, 0, 0.9);   /* black with opacity */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Container */
 .nav-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 12px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,6 +32,7 @@ nav {
   font-size: 1.8rem;
   font-weight: 700;
   letter-spacing: 2px;
+  margin: 0;
 }
 
 /* Nav Links */
@@ -41,6 +41,8 @@ nav ul {
   display: flex;
   gap: 28px;
   align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 nav ul li a {
@@ -84,7 +86,7 @@ nav ul li a:hover::after {
   display: none;
   font-size: 2rem;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: white;
 }
 
@@ -95,6 +97,8 @@ nav ul li a:hover::after {
 .login-dropdown a {
   cursor: pointer;
   color: white;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 /* Dropdown box */
@@ -102,10 +106,10 @@ nav ul li a:hover::after {
   display: none;
   position: absolute;
   top: 100%; right: 0;
-  background: #000;                /* black dropdown */
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.95); /* black dropdown */
+  padding: 16px;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45);
   z-index: 999;
   min-width: 280px;
   animation: fadeIn 0.25s ease;
@@ -131,15 +135,20 @@ nav ul li a:hover::after {
 }
 .dropdown-content input {
   margin-bottom: .8rem;
-  padding: .5rem .8rem;
-  border-radius: 5px;
-  border: none;
-  font-size: .9rem;
-  background: #111;                /* dark input background */
+  padding: .6rem .8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: #000;          /* black input background */
   color: #fff;
+  font-size: .95rem;
 }
 .dropdown-content input::placeholder {
   color: #a3c4ff;
+}
+.dropdown-content input:focus {
+  outline: none;
+  border-color: #ffb400;
+  box-shadow: 0 0 0 3px rgba(255,180,0,0.18);
 }
 
 /* Show Password Toggle */
@@ -167,46 +176,84 @@ nav ul li a:hover::after {
 
 /* Button */
 .dropdown-content button {
-  padding: .6rem;
+  padding: .7rem .9rem;
   background: #ff8c42;
   color: #fff;
   border: 0;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background .3s;
+  font-weight: 700;
+  transition: filter .25s ease;
 }
 .dropdown-content button:hover {
-  background: #ffaa66;
+  filter: brightness(1.08);
 }
-
 .dropdown-content .error {
   color: #ff7979;
   margin-top: .5rem;
   font-size: .85rem;
+  min-height: 1.1em;
 }
 
-/* ===== RESPONSIVE NAV ===== */
 @media (max-width: 900px) {
   nav ul {
     position: fixed;
-    top: 0; right: -100%;
-    height: 100%;
-    width: 280px;
-    background: #000;               /* black mobile menu */
+    top: 60px;
+    right: -100%;
+    height: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: min(80vw, 300px);
+    background: rgba(10, 30, 60, 0.85); /* deep blue with opacity */
+    backdrop-filter: blur(12px);         /* blur effect */
+    -webkit-backdrop-filter: blur(12px);
     flex-direction: column;
     align-items: flex-start;
-    padding: 60px 20px;
-    gap: 20px;
+    padding: 20px;
+    gap: 14px;
     transition: right 0.3s ease;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    border-radius: 0 0 8px 8px;
+    z-index: 2000;
   }
   nav ul.show {
     right: 0;
+  }
+
+  #nav-links > li:first-child {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 6px;
   }
   .menu-toggle {
     display: block;
   }
   .menu-close {
     display: block;
+  }
+
+  nav ul li a {
+    display: block;
+    width: 100%;
+    padding: 8px 4px;
+    font-size: .9rem;
+  }
+
+  /* Mobile login dropdown */
+  .login-dropdown .dropdown-content {
+    position: relative;
+    top: auto; right: auto;
+    width: 100%;
+    min-width: unset;
+    margin-top: 6px;
+    background: rgba(15, 25, 45, 0.9); /* bluish-black dropdown */
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .dropdown-content input {
+    background: rgba(0,0,0,0.7); /* slightly transparent black input */
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
   }
 }

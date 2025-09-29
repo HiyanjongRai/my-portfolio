@@ -50,39 +50,71 @@ document.addEventListener("DOMContentLoaded", () => {
     await login();
   });
 
-  async function login() {
-    const username = $("#username")?.value.trim();
-    const password = $("#password")?.value.trim();
-    const errorMsg = $("#errorMsg");
-    if (!errorMsg) return;
+ async function login() {
+  const username = $("#username")?.value.trim();
+  const password = $("#password")?.value.trim();
+  const errorMsg = $("#errorMsg");
+  if (!errorMsg) return;
 
-    errorMsg.textContent = "";
-    if (!username || !password) {
-      errorMsg.textContent = "Please enter both username and password.";
+  errorMsg.textContent = "";
+  if (!username || !password) {
+    errorMsg.textContent = "Please enter both username and password.";
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/signin`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
+    });
+
+    // Read body safely for BOTH success and error responses
+    const { data, raw } = await safeRead(res);
+
+    if (res.ok && data?.token) {
+      localStorage.setItem("jwtToken", data.token);
+      localStorage.setItem("username", data.username || username);
+      window.location.href = "dashboard.html";
       return;
     }
 
-    try {
-      const res = await fetch(`${API_BASE}/api/auth/signin`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-      let data = {};
-      try { data = await res.json(); } catch {}
+    // Prefer backend message if present
+    const serverMsg =
+      (data && (data.message || data.error)) ||
+      raw ||
+      "";
 
-      if (res.ok && data.token) {
-        localStorage.setItem("jwtToken", data.token);
-        localStorage.setItem("username", data.username || username);
-        window.location.href = "dashboard.html";
-      } else {
-        errorMsg.textContent = data.error || `Login failed (Please Check your Details).`;
-      }
-    } catch (err) {
-      console.error(err);
-      errorMsg.textContent = "Unable to connect to server. Try again later.";
-    }
+    // Clean fallback if backend gave nothing useful
+    const fallback =
+      res.status === 401 ? "Incorrect email or password."
+      : res.status === 403 ? "You don’t have access to this account."
+      : res.status === 400 ? "Invalid request. Please check your details."
+      : res.status >= 500 ? "Server error. Please try again later."
+      : `Login failed (code ${res.status}).`;
+
+    errorMsg.textContent = serverMsg || fallback;
+  } catch (err) {
+    console.error(err);
+    errorMsg.textContent = "Unable to connect to server. Try again later.";
   }
+}
+
+// Reads JSON if available; otherwise returns raw text. Works for error responses too.
+async function safeRead(res) {
+  const ct = res.headers.get("content-type") || "";
+  try {
+    if (ct.includes("application/json")) {
+      const json = await res.json();
+      return { data: json, raw: "" };
+    } else {
+      const text = await res.text();
+      return { data: null, raw: text };
+    }
+  } catch {
+    return { data: null, raw: "" };
+  }
+}
 
   // ---------- EXPERTISE CARDS ----------
   $$("#expertise-heading .card").forEach(card => {
