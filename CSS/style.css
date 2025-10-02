@@ -32,7 +32,7 @@ img { display:block; }
   content: "";
   width: 70px;
   height: 3px;
-  background: #f1b72a;           /* yellow accent underline */
+  background: #f1b72a;          
   position: absolute;
   bottom: -10px; left: 50%;
   transform: translateX(-50%);
@@ -53,7 +53,7 @@ img { display:block; }
 /* Card */
 .project-card {
   width: 240px;
-  background: #111;              /* dark gray card */
+  background: #111;              
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0,0,0,.35);

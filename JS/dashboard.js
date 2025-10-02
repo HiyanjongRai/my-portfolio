@@ -1,6 +1,4 @@
-// JS/dashboard.js
 
-// preconnect-supabase.js
 (function addPreconnect(url) {
   if (!url) return;
   const make = (rel) => {

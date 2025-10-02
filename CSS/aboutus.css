@@ -208,6 +208,33 @@ body {
   box-shadow:0 16px 30px rgba(0,0,0,.36);
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 10px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width:980px){
   .about-grid{ grid-template-columns:1fr; gap:28px; }

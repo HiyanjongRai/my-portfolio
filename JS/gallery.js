@@ -1,7 +1,7 @@
 // app.js
 const API_BASE = (typeof window !== "undefined" && window.API_BASE) 
   ? window.API_BASE 
-  : "http://localhost:8080"; // safety fallback for local dev
+  : "http://localhost:8080"; 
 
 console.log("Using API_BASE:", API_BASE);
 
@@ -93,61 +93,19 @@ async function loadImages(){
 loadImages();
 
 
-(function(){
-  const menuOpen  = document.getElementById('menu-open');
-  const menuClose = document.getElementById('menu-close');
-  const navLinks  = document.getElementById('nav-links');
-  const loginToggle = document.getElementById('login-toggle');
-  const loginDropdown = document.querySelector('.login-dropdown');
-  const loginForm = document.getElementById('dropdown-login-form');
-  const errorMsg = document.getElementById('errorMsg');
 
-  // Mobile menu open/close
-  if (menuOpen && navLinks){
-    menuOpen.addEventListener('click', () => navLinks.classList.add('open'));
-  }
-  if (menuClose && navLinks){
-    menuClose.addEventListener('click', () => navLinks.classList.remove('open'));
-  }
-  // Close menu when clicking a link (mobile)
-  if (navLinks){
-    navLinks.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') navLinks.classList.remove('open');
-    });
-  }
+(function addPreconnect(url) {
+  if (!url) return;
+  const make = (rel) => {
+    const link = document.createElement('link');
+    link.rel = rel;
+    link.href = url;
+    if (rel === 'preconnect') link.crossOrigin = '';
+    document.head.appendChild(link);
+  };
+  make('preconnect');
+  make('dns-prefetch');
+})('https://brzzpwmuixjslgnwlgvw.supabase.co');
 
-  // Login dropdown toggle (desktop)
-  if (loginToggle && loginDropdown){
-    loginToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginDropdown.classList.toggle('open');
-    });
-  }
 
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (loginDropdown && !loginDropdown.contains(e.target) && e.target !== loginToggle){
-      loginDropdown.classList.remove('open');
-    }
-  });
-
-  // Simple login handler (demo)
-  if (loginForm){
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const u = loginForm.username.value.trim();
-      const p = loginForm.password.value.trim();
-      if (!u || !p){
-        errorMsg.textContent = "Please enter username and password.";
-        return;
-      }
-      // TODO: replace with your real login call
-      errorMsg.textContent = "Login not wired to backend yet.";
-      setTimeout(() => {
-        errorMsg.textContent = "";
-        loginDropdown.classList.remove('open');
-      }, 1200);
-    });
-  }
-})();
 

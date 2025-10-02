@@ -32,7 +32,7 @@
   letter-spacing: 1px;
   position: relative;
   display: inline-block;
-  padding-bottom: 12px; /* space for line */
+  padding-bottom: 12px; 
 }
 
 .xp-header h2::after {
@@ -41,9 +41,9 @@
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
-  width: 80px;             /* line length */
+  width: 80px;             
   height: 3px;
-  background: #f1b72a;     /* yellow accent */
+  background: #f1b72a;     
   border-radius: 2px;
   box-shadow: 0 0 6px rgba(241,183,42,.5);
 }
@@ -84,7 +84,7 @@
   border-radius: 12px;
   display: grid;
   place-items: center;
-  background: rgba(241,183,42,.1);  /* faint yellow glow */
+  background: rgba(241,183,42,.1);  
   color: var(--brand);
   margin-bottom: 14px;
 }
