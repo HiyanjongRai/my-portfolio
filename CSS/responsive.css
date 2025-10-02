@@ -10,7 +10,7 @@ body.nav-open { overflow: hidden; }
     position: fixed; top: 0; right: -100%;
     width: 78%;
     height: 100dvh;
-    background-color: rgba(0, 49, 83, 0.95);
+    background-color: black;
     padding: 40px 20px;
     transition: right 0.3s ease-in-out;
   }
