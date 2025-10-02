@@ -1,21 +1,18 @@
-
-
-
-        <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="api-base" content="http://localhost:8080">
+  <title>Portfolio • Hiyan Jong Rai — Gallery (Centered Detail)</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Roboto+Condensed:wght@300;400;500;600&family=Libertinus+Serif+Display:opsz,wght@8..144,600;8..144,700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Oswald:wght@200;300;400;700&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600&family=Roboto+Condensed:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <link rel="icon" type="image/png" href="images/logo.png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- CSS -->
+  <!-- Your CSS bundles -->
   <link rel="stylesheet" href="./CSS/style.css" />
   <link rel="stylesheet" href="./CSS/navbar.css" />
   <link rel="stylesheet" href="./CSS/responsive.css">
@@ -24,59 +21,161 @@
   <link rel="stylesheet" href="./CSS/education.css">
   <link rel="stylesheet" href="./CSS/expertise.css">
   <link rel="stylesheet" href="./CSS/aboutus.css">
+  <link rel="stylesheet" href="./CSS/form.css">
 
-  <!-- Title -->
-  <title>Portfolio • Hiyan Jong Rai</title>
+  <style>
+    :root { --bg:#0b0d10; --panel:#12161b; --muted:#7a8596; --text:#e9eef7; --brand:#6ee7ff; --brand-2:#7cffe3; --danger:#ff6e6e; --ring:0 0 0 3px rgba(110,231,255,.35); }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;scroll-behavior:smooth;background:black;}
+    body{color:var(--text);font:16px/1.5 "Inter Tight",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;overflow-x:hidden}
 
+    /* ---------- MAIN LAYOUT ---------- */
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    .section-title{display:flex;align-items:center;gap:10px;margin:16px 0 10px}
+    .section-title h2{margin:0;font:700 18px/1.2 "Oswald",system-ui;letter-spacing:.02em}
+    .section-title .bar{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--brand))}
 
-<link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
-<link rel="dns-prefetch" href="https://brzzpwmuixjslgnwlgvw.supabase.co">
+    /* ===== NAVBAR ===== */
+    header{position:sticky;top:0;z-index:3000}
+    nav{width:100%;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1)}
+    .nav-container{max-width:1200px;margin:0 auto;padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
+    .logo a{text-decoration:none;color:#fff;font-family:"Bebas Neue",sans-serif}
+    .logo a h1{font-size:1.8rem;font-weight:700;letter-spacing:2px;margin:0}
+    nav ul{list-style:none;display:flex;gap:28px;align-items:center;margin:0;padding:0}
+    nav ul li a{color:#fff;text-decoration:none;font-size:.95rem;font-family:"Inter Tight",sans-serif;font-weight:600;letter-spacing:.5px;padding:6px 4px;position:relative;text-transform:uppercase;transition:color .3s ease}
+    nav ul li a::after{content:"";position:absolute;left:0;bottom:-4px;width:100%;height:2px;background:#ffb400;transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+    nav ul li a:hover{color:#ffb400}
+    nav ul li a:hover::after{transform:scaleX(1)}
+    .menu-toggle,.menu-close{display:none;font-size:2rem;color:#fff;cursor:pointer}
 
+    /* ===== LOGIN DROPDOWN ===== */
+    .login-dropdown{position:relative}
+    .login-dropdown a{cursor:pointer;color:#fff;font-weight:700;text-transform:uppercase}
+    .login-dropdown .dropdown-content{display:none;position:absolute;top:100%;right:0;background:rgba(0,0,0,.95);padding:16px;border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.45);z-index:3100;min-width:280px;animation:fadeIn .25s ease}
+    .login-dropdown.open .dropdown-content{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .dropdown-content form{display:flex;flex-direction:column}
+    .dropdown-content label{color:#fff;margin-bottom:.3rem;font-size:.85rem;font-weight:600}
+    .dropdown-content input{margin-bottom:.8rem;padding:.6rem .8rem;border-radius:6px;border:1px solid rgba(255,255,255,.2);background:#000;color:#fff;font-size:.95rem}
+    .dropdown-content input::placeholder{color:#a3c4ff}
+    .dropdown-content input:focus{outline:none;border-color:#ffb400;box-shadow:0 0 0 3px rgba(255,180,0,.18)}
+    .password-wrapper{position:relative;display:flex;align-items:center}
+    .password-wrapper input{width:100%;padding-right:2.2rem}
+    .toggle-password{position:absolute;right:10px;cursor:pointer;user-select:none;font-size:1rem;color:#aaa;transition:color .2s ease}
+    .toggle-password:hover{color:#fff}
+    .dropdown-content button{padding:.7rem .9rem;background:#ff8c42;color:#fff;border:0;border-radius:6px;cursor:pointer;font-weight:700;transition:filter .25s ease}
+    .dropdown-content button:hover{filter:brightness(1.08)}
+    .dropdown-content .error{color:#ff7979;margin-top:.5rem;font-size:.85rem;min-height:1.1em}
 
+    /* ---------- GALLERY ---------- */
+    .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;min-height:220px}
+    .card{grid-column:span 3;position:relative;background:black;border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;isolation:isolate;cursor:pointer}
+    .card .thumb{display:block;width:100%;height:200px;object-fit:cover;background:#0a0d11;opacity:0;transition:opacity .25s ease}
+    .card .thumb.is-ready{opacity:1}
+    .card .hover-title{position:absolute;left:10px;bottom:10px;padding:6px 10px;border-radius:10px;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);font-size:13px;color:var(--text)}
+    .card.peek{outline:1px solid rgba(110,231,255,.45)}
+
+    /* Skeletons */
+    .card.skeleton{animation:pulse 1.2s ease-in-out infinite;background:black;}
+    .card.skeleton .thumb{height:200px;background:linear-gradient(90deg,#0e141a,#10161d,#0e141a);background-size:400% 100%;animation:shimmer 1.1s linear infinite}
+    .card.skeleton .hover-title{position:absolute;left:10px;bottom:10px;width:45%;height:20px;border-radius:8px;background:rgba(255,255,255,.08)}
+    @keyframes shimmer{0%{background-position:0 0}100%{background-position:100% 0}}
+    @keyframes pulse{0%,100%{opacity:.9}50%{opacity:.6}}
+
+    /* ---------- CENTERED DETAIL CARD ---------- */
+    .detail {
+      margin: 18px auto 22px;
+      display: flex;
+      justify-content: center;
+      scroll-margin-top: 80px; 
+    }
+    .detail[hidden]{display:none}
+
+    .detail-card{
+      width: min(100%, 980px);
+      background: black;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+    }
+    .detail-media{background:#0b1015;display:flex;align-items:center;justify-content:center}
+    .detail-media img{max-width:100%;max-height:72vh;display:block}
+    .detail-info{padding:16px}
+    .detail-title{font:700 18px/1.25 "Oswald"}
+    .detail-desc{color:var(--muted);margin-top:8px;white-space:pre-wrap}
+    .detail-actions{display:flex;gap:8px;margin-top:12px}
+    .detail-actions button{padding:8px 10px;border-radius:10px;background:#0c1116;border:1px solid rgba(255,255,255,.1);color:var(--text);cursor:pointer}
+    .detail-actions button:focus{box-shadow:var(--ring)}
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width:1000px){
+      .gallery{grid-template-columns:repeat(8,1fr)}
+      .card{grid-column:span 4}
+      .detail-card{grid-template-columns:1fr}
+    }
+    @media (max-width:700px){
+      .gallery{grid-template-columns:repeat(4,1fr)}
+      .card{grid-column:span 4}
+    }
+    @media (max-width:600px){
+      main{padding:0 10px}
+      .section-title h2{font-size:1rem}
+      .nav-container{padding:10px 16px}
+      .logo a h1{font-size:1.3rem;letter-spacing:1px}
+      nav ul{gap:18px}
+      nav ul li a{font-size:.85rem}
+      .gallery{grid-template-columns:repeat(2,1fr);gap:10px}
+      .card{grid-column:span 2 !important;border-radius:12px}
+      .card .thumb{height:150px}
+      .detail-media img{max-height:55vh}
+    }
+
+    /* Mobile menu */
+    @media (max-width:900px){
+      nav ul{position:fixed;top:60px;right:-100%;height:auto;max-height:80vh;overflow-y:auto;width:min(80vw,300px);background:rgba(10,30,60,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;align-items:flex-start;padding:20px;gap:14px;transition:right .3s ease;border-left:1px solid rgba(255,255,255,.08);border-radius:0 0 8px 8px;z-index:3500}
+      nav ul.show{right:0}
+      #nav-links>li:first-child{width:100%;display:flex;justify-content:flex-start;margin-bottom:6px}
+      .menu-toggle,.menu-close{display:block}
+      nav ul li a{display:block;width:100%;padding:8px 4px;font-size:.9rem}
+      .login-dropdown .dropdown-content{position:relative;top:auto;right:auto;width:100%;min-width:unset;margin-top:6px;background:rgba(15,25,45,.9);border:1px solid rgba(255,255,255,.14);box-shadow:0 8px 24px rgba(0,0,0,.35)}
+      .dropdown-content input{background:rgba(0,0,0,.7);border:1px solid rgba(255,255,255,.18);color:#fff}
+    }
+
+    /* Utilities */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    @media (prefers-reduced-motion:reduce){ *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important} }
+  </style>
 </head>
-
 <body>
-
-
 <header>
   <nav aria-label="Main">
     <div class="nav-container">
-      <!-- Logo -->
-      <div class="logo">
-        <a href="index.html" aria-label="Go to homepage">
-          <h1>HIYAN JONG RAI</h1>
-        </a>
-      </div>
-
-      <!-- Mobile Menu Toggle -->
-      <div class="menu-toggle" id="menu-open">☰</div>
-
-      <!-- Navigation Links -->
+      <div class="logo"><a href="index.html" aria-label="Go to homepage"><h1>HIYAN JONG RAI</h1></a></div>
+      <div class="menu-toggle" id="menu-open" tabindex="0" aria-label="Open menu" role="button">☰</div>
       <ul id="nav-links">
-              <li><a href="index.html#about">About Me</a></li>
+        <li><span class="menu-close" id="menu-close" tabindex="0" role="button" aria-label="Close menu">✕</span></li>
+        <li><a href="index.html#about">About Me</a></li>
         <li><a href="index.html#expertise">Expertise</a></li>
         <li><a href="index.html#education">Education</a></li>
         <li><a href="index.html#project">Projects</a></li>
         <li><a href="./gallery.html" aria-current="page">My Gallery</a></li>
         <li><a href="index.html#contact">Contact</a></li>
-
-
-        <!-- Login dropdown -->
         <li class="login-dropdown">
-          <a href="#" id="login-toggle">Login ▾</a>
-          <div class="dropdown-content">
+          <a href="#" id="login-toggle" aria-haspopup="true" aria-expanded="false">Login ▾</a>
+          <div class="dropdown-content" role="dialog" aria-label="Login form">
             <form id="dropdown-login-form">
               <label for="username">Username or Email</label>
               <input type="text" id="username" name="username" placeholder="Enter username or email" required>
-
               <label for="password">Password</label>
               <div class="password-wrapper">
                 <input type="password" id="password" name="password" placeholder="Enter Password" required>
-                <span class="toggle-password" id="togglePassword">👁</span>
+                <span class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">👁</span>
               </div>
-
               <button type="submit">Login</button>
-              <div class="error" id="errorMsg"></div>
+              <div class="error" id="errorMsg" aria-live="polite"></div>
             </form>
           </div>
         </li>
@@ -84,30 +183,214 @@
     </div>
   </nav>
 </header>
- 
-  <!-- ===== GALLERY ===== -->
-  <main>
-    <section class="gallery" id="gallery">
-      <div class="loading">Loading images, please wait…</div>
-    </section>
-  </main>
 
-  <!-- ===== LIGHTBOX ===== -->
-  <dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
-    <div class="sheet" role="document">
-      <button class="close" id="lb-close" aria-label="Close">✕</button>
-      <div class="media">
-        <img id="lb-img" class="fullimg" alt="" />
-      </div>
-      <div class="info">
-        <div class="title" id="lb-title"></div>
-        <div class="fulldesc" id="lb-desc"></div>
-      </div>
-    </div>
-  </dialog>
+<main>
+  <div class="section-title" id="about"><h2>My Gallery</h2><div class="bar"></div></div>
 
-  <script src="config.js" defer></script>
-  <script src="./JS/index.js" defer></script>
-  <script src="./JS/gallery.js" defer></script>
+  <!-- Centered detail card right under navbar -->
+  <section id="detail" class="detail" aria-live="polite" hidden></section>
+
+  <!-- Thumbnails below -->
+  <div id="gallery-status" class="loading" aria-live="polite">Preparing to fetch images…</div>
+  <section class="gallery" id="gallery" aria-live="polite"></section>
+</main>
+
+<script src="config.js" defer></script>
+
+<script>
+(() => {
+  // API base (config.js > meta tag > default)
+  const fromConfigJs = (typeof window !== 'undefined' && window.API_BASE) ? window.API_BASE : undefined;
+  const fromMeta = (() => { const m = document.querySelector('meta[name="api-base"]'); return m ? m.getAttribute('content') : undefined; })();
+  const API_BASE = fromConfigJs || fromMeta || 'http://localhost:8080';
+  console.log('[gallery] Using API_BASE:', API_BASE);
+
+  // DOM helpers
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const gallery = $('#gallery');
+  const detail  = $('#detail');
+  const statusEl= $('#gallery-status');
+
+  // A11y live announcer
+  const ariaLive = (() => {
+    const el = document.createElement('div');
+    el.setAttribute('aria-live','polite');
+    el.className='sr-only';
+    document.body.appendChild(el);
+    return (m)=> el.textContent=m;
+  })();
+
+  // Safe URL join
+  const normalizeUrl = (u) => {
+    if (!u) return '';
+    if (/^https?:\/\//i.test(u)) return u;
+    const base = (API_BASE || '').replace(/\/+$/, '');
+    const path = String(u).replace(/^\/+/, '');
+    return `${base}/${path}`;
+  };
+
+  let items = [];
+  let currentIndex = -1;
+
+  // Fetch with timeout + retry
+  async function fetchJSON(url, { timeout = 12000, retries = 2 } = {}) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), timeout);
+      try {
+        const res = await fetch(url, { credentials:'include', signal: controller.signal });
+        clearTimeout(timer);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } catch (err) {
+        clearTimeout(timer);
+        if (attempt === retries) throw err;
+        await new Promise(r => setTimeout(r, 350 * (attempt + 1)));
+      }
+    }
+  }
+
+  // Skeleton card
+  function skeletonCard(){
+    const el=document.createElement('article');
+    el.className='card skeleton';
+    el.innerHTML='<div class="thumb" aria-hidden="true"></div><div class="hover-title" aria-hidden="true"></div>';
+    return el;
+  }
+
+  // Build a gallery card
+  function makeCard(item, index){
+    const el = document.createElement('article'); el.className='card';
+    const name = item.name || 'Untitled';
+    const url  = normalizeUrl(item.url);
+
+    const img = document.createElement('img');
+    img.className='thumb';
+    img.loading='lazy';
+    img.decoding='async';
+    img.alt=name;
+    img.src=url;
+    img.addEventListener('load', ()=>{
+      Promise.resolve(img.decode?.()).catch(()=>{}).finally(()=> img.classList.add('is-ready'));
+    });
+
+    const title = document.createElement('div');
+    title.className='hover-title';
+    title.textContent=name;
+
+    el.append(img, title);
+
+    let t=null; const peek=()=>{ el.classList.add('peek'); clearTimeout(t); t=setTimeout(()=>el.classList.remove('peek'),220); };
+    el.addEventListener('pointermove', peek, { passive:true });
+    el.addEventListener('pointerdown', peek, { passive:true });
+
+    el.tabIndex=0; el.setAttribute('role','button'); el.setAttribute('aria-label',`Open details for: ${name}`);
+    const open=()=> openDetail(index);
+    el.addEventListener('click', open);
+    img.addEventListener('click', open);
+    el.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); }});
+
+    return el;
+  }
+
+  // Render the centered detail card
+  function renderDetail(idx){
+    const item = items[idx];
+    if(!item){ detail.hidden = true; detail.innerHTML=''; return; }
+    const title = item.name || 'Untitled';
+    const desc  = item.description || 'No description provided.';
+    const url   = normalizeUrl(item.url);
+
+    detail.innerHTML = `
+      <article class="detail-card" role="region" aria-label="Image details">
+        <div class="detail-media"><img src="${url}" alt="${title}"></div>
+        <div class="detail-info">
+          <div class="detail-title">${title}</div>
+          <div class="detail-desc">${desc}</div>
+          <div class="detail-actions">
+            <button id="dt-prev" aria-label="Previous (←)"><i class="fa-solid fa-arrow-left"></i></button>
+            <button id="dt-next" aria-label="Next (→)"><i class="fa-solid fa-arrow-right"></i></button>
+            <button id="dt-open" aria-label="Open original in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
+            <button id="dt-close" aria-label="Close details"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+        </div>
+      </article>`;
+
+    // Wire actions
+    detail.querySelector('#dt-open')?.addEventListener('click', ()=> window.open(url,'_blank','noopener'));
+    detail.querySelector('#dt-prev')?.addEventListener('click', prevImage);
+    detail.querySelector('#dt-next')?.addEventListener('click', nextImage);
+    detail.querySelector('#dt-close')?.addEventListener('click', ()=> { detail.hidden = true; ariaLive('Closed details'); });
+
+    detail.hidden = false;
+    ariaLive(`Opened ${title} (${idx+1} of ${items.length})`);
+    detail.scrollIntoView({ behavior:'smooth', block:'start' });
+  }
+
+  function openDetail(idx){ currentIndex = idx; renderDetail(currentIndex); }
+  function nextImage(){ if(!items.length) return; currentIndex = (currentIndex + 1) % items.length; renderDetail(currentIndex); }
+  function prevImage(){ if(!items.length) return; currentIndex = (currentIndex - 1 + items.length) % items.length; renderDetail(currentIndex); }
+
+  // Keyboard shortcuts when detail is visible
+  document.addEventListener('keydown', (e)=>{
+    if (detail.hidden) return;
+    if (e.key === 'Escape') { detail.hidden = true; ariaLive('Closed details'); }
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft')  prevImage();
+  });
+
+  // Fetch and render
+  async function loadImages(){
+    if(!gallery) return;
+    statusEl.textContent='Fetching images, please wait…';
+    gallery.innerHTML=''; for(let i=0;i<8;i++) gallery.appendChild(skeletonCard());
+
+    const url = `${API_BASE.replace(/\/+$/,'')}/api/images`;
+    try{
+      const data = await fetchJSON(url);
+      gallery.innerHTML='';
+      if(!Array.isArray(data) || data.length===0){ statusEl.textContent='No images found.'; return; }
+      items = data.map(d=>({ name:d.name||'Untitled', description:d.description||'', url:d.url||'' }));
+      items.forEach((it,idx)=> gallery.appendChild(makeCard(it,idx)));
+      statusEl.textContent = `Loaded ${items.length} image${items.length>1?'s':''}. Click one to see details.`;
+    }catch(err){
+      console.error('[loadImages]',err);
+      gallery.innerHTML='';
+      statusEl.textContent = `Could not load images (${err.message}).`;
+    }
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', loadImages); else loadImages();
+
+  // Nav + login (uses CSS class .show)
+  (function navEnhancements(){
+    const menuOpen  = document.getElementById('menu-open');
+    const menuClose = document.getElementById('menu-close');
+    const navLinks  = document.getElementById('nav-links');
+    const loginToggle   = document.getElementById('login-toggle');
+    const loginDropdown = document.querySelector('.login-dropdown');
+    const loginForm     = document.getElementById('dropdown-login-form');
+    const errorMsg      = document.getElementById('errorMsg');
+    const togglePassword= document.getElementById('togglePassword');
+
+    const openMenu = ()=> navLinks?.classList.add('show');
+    const closeMenu= ()=> navLinks?.classList.remove('show');
+    const keyboardOpen = (e)=>{ if(e.type==='keydown' && e.key!=='Enter' && e.key!==' ') return; openMenu(); };
+
+    menuOpen?.addEventListener('click', openMenu);
+    menuOpen?.addEventListener('keydown', keyboardOpen);
+    menuClose?.addEventListener('click', closeMenu);
+    menuClose?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' ') closeMenu(); });
+    navLinks?.addEventListener('click', (e)=>{ if(e.target.tagName==='A') closeMenu(); });
+
+    loginToggle?.addEventListener('click', (e)=>{ e.preventDefault(); const open = loginDropdown?.classList.toggle('open'); loginToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+    document.addEventListener('click', (e)=>{ if(loginDropdown && !loginDropdown.contains(e.target) && e.target!==loginToggle) loginDropdown.classList.remove('open'); });
+
+    togglePassword?.addEventListener('click', ()=>{ const pwd = document.getElementById('password'); if(!pwd) return; pwd.type = pwd.type==='password' ? 'text' : 'password'; });
+
+    loginForm?.addEventListener('submit', (e)=>{ e.preventDefault(); const u=loginForm.username.value.trim(); const p=loginForm.password.value.trim(); if(!u||!p){ errorMsg.textContent='Please enter username and password.'; return; } errorMsg.textContent='Login not wired to backend yet.'; setTimeout(()=>{ errorMsg.textContent=''; loginDropdown?.classList.remove('open'); },1200); });
+  })();
+})();
+</script>
 </body>
 </html>
