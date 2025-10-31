@@ -382,29 +382,3 @@ button.send-button:hover {
 .contact-text a:hover { color: #fff; }
 
 /* Social media */
-.social-media-list {
-  padding: 0;
-  margin: 16px 0 0;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
-.social-media-list li { list-style: none; }
-.social-media-list a {
-  display: inline-grid;
-  place-items: center;
-  height: 50px; width: 50px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  color: white;
-  font-size: 22px;
-  transition: all .25s ease;
-}
-.social-media-list a:hover { color: #fff; }
-
-.social-media-list a[href*="github"]:hover   { background: #24292e; }
-.social-media-list a[href*="facebook"]:hover { background: #1877f2; }
-.social-media-list a[href*="instagram"]:hover {
-  background: radial-gradient(circle at 30% 107%, 
-    #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-}

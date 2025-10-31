@@ -57,7 +57,7 @@
         <li><a href="#education">Education</a></li>
         <li><a href="#project">Projects</a></li>
         <li><a href="gallery.html">My Gallery</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#contact">Contact Me</a></li>
 
         <!-- Login dropdown -->
         <li class="login-dropdown">
@@ -210,6 +210,9 @@
         <div><dt>Tech:</dt><dd>Spring Boot, PostgreSQL, MySQL, HTML/CSS</dd></div>
         <div><dt>Other:</dt><dd>Git</dd></div>
       </dl>
+
+    
+
 
       <div class="metrics">
         <div class="metric">
@@ -436,11 +439,84 @@ improving website visibility through keyword research, on-page optimization, and
           <li class="list-item"><i class="fa fa-envelope"></i> <span class="contact-text"><a href="mailto:raihenjong332@gmail.com">raihenjong332@gmail.com</a></span></li>
         </ul>
 
-        <ul class="social-media-list">
-          <li><a href="https://github.com/HiyanjongRai" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
-          <li><a href="https://www.facebook.com/hiyanjong.rai69" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook"></i></a></li>
-          <li><a href="https://www.instagram.com/tilung.hiyanjongrai/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
-        </ul>
+
+        <!-- Follow Text -->
+<p class="follow-text">You can follow me here:</p>
+
+<!-- Social Media Links -->
+<ul class="social-media-list">
+  <li><a href="https://github.com/HiyanjongRai" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
+  <li><a href="https://www.facebook.com/hiyanjong.rai69" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+  <li><a href="https://www.instagram.com/tilung.hiyanjongrai/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+  <li><a href="https://www.pinterest.com/hiyanjongrai" target="_blank" rel="noopener" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
+  <li><a href="https://twitter.com/yourpage" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+  <li><a href="https://www.youtube.com/channel/UCSw-l6BnDh2kRPH30Y6ugtw" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+</ul>
+
+<style>
+/* Follow text */
+.follow-text {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text, white);
+  margin-bottom: 8px;
+  text-align: center; 
+}
+
+/* Social media list styles */
+.social-media-list {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center; 
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.social-media-list li { list-style: none; }
+
+.social-media-list a {
+  display: inline-grid;
+  place-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: white;
+  font-size: 18px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+
+/* Brand hover colors */
+.social-media-list a[href*="github"]:hover   { background: #24292e; }
+.social-media-list a[href*="facebook"]:hover { background: #1877f2; }
+.social-media-list a[href*="instagram"]:hover {
+  background: radial-gradient(circle at 30% 107%, 
+    #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.social-media-list a[href*="pinterest"]:hover { background: #bd081c; }
+.social-media-list a[href*="twitter"]:hover   { background: #1da1f2; }
+.social-media-list a[href*="youtube"]:hover   { background: #ff0000; }
+
+/* Optional hover scale effect */
+.social-media-list a:hover { transform: scale(1.1); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .social-media-list a {
+    height: 35px;
+    width: 35px;
+    font-size: 16px;
+  }
+  .social-media-list {
+    gap: 10px;
+  }
+}
+</style>
+
+
       </div>
 
     </div>
