@@ -10,7 +10,7 @@
   --shadow: 0 6px 20px rgba(0,0,0,.5);
 
   max-width: 1100px;
-  margin: 0 auto 56px;
+  margin: 0 auto ;
   padding: 0 16px;
   color: var(--text);
   background: var(--bg);
