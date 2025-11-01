@@ -354,7 +354,7 @@
 
     async function loadImages(){
       if(!gallery) return;
-      statusEl.textContent='Fetching images, please wait…';
+      statusEl.textContent='I m using the free backend, so please hang tight for about 25 seconds it takes time to fetch it.';
       gallery.innerHTML=''; for(let i=0;i<8;i++) gallery.appendChild(skeletonCard());
 
       const url = `${API_BASE}/api/images`;
