@@ -199,7 +199,7 @@
     <strong>DelhitoKathmandu</strong>
   </a> and <a href="https://www.himalayanhubs.com/" target="_blank" rel="noopener noreferrer" class="company-link">
     <strong>HimalayanHub</strong>
-  </a> , a U.S based specializing in same-day sign printing company and Restaurant company.
+  </a> , a U.S based specializing in same-day sign printing company and based Restaurant company.
 </p>
       <p>
         I’ve built e-commerce platforms, emergency-service apps, event managers, parcel systems, and task boards. I enjoy both the UI side and the backend:
@@ -413,23 +413,21 @@ improving website visibility through keyword research, on-page optimization, and
     <h1>Contact Me</h1>
     <div class="contact-wrapper">
       
-      <!-- Contact Form -->
-<div class="contact-card reveal">
+      <div class="contact-card reveal">
   <form id="contact-form">
-    <input type="text" id="name" class="form-control" placeholder="Name" required>
-    <input type="email" id="email" class="form-control" placeholder="Email" required>
-    <textarea id="message" class="form-control" rows="5" placeholder="Message" required></textarea>
+    <!-- add name attributes that match your EmailJS template -->
+    <input type="text" id="name" name="from_name" class="form-control" placeholder="Name" required>
+    <input type="email" id="email" name="from_email" class="form-control" placeholder="Email" required>
+    <textarea id="message" name="message" class="form-control" rows="5" placeholder="Message" required></textarea>
     <button type="submit" class="send-button">
       <i class="fa fa-paper-plane"></i> Send
     </button>
   </form>
 
-  <!-- Popup -->
+  <!-- Center Message -->
   <div id="thankyou-popup" class="popup">
     <div class="popup-content">
-      <p id="popup-message" class="success">
-        ✅ Thank you for your message.<br>Please wait while I check that.
-      </p>
+      <p id="popup-message" class="success">✅ Thank you for your message.<br>Please wait while I check that.</p>
       <button id="close-popup">OK</button>
     </div>
   </div>
@@ -539,8 +537,6 @@ improving website visibility through keyword research, on-page optimization, and
     cursor: pointer;
   }
 </style>
-
-
 
 
 
