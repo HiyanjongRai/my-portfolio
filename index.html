@@ -413,9 +413,8 @@ improving website visibility through keyword research, on-page optimization, and
     <h1>Contact Me</h1>
     <div class="contact-wrapper">
       
-      <!-- Form -->
-      <div class="contact-card reveal">
-  <!-- Your Form -->
+      <!-- Contact Form -->
+<div class="contact-card reveal">
   <form id="contact-form">
     <input type="text" id="name" class="form-control" placeholder="Name" required>
     <input type="email" id="email" class="form-control" placeholder="Email" required>
@@ -425,14 +424,124 @@ improving website visibility through keyword research, on-page optimization, and
     </button>
   </form>
 
-  <!-- Center Message -->
+  <!-- Popup -->
   <div id="thankyou-popup" class="popup">
     <div class="popup-content">
-      <p id="popup-message" class="success">✅ Thank you for your message.<br>Please wait while I check that.</p>
+      <p id="popup-message" class="success">
+        ✅ Thank you for your message.<br>Please wait while I check that.
+      </p>
       <button id="close-popup">OK</button>
     </div>
   </div>
 </div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  emailjs.init({ publicKey: "XnRlZuWzp9T1p1js6" });
+
+  (function () {
+    const form = document.getElementById("contact-form");
+    const nameEl = document.getElementById("name");
+    const emailEl = document.getElementById("email");
+    const msgEl = document.getElementById("message");
+    const popup = document.getElementById("thankyou-popup");
+    const popupMsg = document.getElementById("popup-message");
+    const popupClose = document.getElementById("close-popup");
+    const sendBtn = form.querySelector('button[type="submit"]');
+
+    const SERVICE_ID = "service_7b9pvt2";
+    const TEMPLATE_ID = "template_1udgx0v";
+
+    const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!nameEl.value.trim() || !emailEl.value.trim() || !msgEl.value.trim()) {
+        showPopup("Please fill out all fields.", false);
+        return;
+      }
+
+      if (!isEmail(emailEl.value.trim())) {
+        showPopup("Please enter a valid email address.", false);
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.dataset.original = sendBtn.innerHTML;
+      sendBtn.innerHTML = `<i class="fa fa-spinner fa-spin"></i> Sending...`;
+
+      const templateParams = {
+        from_name: nameEl.value.trim(),
+        from_email: emailEl.value.trim(),
+        message: msgEl.value.trim(),
+      };
+
+      try {
+        await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams);
+        form.reset();
+        showPopup("✅ Thank you for your message.<br>I’ll get back to you shortly.", true);
+      } catch (err) {
+        console.error("EmailJS error:", err);
+        showPopup("Something went wrong while sending. Please try again later.", false);
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = sendBtn.dataset.original || "Send";
+      }
+    });
+
+    popupClose.addEventListener("click", () => {
+      popup.classList.remove("show");
+    });
+
+    function showPopup(message, success = true) {
+      popupMsg.innerHTML = message;
+      popupMsg.classList.toggle("success", success);
+      popupMsg.classList.toggle("error", !success);
+      popup.classList.add("show");
+    }
+  })();
+</script>
+
+<style>
+  .popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+  .popup.show {
+    display: flex;
+  }
+  .popup-content {
+    background: #fff;
+    padding: 18px 22px;
+    border-radius: 10px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+  }
+  .popup-content p {
+    margin: 0 0 12px;
+    line-height: 1.4;
+  }
+  .popup-content .success { color: #137333; }
+  .popup-content .error { color: #b3261e; }
+  #close-popup {
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+</style>
+
+
+
 
 
       <!-- Info -->
