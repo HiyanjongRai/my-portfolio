@@ -39,7 +39,7 @@ main { padding:16px; }
   text-decoration:none; color:#fff;
   font-family:"Bebas Neue",sans-serif;
 }
-.site-header .logo a h1{ font-size:1.8rem; font-weight:700; letter-spacing:2px; }
+.site-header .logo a h2{ font-size:1.8rem; font-weight:700; letter-spacing:2px; }
 
 .site-header nav ul{
   list-style:none; display:flex; gap:18px; align-items:center; margin:0; padding:0;
@@ -88,7 +88,7 @@ main { padding:16px; }
   margin:18px auto 10px;
   padding:0 20px;
 }
-.page-head h1{ margin:0 0 6px; font-weight:900; letter-spacing:.3px; font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem) }
+.page-head h2{ margin:0 0 6px; font-weight:900; letter-spacing:.3px; font-size:clamp(1.6rem,1.2rem + 2vw,2.4rem) }
 .page-head .sub{ color:var(--muted); font-size:1rem }
 
 /* ===== Gallery grid ===== */
@@ -166,7 +166,7 @@ main { padding:16px; }
 
 /* phones */
 @media (max-width:600px){
-  .page-head h1{ font-size:1.6rem }
+  .page-head h2{ font-size:1.6rem }
   .page-head .sub{ font-size:.95rem }
 
   .gallery{
