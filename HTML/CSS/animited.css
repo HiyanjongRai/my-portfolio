@@ -1,0 +1,19 @@
+.reveal{
+  opacity:0;
+  transform:translateY(24px) scale(0.98);
+  filter:blur(4px);
+  transition:opacity 700ms ease, transform 700ms ease, filter 700ms ease;
+  will-change:opacity, transform, filter;
+}
+
+.reveal.is-visible{
+  opacity:1;
+  transform:none;
+  filter:none;
+}
+
+.reveal{ transition-delay: calc(var(--reveal-delay, 0) * 1ms); }
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
