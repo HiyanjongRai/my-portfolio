@@ -203,7 +203,7 @@ a:not(.btn):not(.badge) {
 }
 
 .dropdown:hover .dropdown-content,
-.login-dropdown:hover .dropdown-content {
+.login-dropdown.open .dropdown-content {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);

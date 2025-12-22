@@ -176,6 +176,30 @@ nav ul li a:hover::after {
 .login-dropdown.open .dropdown-content {
   display: block;
 }
+
+/* Close button inside dropdown */
+.dropdown-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.dropdown-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
 @keyframes dropdownSlideIn {
   from { 
     opacity: 0; 
@@ -435,23 +459,22 @@ nav ul li a:hover::after {
 @media (max-width: 900px) {
   nav ul {
     position: fixed;
-    top: 60px;
+    top: 0;
     right: -100%;
-    height: auto;
-    max-height: 80vh;
-    overflow-y: auto;
-    width: min(80vw, 300px);
-    background: black; 
-    backdrop-filter: blur(12px);        
-    -webkit-backdrop-filter: blur(12px);
+    height: 100dvh;
+    width: min(85vw, 320px);
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
     align-items: flex-start;
-    padding: 20px;
-    gap: 14px;
-    transition: right 0.3s ease;
-    border-left: 1px solid rgba(255,255,255,0.08);
-    border-radius: 0 0 8px 8px;
+    padding: 60px 30px;
+    gap: 20px;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
     z-index: 2000;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
   }
   nav ul.show {
     right: 0;
@@ -477,23 +500,33 @@ nav ul li a:hover::after {
     font-size: .9rem;
   }
 
-  /* Mobile login dropdown */
+  /* Mobile login dropdown refinement */
+  .login-dropdown {
+    width: 100%;
+  }
+
   .login-dropdown .dropdown-content {
     position: relative;
-    top: auto; 
+    top: 10px;
     right: auto;
     width: 100%;
     min-width: unset;
     margin-top: 10px;
     padding: 24px 20px;
-    background: linear-gradient(135deg, rgba(15, 15, 20, 0.98), rgba(25, 25, 35, 0.98));
-    border: 1px solid rgba(255, 180, 0, 0.2);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    animation: none;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
   
   .login-dropdown a {
-    padding: 10px 14px !important;
-    font-size: 0.9rem;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 18px !important;
+    font-size: 0.95rem;
   }
   
   .dropdown-header h3 {

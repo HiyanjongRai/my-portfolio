@@ -29,21 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   on(menuClose, "click", () => navLinks && navLinks.classList.remove("show"));
 
   // ---------- LOGIN DROPDOWN + AUTH ----------
-  const loginDropdown   = $(".login-dropdown");
-  const loginToggle     = $("#login-toggle");
-  const dropdownContent = loginDropdown?.querySelector(".dropdown-content");
-  const loginForm       = $("#dropdown-login-form");
-
-  on(loginToggle, "click", e => {
-    e.preventDefault();
-    loginDropdown?.classList.toggle("open");
-  });
-  on(dropdownContent, "click", e => e.stopPropagation());
-  on(document, "click", e => {
-    if (loginDropdown && !loginDropdown.contains(e.target)) {
-      loginDropdown.classList.remove("open");
-    }
-  });
+  // Login dropdown logic is now handled by nav.js to prevent conflicts
 
   on(loginForm, "submit", async e => {
     e.preventDefault();

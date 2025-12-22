@@ -3,25 +3,8 @@
 #lightbox img { max-width: 100%; height: auto; }
 body.nav-open { overflow: hidden; }
 
-@media (max-width: 768px) {
-  .menu-toggle { display: block; }
-  nav ul {
-    flex-direction: column; gap: 20px;
-    position: fixed; top: 0; right: -100%;
-    width: 78%;
-    height: 100dvh;
-    background-color: black;
-    padding: 40px 20px;
-    transition: right 0.3s ease-in-out;
-  }
-  nav ul.show { right: 0; }
-  .menu-close { display: block; align-self: flex-end; }
-
-  .login-dropdown .dropdown-content {
-    position: static; display: none; box-shadow: none; padding: 0;
-  }
-  .login-dropdown.open .dropdown-content { display: flex; }
-  .dropdown-content input, .dropdown-content button { width: 100%; }
+  /* Shared Responsive Utilities */
+  .login-dropdown .dropdown-content { will-change: opacity, transform; }
 
 
 /* About me */
@@ -52,6 +35,7 @@ body.nav-open { overflow: hidden; }
   .about h2::after { width: 42px; }
 }
 
+@media (max-width: 768px) {
   /* Hero layout */
   .container { flex-direction: column; text-align: center; }
   .container-image img { max-width: min(520px, 100%); margin-inline: auto; }

@@ -83,10 +83,17 @@
           document.title = sectionTitles[targetId];
         }
         
-        // Smooth scroll to section
-        targetSection.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
+        // Get navbar height for offset
+        const navbar = document.querySelector('header');
+        const navbarHeight = navbar ? navbar.offsetHeight : 80;
+        
+        // Calculate position with offset
+        const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - navbarHeight - 20;
+        
+        // Smooth scroll to section with offset
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
         });
         
         // Update active link

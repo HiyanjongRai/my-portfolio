@@ -180,46 +180,20 @@
   
       loadImages();
   
-      // Nav + login
-      (function navEnhancements(){
-        const menuOpen  = document.getElementById('menu-open');
-        const menuClose = document.getElementById('menu-close');
-        const navLinks  = document.getElementById('nav-links');
-        const loginToggle   = document.getElementById('login-toggle');
-        const loginDropdown = document.querySelector('.login-dropdown');
-        const loginForm     = document.getElementById('dropdown-login-form');
-        const errorMsg      = document.getElementById('errorMsg');
-        const togglePassword= document.getElementById('togglePassword');
-  
-        const openMenu = ()=> navLinks?.classList.add('show');
-        const closeMenu= ()=> navLinks?.classList.remove('show');
-        const keyboardOpen = (e)=>{ if(e.type==='keydown' && e.key!=='Enter' && e.key!==' ') return; openMenu(); };
-  
-        menuOpen?.addEventListener('click', openMenu);
-        menuOpen?.addEventListener('keydown', keyboardOpen);
-        menuClose?.addEventListener('click', closeMenu);
-        menuClose?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' ') closeMenu(); });
-        navLinks?.addEventListener('click', (e)=>{ if(e.target.tagName==='A') closeMenu(); });
-  
-        loginToggle?.addEventListener('click', (e)=>{ e.preventDefault(); const open = loginDropdown?.classList.toggle('open'); loginToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); });
-        document.addEventListener('click', (e)=>{ if(loginDropdown && !loginDropdown.contains(e.target) && e.target!==loginToggle) loginDropdown.classList.remove('open'); });
-  
-        togglePassword?.addEventListener('click', ()=>{ const pwd = document.getElementById('password'); if(!pwd) return; pwd.type = pwd.type==='password' ? 'text' : 'password'; });
-  
-         loginForm?.addEventListener('submit', (e)=>{ e.preventDefault(); const u=loginForm.username.value.trim(); const p=loginForm.password.value.trim(); if(!u||!p){ errorMsg.textContent='Please enter username and password.'; return; } errorMsg.textContent='Login not wired to backend yet.'; setTimeout(()=>{ errorMsg.textContent=''; loginDropdown?.classList.remove('open'); },1200); });
+      // Login and Navigation enhancements are now handled by nav.js to avoid conflicts.
+      // Removed redundant code from here.
       
-         // Back to Top functionality
-         const backToTopBtn = document.getElementById('backToTop');
-         window.addEventListener('scroll', () => {
-           if (window.scrollY > 300) {
-             backToTopBtn?.classList.add('show');
-           } else {
-             backToTopBtn?.classList.remove('show');
-           }
-         });
-         backToTopBtn?.addEventListener('click', () => {
-           window.scrollTo({ top: 0, behavior: 'smooth' });
-         });
-      })();
+      // Back to Top functionality
+      const backToTopBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn?.classList.add('show');
+        } else {
+          backToTopBtn?.classList.remove('show');
+        }
+      });
+      backToTopBtn?.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     }
-  })();
+})();

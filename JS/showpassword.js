@@ -10,12 +10,4 @@
     });
   }
 
-  // Mobile Menu
-  const menuOpen = document.getElementById("menu-open");
-  const menuClose = document.getElementById("menu-close");
-  const navLinks = document.getElementById("nav-links");
-
-  if (menuOpen && menuClose) {
-    menuOpen.addEventListener("click", () => navLinks.classList.add("show"));
-    menuClose.addEventListener("click", () => navLinks.classList.remove("show"));
-  }
+  // Mobile Menu logic has been moved to nav.js for consolidation
