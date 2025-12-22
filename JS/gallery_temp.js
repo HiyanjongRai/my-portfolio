@@ -1,4 +1,4 @@
-
+﻿
 (() => {
     // Run after config.js (defer) has set window.API_BASE
     const onReady = (fn) =>
@@ -18,7 +18,7 @@
     function start() {
       const API_BASE = resolveApiBase();
       console.log(
-        `%cAPI_BASE → ${API_BASE}`,
+        `%cAPI_BASE â†’ ${API_BASE}`,
         'background:#003153;color:#fff;padding:4px 8px;border-radius:6px;font-weight:bold;'
       );
   
@@ -126,8 +126,8 @@
               <div class="detail-title">${title}</div>
               <div class="detail-desc">${desc}</div>
               <div class="detail-actions">
-                <button id="dt-prev" aria-label="Previous (←)"><i class="fa-solid fa-arrow-left"></i></button>
-                <button id="dt-next" aria-label="Next (→)"><i class="fa-solid fa-arrow-right"></i></button>
+                <button id="dt-prev" aria-label="Previous (â†)"><i class="fa-solid fa-arrow-left"></i></button>
+                <button id="dt-next" aria-label="Next (â†’)"><i class="fa-solid fa-arrow-right"></i></button>
                 <button id="dt-open" aria-label="Open original in new tab"><i class="fa-solid fa-up-right-from-square"></i></button>
                 <button id="dt-close" aria-label="Close details"><i class="fa-solid fa-xmark"></i></button>
               </div>
@@ -180,33 +180,5 @@
   
       loadImages();
   
-      // Nav + login
-      (function navEnhancements(){
-        const menuOpen  = document.getElementById('menu-open');
-        const menuClose = document.getElementById('menu-close');
-        const navLinks  = document.getElementById('nav-links');
-        const loginToggle   = document.getElementById('login-toggle');
-        const loginDropdown = document.querySelector('.login-dropdown');
-        const loginForm     = document.getElementById('dropdown-login-form');
-        const errorMsg      = document.getElementById('errorMsg');
-        const togglePassword= document.getElementById('togglePassword');
-  
-        const openMenu = ()=> navLinks?.classList.add('show');
-        const closeMenu= ()=> navLinks?.classList.remove('show');
-        const keyboardOpen = (e)=>{ if(e.type==='keydown' && e.key!=='Enter' && e.key!==' ') return; openMenu(); };
-  
-        menuOpen?.addEventListener('click', openMenu);
-        menuOpen?.addEventListener('keydown', keyboardOpen);
-        menuClose?.addEventListener('click', closeMenu);
-        menuClose?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' ') closeMenu(); });
-        navLinks?.addEventListener('click', (e)=>{ if(e.target.tagName==='A') closeMenu(); });
-  
-        loginToggle?.addEventListener('click', (e)=>{ e.preventDefault(); const open = loginDropdown?.classList.toggle('open'); loginToggle.setAttribute('aria-expanded', open ? 'true' : 'false'); });
-        document.addEventListener('click', (e)=>{ if(loginDropdown && !loginDropdown.contains(e.target) && e.target!==loginToggle) loginDropdown.classList.remove('open'); });
-  
-        togglePassword?.addEventListener('click', ()=>{ const pwd = document.getElementById('password'); if(!pwd) return; pwd.type = pwd.type==='password' ? 'text' : 'password'; });
-  
-         loginForm?.addEventListener('submit', (e)=>{ e.preventDefault(); const u=loginForm.username.value.trim(); const p=loginForm.password.value.trim(); if(!u||!p){ errorMsg.textContent='Please enter username and password.'; return; } errorMsg.textContent='Login not wired to backend yet.'; setTimeout(()=>{ errorMsg.textContent=''; loginDropdown?.classList.remove('open'); },1200); });
-
     }
   })();
