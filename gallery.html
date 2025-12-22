@@ -28,35 +28,66 @@
 
 </head>
 <body>
-<header>
+<header class="fade-in-down">
   <nav aria-label="Main">
     <div class="nav-container">
-      <div class="logo"><a href="index.html" aria-label="Go to homepage"><h1>HIYAN JONG RAI</h1></a></div>
-      <div class="menu-toggle" id="menu-open" tabindex="0" aria-label="Open menu" role="button">☰</div>
+      <!-- Logo -->
+      <div class="logo smooth-transition">
+        <a href="index.html" aria-label="Go to homepage">
+          <h2>HIYAN JONG RAI</h2>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="menu-toggle smooth-transition" id="menu-open">☰</div>
+
+      <!-- Navigation Links -->
       <ul id="nav-links">
-        <li><span class="menu-close" id="menu-close" tabindex="0" role="button" aria-label="Close menu">✕</span></li>
-        <li><a href="index.html#about">About Me</a></li>
-        <li><a href="index.html#expertise">Expertise</a></li>
-        <li><a href="index.html#education">Education</a></li>
-        <li><a href="index.html#project">Projects</a></li>
-        <li><a href="./gallery.html" aria-current="page">My Gallery</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
-        <li class="login-dropdown">
-          <a href="#" id="login-toggle" aria-haspopup="true" aria-expanded="false">Login ▾</a>
-          <div class="dropdown-content" role="dialog" aria-label="Login form">
+        <li><span class="menu-close" id="menu-close">✕</span></li>
+        <li class="stagger-item"><a href="index.html#about" class="smooth-transition">About Me</a></li>
+        <li class="stagger-item"><a href="index.html#expertised" class="smooth-transition">Expertise</a></li>
+        <li class="stagger-item"><a href="index.html#education" class="smooth-transition">Education</a></li>
+        <li class="stagger-item"><a href="index.html#experience" class="smooth-transition">Experience</a></li>
+        <li class="stagger-item"><a href="index.html#project" class="smooth-transition">Projects</a></li>
+        <li class="stagger-item"><a href="gallery.html" class="smooth-transition" aria-current="page">My Gallery</a></li>
+        <li class="stagger-item"><a href="index.html#contact" class="smooth-transition">Contact Me</a></li>
+
+        <!-- Login dropdown -->
+        <li class="login-dropdown stagger-item">
+          <a href="#" id="login-toggle" class="smooth-transition">
+            <i class="fas fa-user-circle"></i> Login
+          </a>
+          <div class="dropdown-content">
+            <div class="dropdown-header">
+              <i class="fas fa-sign-in-alt"></i>
+              <h3>Welcome Back</h3>
+              <p>Sign in to your account</p>
+            </div>
             <form id="dropdown-login-form">
-              <label for="username">Username or Email</label>
-              <input type="text" id="username" name="username" placeholder="Enter username or email" required>
-              <label for="password">Password</label>
-              <div class="password-wrapper">
-                <input type="password" id="password" name="password" placeholder="Enter Password" required>
-                <span class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">👁</span>
+              <div class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="username" name="username" placeholder="Username or Email" class="smooth-transition" required>
               </div>
-              <button type="submit">Login</button>
-              <div class="error" id="errorMsg" aria-live="polite"></div>
+
+              <div class="input-group">
+                <i class="fas fa-lock input-icon"></i>
+                <div class="password-wrapper">
+                  <input type="password" id="password" name="password" placeholder="Password" class="smooth-transition" required>
+                  <span class="toggle-password smooth-transition" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                  </span>
+                </div>
+              </div>
+
+              <button type="submit" class="login-btn smooth-transition">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+              </button>
+              
+              <div class="error" id="errorMsg"></div>
             </form>
           </div>
         </li>
+
       </ul>
     </div>
   </nav>
@@ -79,8 +110,11 @@
 </button>
 
 <script src="config.js" defer></script>
-<script src="./JS/navbar.js" defer></script>
 <script src="./JS/gallery.js" defer></script>
+<script src="./JS/nav.js" defer></script>
+<script src="./JS/enhanced-nav.js" defer></script>
+<script src="./JS/showpassword.js" defer></script>
+<script src="./JS/site-custom.js" defer></script>
 
 </body>
 </html>

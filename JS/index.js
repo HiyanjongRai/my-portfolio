@@ -21,8 +21,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
   if (!API_BASE) console.warn("[front] window.API_BASE is empty. Did you include config.js first?");
 
-  // ---------- LOGIN FORM SUBMISSION ----------
-  const loginForm = $("#dropdown-login-form");
+  // ---------- NAV MENU ----------
+  const menuOpen  = $("#menu-open");
+  const menuClose = $("#menu-close");
+  const navLinks  = $("#nav-links");
+  on(menuOpen,  "click", () => navLinks && navLinks.classList.add("show"));
+  on(menuClose, "click", () => navLinks && navLinks.classList.remove("show"));
+
+  // ---------- LOGIN DROPDOWN + AUTH ----------
+  const loginDropdown   = $(".login-dropdown");
+  const loginToggle     = $("#login-toggle");
+  const dropdownContent = loginDropdown?.querySelector(".dropdown-content");
+  const loginForm       = $("#dropdown-login-form");
+
+  on(loginToggle, "click", e => {
+    e.preventDefault();
+    loginDropdown?.classList.toggle("open");
+  });
+  on(dropdownContent, "click", e => e.stopPropagation());
+  on(document, "click", e => {
+    if (loginDropdown && !loginDropdown.contains(e.target)) {
+      loginDropdown.classList.remove("open");
+    }
+  });
 
   on(loginForm, "submit", async e => {
     e.preventDefault();

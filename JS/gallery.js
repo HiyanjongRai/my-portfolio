@@ -1,4 +1,4 @@
-
+﻿
 (() => {
     // Run after config.js (defer) has set window.API_BASE
     const onReady = (fn) =>
@@ -207,6 +207,19 @@
         togglePassword?.addEventListener('click', ()=>{ const pwd = document.getElementById('password'); if(!pwd) return; pwd.type = pwd.type==='password' ? 'text' : 'password'; });
   
          loginForm?.addEventListener('submit', (e)=>{ e.preventDefault(); const u=loginForm.username.value.trim(); const p=loginForm.password.value.trim(); if(!u||!p){ errorMsg.textContent='Please enter username and password.'; return; } errorMsg.textContent='Login not wired to backend yet.'; setTimeout(()=>{ errorMsg.textContent=''; loginDropdown?.classList.remove('open'); },1200); });
-
+      
+         // Back to Top functionality
+         const backToTopBtn = document.getElementById('backToTop');
+         window.addEventListener('scroll', () => {
+           if (window.scrollY > 300) {
+             backToTopBtn?.classList.add('show');
+           } else {
+             backToTopBtn?.classList.remove('show');
+           }
+         });
+         backToTopBtn?.addEventListener('click', () => {
+           window.scrollTo({ top: 0, behavior: 'smooth' });
+         });
+      })();
     }
   })();

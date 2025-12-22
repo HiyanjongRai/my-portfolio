@@ -67,31 +67,35 @@
   navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
-      if (href.startsWith('#')) {
-        e.preventDefault();
-        const targetId = href.substring(1);
-        const targetSection = document.getElementById(targetId);
+      
+      // Skip if this is the login toggle or other special links
+      if (this.id === 'login-toggle' || !href.startsWith('#')) {
+        return;
+      }
+      
+      e.preventDefault();
+      const targetId = href.substring(1);
+      const targetSection = document.getElementById(targetId);
+      
+      if (targetSection) {
+        // Update title immediately
+        if (sectionTitles[targetId]) {
+          document.title = sectionTitles[targetId];
+        }
         
-        if (targetSection) {
-          // Update title immediately
-          if (sectionTitles[targetId]) {
-            document.title = sectionTitles[targetId];
-          }
-          
-          // Smooth scroll to section
-          targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-          
-          // Update active link
-          updateActiveLink(targetId);
-          
-          // Close mobile menu if open
-          const navLinksContainer = document.getElementById('nav-links');
-          if (navLinksContainer && window.innerWidth <= 768) {
-            navLinksContainer.classList.remove('active');
-          }
+        // Smooth scroll to section
+        targetSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+        
+        // Update active link
+        updateActiveLink(targetId);
+        
+        // Close mobile menu if open
+        const navLinksContainer = document.getElementById('nav-links');
+        if (navLinksContainer && window.innerWidth <= 768) {
+          navLinksContainer.classList.remove('active');
         }
       }
     });
