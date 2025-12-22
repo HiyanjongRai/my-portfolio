@@ -8,7 +8,7 @@
   const sectionTitles = {
     'home': 'Home - Hiyan Jong Rai',
     'about': 'About Me - Hiyan Jong Rai',
-    'expertised': 'My Expertise - Hiyan Jong Rai',
+    'expertise': 'My Expertise - Hiyan Jong Rai',
     'education': 'Education - Hiyan Jong Rai',
     'project': 'Projects - Hiyan Jong Rai',
     'contact': 'Contact Me - Hiyan Jong Rai'

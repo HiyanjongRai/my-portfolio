@@ -1,17 +1,3 @@
-
-(function addPreconnect(url) {
-  if (!url) return;
-  const make = (rel) => {
-    const link = document.createElement('link');
-    link.rel = rel;
-    link.href = url;
-    if (rel === 'preconnect') link.crossOrigin = '';
-    document.head.appendChild(link);
-  };
-  make('preconnect');
-  make('dns-prefetch');
-})('https://brzzpwmuixjslgnwlgvw.supabase.co');
-
 document.addEventListener("DOMContentLoaded", () => {
   const $  = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -21,16 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const API_BASE = (window.API_BASE || "").replace(/\/+$/, "");
   if (!API_BASE) console.warn("[front] window.API_BASE is empty. Did you include config.js first?");
 
-  // ---------- NAV MENU ----------
-  const menuOpen  = $("#menu-open");
-  const menuClose = $("#menu-close");
-  const navLinks  = $("#nav-links");
-  on(menuOpen,  "click", () => navLinks && navLinks.classList.add("show"));
-  on(menuClose, "click", () => navLinks && navLinks.classList.remove("show"));
-
   // ---------- LOGIN DROPDOWN + AUTH ----------
-  // Login dropdown logic is now handled by nav.js to prevent conflicts
-
+  const loginForm = $("#dropdown-login-form");
   on(loginForm, "submit", async e => {
     e.preventDefault();
     await login();
@@ -127,41 +105,31 @@ async function safeRead(res) {
         }
       });
     },
-    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    { threshold: 0.05 }
   );
 
   function addRevealTargets(root = document) {
-    const targets = [
-      ".text#expertise h1",
-      ".description p",
-      ".expertise .card",
-      ".education-section h2",
-      ".education-section .edu-card",
-      ".project h1",
-      ".projects .project-card",
-      ".highlights h1",
-      "#gallery li",
-      ".contact h1",
-      ".contact .contact-card"
-    ];
-    targets.forEach(sel => {
-      $$(sel, root).forEach(el => el.classList.add("reveal"));
-    });
-
+    if (root === document) document.body.classList.add("js-reveal");
+    
+    // Only observe elements that already have the 'reveal' class in HTML
     const staggerParents = [
       ".expertise",
-      ".education-section .edu-date",
+      ".education-section",
       ".projects",
-      ".contact .contact-wrapper",
+      ".contact-wrapper",
       "#gallery"
     ];
     staggerParents.forEach(sel => {
-      const children = $$(sel + " .reveal", root);
+      const parent = $(sel, root);
+      if (!parent) return;
+      const children = $$(".reveal", parent);
       children.forEach((el, i) => el.style.setProperty("--reveal-delay", i * 120));
     });
 
     $$(".reveal", root).forEach(el => {
-      if (!el.classList.contains("is-visible")) io.observe(el);
+      if (!el.classList.contains("is-visible")) {
+        io.observe(el);
+      }
     });
   }
 
@@ -187,6 +155,7 @@ async function safeRead(res) {
   (async function loadProjects() {
     const container = document.querySelector("#projects-container");
     if (!container) return;
+    container.innerHTML = `<p class="loading-status">Loading projects...</p>`;
 
     const apiUrl = `${API_BASE}/api/projects`;
     const { error, data } = await getJSON(apiUrl);
