@@ -155,79 +155,139 @@ async function safeRead(res) {
   (async function loadProjects() {
     const container = document.querySelector("#projects-container");
     if (!container) return;
-    container.innerHTML = `<p class="loading-status">Loading projects...</p>`;
 
-    const apiUrl = `${API_BASE}/api/projects`;
-    const { error, data } = await getJSON(apiUrl);
+    // Static project details (Jhapcham) - Acts as placeholder
+    const staticProject = {
+      id: "jhapcham-static-placeholder",
+      title: "Jhapcham - Ecommerce Platform",
+      description: "A full-stack ecommerce solution featuring a React frontend and Spring Boot backend. Includes a product catalog, secure shopping cart, and a responsive admin dashboard. Developed for my 6th sem project.",
+      techStack: "React, Spring Boot, PostgreSQL, REST API",
+      demoLink: "https://jhapcham.vercel.app/",
+      codeLink: "https://github.com/HiyanjongRai/jhapcham-frontend.git",
+      imageUrl: "images/jhapcham.png"
+    };
 
-    if (error) {
-      container.innerHTML = `<p style="color:#c33">Could not load projects: ${error}</p>`;
-      return;
-    }
-
-    const list = Array.isArray(data) ? data : (Array.isArray(data?.content) ? data.content : []);
-    if (!list.length) {
-      container.innerHTML = "<p>No projects found.</p>";
-      return;
-    }
-
-    const html = list.map(project => {
+    function createProjectHtml(project, isStatic = false) {
       const id    = project.id ?? project.projectId ?? project.imageId ?? Math.random().toString(36).slice(2);
       const title = project.title ?? project.name ?? "Untitled";
       const desc  = project.description ?? "";
       const tech  = project.techStack ?? (Array.isArray(project.tech) ? project.tech.join(", ") : (project.tech || ""));
-      const demo  = project.demoLink ?? project.demo_url ?? "";
-      const code  = project.codeLink ?? project.github ?? "";
-      const imageUrl = `${API_BASE}/api/projects/image/${id}`;
+      const demo  = isStatic ? project.demoLink : (project.demoLink ?? project.demo_url ?? "");
+      const code  = isStatic ? project.codeLink : (project.codeLink ?? project.github ?? "");
+      const imageUrl = isStatic ? project.imageUrl : `${API_BASE}/api/projects/image/${id}`;
 
       return `
-        <article class="project-card reveal" role="button" tabindex="0" aria-expanded="false" aria-controls="details-${id}">
+        <article class="project-card reveal" 
+                 id="project-${id}"
+                 role="button" 
+                 tabindex="0" 
+                 aria-expanded="false" 
+                 aria-controls="details-${id}">
           <div class="project-header">
-            <img src="${imageUrl}" alt="${title}">
-            <h2>${title}</h2>
+            <img src="${imageUrl}" alt="${title}" onerror="this.src='images/logo.png'">
+            <div class="header-title-box">
+              <h2>${title.toUpperCase()}</h2>
+              <span class="title-line"></span>
+            </div>
           </div>
 
           <div class="project-details" id="details-${id}">
-            ${desc ? `<p>${desc}</p>` : ""}
-            ${tech ? `<p class="tech-stack">Tech: ${tech}</p>` : ""}
-            ${(demo || code) ? `
+            <div class="details-inner">
+              ${desc ? `<p class="project-desc">${desc}</p>` : ""}
+              ${tech ? `<p class="tech-stack">Tech: ${tech}</p>` : ""}
               <div class="project-links">
                 ${demo ? `<a class="demo" href="${demo}" target="_blank" rel="noopener">Live Demo</a>` : ""}
                 ${code ? `<a class="code" href="${code}" target="_blank" rel="noopener">GitHub</a>` : ""}
-              </div>` : ""}
+              </div>
+            </div>
           </div>
         </article>
       `;
-    }).join("");
+    }
 
-    container.innerHTML = html;
+    // Toggle logic
+    function toggleProjectCard(card) {
+      if (!card) return;
+      
+      const isOpen = card.classList.contains("is-open");
+      
+      // Close all other cards
+      $$(".project-card.is-open", container).forEach(c => {
+        if (c !== card) {
+          c.classList.remove("is-open");
+          c.setAttribute("aria-expanded", "false");
+        }
+      });
 
-    // toggle handlers
+      // Toggle requested card
+      if (isOpen) {
+        card.classList.remove("is-open");
+        card.setAttribute("aria-expanded", "false");
+      } else {
+        card.classList.add("is-open");
+        card.setAttribute("aria-expanded", "true");
+        
+        setTimeout(() => {
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 400);
+      }
+    }
+
+    // 1. Initially show the static project as a high-quality placeholder
+    container.innerHTML = createProjectHtml(staticProject, true);
+    
+    const loader = document.createElement('div');
+    loader.id = "backend-projects-loader";
+    loader.className = "loading-status";
+    loader.innerHTML = "<p>Updating with latest projects...</p>";
+    container.after(loader);
+
+    if (typeof addRevealTargets === "function") addRevealTargets(container);
+
+    // 2. Fetch real projects from backend
+    try {
+      const apiUrl = `${API_BASE}/api/projects`;
+      const { error, data } = await getJSON(apiUrl);
+      
+      if (loader) loader.remove();
+
+      if (!error && data) {
+        const list = Array.isArray(data) ? data : (Array.isArray(data?.content) ? data.content : []);
+        
+        if (list.length > 0) {
+          // Success: Clear the static placeholder and replace with live data
+          container.innerHTML = ""; 
+          
+          const backendHtml = list.map(project => createProjectHtml(project, false)).join("");
+          container.innerHTML = backendHtml;
+          
+          if (typeof addRevealTargets === "function") addRevealTargets(container);
+        }
+        // If list is empty, Jhapcham remains as the standard fallback
+      }
+    } catch (e) {
+      console.warn("Using offline project fallback.");
+    }
+
+    // Event handlers for both static and dynamic cards
     container.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
       const card = e.target.closest(".project-card");
-      if (!card) return;
-      toggleCard(card);
-    });
-    container.addEventListener("keydown", (e) => {
-      const card = e.target.closest(".project-card");
-      if (!card) return;
-      if (e.key === "Enter" || e.key === " ") {
+      if (card) {
         e.preventDefault();
-        toggleCard(card);
+        toggleProjectCard(card);
       }
     });
 
-    function toggleCard(card){
-      const open = card.classList.toggle("is-open");
-      card.setAttribute("aria-expanded", String(open));
-      // optional: close others
-      [...container.querySelectorAll(".project-card.is-open")].forEach(c=>{
-        if(c!==card){ c.classList.remove("is-open"); c.setAttribute("aria-expanded","false"); }
-      });
-    }
-
-    // keep your reveal helper if you use it
-    if (typeof addRevealTargets === "function") addRevealTargets(container);
+    container.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const card = e.target.closest(".project-card");
+        if (card) {
+          e.preventDefault();
+          toggleProjectCard(card);
+        }
+      }
+    });
   })();
 
 });
