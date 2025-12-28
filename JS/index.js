@@ -162,7 +162,7 @@ async function safeRead(res) {
       title: "Jhapcham - Ecommerce Platform",
       description: "A full-stack ecommerce solution featuring a React frontend and Spring Boot backend. Includes a product catalog, secure shopping cart, and a responsive admin dashboard. Developed for my 6th sem project.",
       techStack: "React, Spring Boot, PostgreSQL, REST API",
-      demoLink: "https://jhapcham-frontend-c21exgnp6-hiyan-jong-rais-projects.vercel.app/",
+      demoLink: "https://jhapcham.vercel.app/",
       codeLink: "https://github.com/HiyanjongRai/jhapcham-frontend.git",
       imageUrl: "images/jhapcham.png"
     };
