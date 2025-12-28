@@ -54,6 +54,17 @@
             <i data-lucide="search" class="search-icon"></i>
             <input type="search" placeholder="Search..." class="search-input">
           </div>
+          
+          <div class="topbar-stat clickable-card" id="topbarViews" title="View Detailed Analytics">
+            <div class="stat-icon-sm">
+              <i data-lucide="eye"></i>
+            </div>
+            <div class="stat-text">
+              <span class="label">Total Views</span>
+              <span class="value" id="topbarViewCount">0</span>
+            </div>
+          </div>
+
           <button id="notifBell" class="icon-btn" title="Notifications">
             <i data-lucide="bell"></i>
             <span class="notif-indicator" id="notifIndicator" hidden></span>
@@ -123,7 +134,7 @@
             </div>
           </div>
           
-          <div class="stat-card">
+          <div class="stat-card clickable-card" id="totalViewsKpi">
             <div class="stat-visual">
               <div class="stat-icon">
                 <i data-lucide="eye"></i>
@@ -140,7 +151,7 @@
               <span class="stat-value" id="viewCount">—</span>
               <span class="stat-meta">
                 <i data-lucide="trending-up" class="meta-icon"></i>
-                This month
+                Detailed Analytics
               </span>
             </div>
           </div>
@@ -307,13 +318,49 @@
           </div>
         </div>
 
-        <!-- Visitor Analytics Section -->
-        <div class="section-header" style="margin-top: 32px;">
-          <h2 class="section-title">
-            <i data-lucide="map-pin"></i>
+        <!-- Visitor Analytics Quick Summary -->
+        <div class="card card-full" style="margin-top: 24px;">
+          <div class="card-header">
+            <h3>
+              <i data-lucide="bar-chart-3"></i>
+              Visitor Summary
+            </h3>
+            <a href="#" class="link-btn" id="viewAllVisitors">
+              Detailed Analytics
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="stats-row" style="margin-top: 16px; border: none; padding: 0;">
+            <div class="stat-card" style="box-shadow: none; border: 1px solid rgba(255,255,255,0.05);">
+              <div class="stat-info">
+                <span class="stat-label">Total Views</span>
+                <span class="stat-value" id="totalViewsDashboard">—</span>
+              </div>
+            </div>
+            <div class="stat-card" style="box-shadow: none; border: 1px solid rgba(255,255,255,0.05);">
+              <div class="stat-info">
+                <span class="stat-label">Today</span>
+                <span class="stat-value" id="todayViewsDashboard">—</span>
+              </div>
+            </div>
+            <div class="stat-card" style="box-shadow: none; border: 1px solid rgba(255,255,255,0.05);">
+              <div class="stat-info">
+                <span class="stat-label">Unique</span>
+                <span class="stat-value" id="uniqueVisitorsDashboard">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Visitors Section -->
+      <section id="visitors">
+        <div class="section-header">
+          <h1 class="section-title">
+            <i data-lucide="users"></i>
             Visitor Analytics
-          </h2>
-          <span class="section-subtitle">Track who's visiting your portfolio</span>
+          </h1>
+          <span class="section-subtitle">Comprehensive tracking data</span>
         </div>
 
         <!-- Visitor Stats Cards -->
@@ -384,9 +431,9 @@
         </div>
 
         <!-- Geographic Distribution -->
-        <div class="two-col">
+        <div class="grid-2">
           <!-- Top Countries -->
-          <div class="card">
+          <div class="card span-6">
             <div class="card-header">
               <h3>
                 <i data-lucide="globe"></i>
@@ -404,7 +451,7 @@
           </div>
           
           <!-- Top Cities -->
-          <div class="card">
+          <div class="card span-6">
             <div class="card-header">
               <h3>
                 <i data-lucide="building-2"></i>
@@ -420,7 +467,7 @@
         </div>
 
         <!-- Recent Visitors -->
-        <div class="card card-full" style="margin-top: 24px;">
+        <div class="card" style="margin-top: 24px;">
           <div class="card-header">
             <h3>
               <i data-lucide="users"></i>
@@ -450,6 +497,7 @@
             </table>
           </div>
         </div>
+
       </section>
 
       <!-- Notifications Panel -->
@@ -483,31 +531,36 @@
         <span class="brand-name">Portfolio<span class="brand-accent">Admin</span></span>
       </div>
       
-      <nav class="sidebar-menu">
-        <span class="menu-label">Navigation</span>
-        <a href="./dashboard.html" class="menu-item active">
+      <nav class="nav">
+        <span class="nav-title">Navigation</span>
+        <a href="#" class="active" id="navDashboard">
           <i data-lucide="layout-dashboard"></i>
           <span>Dashboard</span>
           <span class="kbd">⌘1</span>
         </a>
-        <a href="./posts.html" class="menu-item">
+        <a href="./posts.html">
           <i data-lucide="image"></i>
           <span>Posts</span>
           <span class="badge" id="navPostCount">0</span>
         </a>
-        <a href="./projects.html" class="menu-item">
+        <a href="./projects.html">
           <i data-lucide="folder"></i>
           <span>Projects</span>
           <span class="badge" id="navProjectCount">0</span>
         </a>
+        <a href="#" id="navVisitorsSection">
+          <i data-lucide="users"></i>
+          <span>Visitors</span>
+          <span class="badge" id="navVisitorCount">0</span>
+        </a>
         
-        <span class="menu-label">More</span>
-        <a href="./gallery.html" class="menu-item">
-          <i data-lucide="grid-3x3"></i>
+        <span class="nav-title">More</span>
+        <a href="./gallery.html">
+          <i data-lucide="layout-grid"></i>
           <span>Gallery</span>
         </a>
-        <a href="./index.html" class="menu-item">
-          <i data-lucide="globe"></i>
+        <a href="./index.html">
+          <i data-lucide="external-link"></i>
           <span>View Site</span>
         </a>
       </nav>
@@ -565,6 +618,7 @@
 
   <script src="./config.js" defer></script>
   <script src="./JS/common.js" defer></script>
+  <script src="./JS/visitor-tracker.js" defer></script>
   <script src="./JS/dashboard.js" defer></script>
 
   <script>
@@ -574,16 +628,93 @@
       if (typeof lucide !== 'undefined') lucide.createIcons();
     });
 
-    const AC = window.AppCommon || {};
-    const http = AC.http || (async (path, opts={}) => {
-      const base = (window.API_BASE||'').replace(/\/+$/,'');
+    // Local helper for fetching data with AUTH
+    async function secureFetch(path, opts = {}) {
+      const base = (window.API_BASE || '').replace(/\/+$/, '');
       const url = path.startsWith('http') ? path : base + path;
-      const res = await fetch(url, { credentials:'include', ...opts });
+      const token = localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '';
+      const bearer = token ? (token.startsWith('Bearer ') ? token : `Bearer ${token}`) : '';
+      
+      const headers = { 
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        ...(bearer ? { 'Authorization': bearer } : {}),
+        ...(opts.headers || {})
+      };
+
+      const res = await fetch(url, { 
+        credentials: 'include', 
+        ...opts, 
+        headers 
+      });
+
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const ct = res.headers.get('content-type')||'';
+      const ct = res.headers.get('content-type') || '';
       return ct.includes('application/json') ? res.json() : null;
+    }
+
+    const http = secureFetch;
+    const API = (window.API_BASE || '').replace(/\/+$/, '');
+
+    // ===== Sidebar Navigation Switching =====
+    const navDashboard = document.getElementById('navDashboard');
+    const navVisitors = document.getElementById('navVisitorsSection');
+    const sections = ['dashboard', 'visitors'];
+
+    function showSection(targetId) {
+      sections.forEach(id => {
+        const sec = document.getElementById(id);
+        if (sec) {
+          if (id === targetId) {
+            sec.classList.add('active');
+            sec.style.display = 'block';
+          } else {
+            sec.classList.remove('active');
+            sec.style.display = 'none';
+          }
+        }
+      });
+      
+      // Update active state in sidebar
+      const navLinks = [navDashboard, navVisitors];
+      navLinks.forEach(nav => {
+        if (!nav) return;
+        const isTarget = (nav === navDashboard && targetId === 'dashboard') || 
+                         (nav === navVisitors && targetId === 'visitors');
+        nav.classList.toggle('active', isTarget);
+      });
+
+      // Re-init icons for the new section
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    navDashboard?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection('dashboard');
     });
-    const API = (window.API_BASE||'').replace(/\/+$/,'');
+
+    navVisitors?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection('visitors');
+      loadVisitorStats();
+    });
+
+    document.getElementById('viewAllVisitors')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSection('visitors');
+      loadVisitorStats();
+    });
+
+    document.getElementById('totalViewsKpi')?.addEventListener('click', () => {
+      showSection('visitors');
+      loadVisitorStats();
+    });
+
+    document.getElementById('topbarViews')?.addEventListener('click', () => {
+      showSection('visitors');
+      loadVisitorStats();
+    });
 
     // ===== Custom Confirmation Modal =====
     const confirmModal = document.getElementById('confirmModal');
@@ -940,55 +1071,40 @@
       console.log('[Visitor Stats] Loading visitor analytics...');
       
       try {
-        const token = localStorage.getItem('jwtToken');
-        if (!token) {
-          console.warn('[Visitor Stats] No JWT token found');
-          return;
-        }
-        if (!API) {
-          console.warn('[Visitor Stats] No API URL configured');
-          return;
-        }
-
-        console.log('[Visitor Stats] Fetching from:', API + '/api/visitors/stats');
+        // Use our local secureFetch helper
+        const stats = await secureFetch('/api/visitors/stats');
         
-        const res = await fetch(API + '/api/visitors/stats', {
-          headers: { 
-            'Authorization': 'Bearer ' + token,
-            'Accept': 'application/json'
-          },
-          credentials: 'include'
-        });
-
-        if (!res.ok) {
-          console.warn('[Visitor Stats] Could not load:', res.status, res.statusText);
-          // Show error in UI
-          showVisitorStatsError('Failed to load visitor stats');
+        if (!stats) {
+          console.warn('[Visitor Stats] No data returned from API');
+          showVisitorStatsError('No analytics data available');
           return;
         }
 
-        const stats = await res.json();
         console.log('[Visitor Stats] Data received:', stats);
         console.log('[Visitor Stats] Total Views:', stats.totalViews);
         console.log('[Visitor Stats] Recent Visitors count:', stats.recentVisitors?.length || 0);
 
-        // Update stat cards
-        const totalViews = document.getElementById('totalViewsCount');
-        const todayViews = document.getElementById('todayViewsCount');
-        const uniqueVisitors = document.getElementById('uniqueVisitorsCount');
-        const locationGranted = document.getElementById('locationGrantedCount');
+        // Update all visitor stat elements
+        const updateText = (id, val) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = (val || 0).toLocaleString();
+        };
 
-        if (totalViews) {
-          totalViews.textContent = (stats.totalViews || 0).toLocaleString();
-          console.log('[Visitor Stats] Updated totalViews element');
-        }
-        if (todayViews) todayViews.textContent = (stats.todayViews || 0).toLocaleString();
-        if (uniqueVisitors) uniqueVisitors.textContent = (stats.uniqueVisitors || 0).toLocaleString();
-        if (locationGranted) locationGranted.textContent = (stats.locationGrantedCount || 0).toLocaleString();
-
-        // Update the main viewCount as well (if it exists from the original stats)
-        const viewCount = document.getElementById('viewCount');
-        if (viewCount) viewCount.textContent = (stats.thisMonthViews || stats.totalViews || 0).toLocaleString();
+        // Detailed section
+        updateText('totalViewsCount', stats.totalViews);
+        updateText('todayViewsCount', stats.todayViews);
+        updateText('uniqueVisitorsCount', stats.uniqueVisitors);
+        updateText('locationGrantedCount', stats.locationGrantedCount);
+        
+        // Summary elements on main dashboard
+        updateText('totalViewsDashboard', stats.totalViews);
+        updateText('todayViewsDashboard', stats.todayViews);
+        updateText('uniqueVisitorsDashboard', stats.uniqueVisitors);
+        
+        // Legacy/Generic IDs
+        updateText('viewCount', stats.totalViews);
+        updateText('navVisitorCount', stats.totalViews);
+        updateText('topbarViewCount', stats.totalViews);
 
         // Top Countries
         const countriesList = document.getElementById('topCountriesList');
@@ -1066,11 +1182,20 @@
 
       } catch (e) {
         console.warn('[Visitor Stats] Error loading:', e);
+        if (e.message.includes('401')) {
+          showToast('Session expired. Please log in again.', 'error');
+          setTimeout(() => location.replace('index.html'), 2000);
+        } else {
+          showVisitorStatsError('Failed to load visitor stats');
+        }
       }
     }
 
-    // Load visitor stats on page load
-    loadVisitorStats();
+    // Load stats and init UI when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      loadVisitorStats();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
 
     // Refresh visitor stats button
     document.getElementById('refreshVisitorStats')?.addEventListener('click', () => {
@@ -2293,11 +2418,80 @@
       text-overflow: ellipsis;
     }
     
+    /* Topbar Stat */
+    .topbar-stat {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      margin: 0 8px;
+    }
+    
+    .stat-icon-sm {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+    }
+    
+    .stat-icon-sm i {
+      width: 14px;
+      height: 14px;
+      color: #fff;
+    }
+    
+    .stat-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+    
+    .stat-text .label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stat-text .value {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    
+    @media (max-width: 600px) {
+      .topbar-stat .stat-text .label { display: none; }
+      .topbar-stat { padding: 4px 8px; gap: 6px; }
+    }
+    
     /* Full width card */
     .card-full {
       grid-column: 1 / -1;
     }
     
+    /* Interactive Cards */
+    .clickable-card {
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .clickable-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-4px) scale(1.01);
+    }
+    
+    .clickable-card:active {
+      transform: translateY(-2px) scale(0.99);
+    }
+
     /* Section title with h2 */
     .section-header h2.section-title {
       font-size: 1.3rem;
