@@ -162,7 +162,7 @@ async function safeRead(res) {
       title: "Jhapcham - Ecommerce Platform",
       description: "A full-stack ecommerce solution featuring a React frontend and Spring Boot backend. Includes a product catalog, secure shopping cart, and a responsive admin dashboard. Developed for my 6th sem project.",
       techStack: "React, Spring Boot, PostgreSQL, REST API",
-      demoLink: "https://jhapcham.vercel.app/",
+      demoLink: "https://jhapcham-frontend-c21exgnp6-hiyan-jong-rais-projects.vercel.app/",
       codeLink: "https://github.com/HiyanjongRai/jhapcham-frontend.git",
       imageUrl: "images/jhapcham.png"
     };
@@ -244,6 +244,26 @@ async function safeRead(res) {
 
     if (typeof addRevealTargets === "function") addRevealTargets(container);
 
+    // Event handlers for both static and dynamic cards - Attached EARLY so static card works immediately
+    container.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      const card = e.target.closest(".project-card");
+      if (card) {
+        e.preventDefault();
+        toggleProjectCard(card);
+      }
+    });
+
+    container.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        const card = e.target.closest(".project-card");
+        if (card) {
+          e.preventDefault();
+          toggleProjectCard(card);
+        }
+      }
+    });
+
     // 2. Fetch real projects from backend
     try {
       const apiUrl = `${API_BASE}/api/projects`;
@@ -269,25 +289,7 @@ async function safeRead(res) {
       console.warn("Using offline project fallback.");
     }
 
-    // Event handlers for both static and dynamic cards
-    container.addEventListener("click", (e) => {
-      if (e.target.closest("a")) return;
-      const card = e.target.closest(".project-card");
-      if (card) {
-        e.preventDefault();
-        toggleProjectCard(card);
-      }
-    });
-
-    container.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        const card = e.target.closest(".project-card");
-        if (card) {
-          e.preventDefault();
-          toggleProjectCard(card);
-        }
-      }
-    });
+    // (Listeners moved up)
   })();
 
 });
