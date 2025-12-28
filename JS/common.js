@@ -53,13 +53,8 @@
     } catch {}
   }
 
-  function doLogout() {
-    if (!confirm('Log out?')) return;
-    localStorage.clear();
-    location.replace('index.html');
-  }
-  $('#logoutBtn')?.addEventListener('click', doLogout);
-  $('#logoutBtnTop')?.addEventListener('click', doLogout);
+  // Note: Logout is handled by individual pages with custom confirmation modals
+  // Do not add confirm() dialogs here - they will override the custom modals
 
   // Sidebar toggle
   const sidebar  = $('#sidebar'), backdrop = $('#backdrop'), toggleBtn= $('#sidebarToggle');

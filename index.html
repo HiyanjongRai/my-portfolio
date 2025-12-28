@@ -146,7 +146,8 @@
 <!-- Scroll Progress Indicator -->
 <div class="scroll-progress" id="scrollProgress"></div>
 
-<header class="fade-in-down">
+<header role="banner">
+  
   <nav aria-label="Main">
     <div class="nav-container">
       <!-- Logo -->
@@ -210,6 +211,8 @@
       </ul>
     </div>
   </nav>
+  <!-- Sticky Location Dialog Placeholder - below navbar -->
+  <div id="location-dialog-sticky" class="location-dialog-wrapper" hidden></div>
 </header>
 
 
@@ -659,6 +662,7 @@ improving website visibility through keyword research, on-page optimization, and
 </footer>
 
 <script src="./config.js"></script>
+<script src="./JS/visitor-tracker.js" defer></script>
 <script src="./JS/nav.js" defer></script>
 <script src="./JS/site-custom.js" defer></script>
 <script src="./JS/hero.js" defer></script>

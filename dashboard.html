@@ -3,218 +3,564 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin Dashboard</title>
+  <title>Admin Dashboard | Portfolio</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
   <link rel="stylesheet" href="./CSS/adminDashbord.css">
   
-
   <link rel="preconnect" href="https://brzzpwmuixjslgnwlgvw.supabase.co" crossorigin>
   <link rel="dns-prefetch" href="https://brzzpwmuixjslgnwlgvw.supabase.co">
   
   <link rel="icon" type="image/png" href="images/logo.png">
-  <style id="theme-override">
-  
-  :root{
-    --bg:#0b0b0b;         
-    --panel:#121212;
-    --panel-2:#171717;
-    --text:#ffffff;
-    --muted:#b8b8b8;
-    --accent:#f1c40f;
-    --accent-weak:#e5c94a;
-    --border:1px solid rgba(241,196,15,.25);
-    --shadow:0 10px 30px rgba(0,0,0,.4);
-  }
-  html[data-theme="light"]{
-    --bg:#0b0b0b;         
-    --panel:#141414;
-    --panel-2:#1b1b1b;
-    --text:#ffffff;
-    --muted:#c7c7c7;
-    --accent:#f1c40f;
-    --accent-weak:#ffe57a;
-    --border:1px solid rgba(241,196,15,.28);
-  }
-  html[data-theme="dark"]{
-    --bg:#0a0a0a;
-    --panel:#111111;
-    --panel-2:#171717;
-    --text:#ffffff;
-    --muted:#bdbdbd;
-    --accent:#f1c40f;
-    --accent-weak:#f4d24a;
-    --border:1px solid rgba(241,196,15,.35);
-  }
-
-  html,body{background:var(--bg); color:var(--text);} 
-  .main{background:linear-gradient(180deg, rgba(241,196,15,.03), transparent 18%), var(--bg);}    
-  .sidebar{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border-left:var(--border);} 
-  .card{background:linear-gradient(180deg, var(--panel), var(--panel-2)); border:var(--border); box-shadow:var(--shadow);} 
-  .kpi .num{color:var(--accent);} 
-
-  .btn{background:var(--accent); color:#000; border:none; box-shadow:var(--shadow);} 
-  .btn:hover{filter:brightness(.95);} 
-  .btn.secondary{background:transparent; color:var(--accent); border:1px solid var(--accent); box-shadow:none;} 
-  .btn.warn{background:#000; color:var(--accent); border:1px solid var(--accent);} 
-
-  .badge{background:rgba(241,196,15,.12); color:var(--accent); border:1px solid rgba(241,196,15,.4);} 
-  .kbd{border:1px solid rgba(241,196,15,.35); background:rgba(241,196,15,.08); color:var(--accent);} 
-
-  table thead{background:rgba(241,196,15,.06);} 
-  table td, table th{border-bottom:1px solid rgba(241,196,15,.15);} 
-
-  input[type="search"], input[type="text"], textarea{background:var(--panel-2); color:var(--text); border:var(--border); border-radius:10px;} 
-  input::placeholder, textarea::placeholder{color:var(--muted);} 
-
-  progress{accent-color:var(--accent); background:var(--panel-2);} 
-  .topbar{border-bottom:1px solid rgba(241,196,15,.2);} 
-  #notifPanel .card{border:var(--border);} 
-</style>
 </head>
 <body>
-  <noscript style="display:block;padding:12px;background:#fee;color:#900;text-align:center">
+  <noscript class="noscript-warning">
     JavaScript is required for this dashboard.
   </noscript>
 
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loader">
+      <div class="loader-ring"></div>
+      <span class="loader-text">Loading</span>
+    </div>
+  </div>
+
   <div class="layout">
     <main class="main" id="app-main">
+      <!-- Top Bar -->
       <header class="topbar">
         <div class="brand">
-          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu" aria-controls="sidebar" aria-expanded="false">☰</button>
-          <div class="avatar" aria-hidden="true"></div>
-          <div>
-            <div style="font-weight:800; font-size:18px">
-              Welcome, <span id="welcomeUser">Guest</span>
-            </div>
+          <button id="sidebarToggle" class="menu-btn" aria-label="Open menu">
+            <i data-lucide="menu"></i>
+          </button>
+          <div class="avatar" id="userAvatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="brand-info">
+            <span class="welcome-msg">Welcome, <span id="welcomeUser">Guest</span></span>
+            <span class="date-display" id="dateDisplay"></span>
           </div>
         </div>
-        <div class="toggle-desktop" style="display:flex;align-items:center;gap:10px">
-          <!-- Theme toggle -->
-          <label class="theme-toggle" title="Toggle theme" style="display:inline-flex;align-items:center;gap:8px;cursor:pointer">
-            <input id="themeToggle" type="checkbox" aria-label="Dark mode" />
-            <span>Dark</span>
-          </label>
-          <!-- Notifications -->
-          <button id="notifBell" class="btn secondary" aria-haspopup="true" aria-expanded="false" aria-controls="notifPanel">🔔</button>
-          <button id="logoutBtnTop" class="btn warn">Logout</button>
+        <div class="toggle-desktop">
+          <div class="search-box">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="search" placeholder="Search..." class="search-input">
+          </div>
+          <button id="notifBell" class="icon-btn" title="Notifications">
+            <i data-lucide="bell"></i>
+            <span class="notif-indicator" id="notifIndicator" hidden></span>
+          </button>
+          <button id="logoutBtnTop" class="btn warn">
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+          </button>
         </div>
       </header>
+      <!-- Sticky Location Dialog Placeholder -->
+      <div id="location-dialog-sticky" class="location-dialog-wrapper" hidden style="position: sticky; top: 96px; z-index: 100;"></div>
 
-      <!-- DASHBOARD -->
-      <section id="dashboard" class="active" aria-labelledby="dash-title">
-        <h1 id="dash-title" class="visually-hidden">Dashboard</h1>
-        <div class="cards grid-2">
-          <div class="card span-6">
-            <div class="kpi">
-              <div>
-                <h3>Total Images (Posts)</h3>
-                <div id="postCount" class="num">0</div>
-                <small class="sub">Updated live</small>
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="active">
+        <div class="section-header">
+          <h1 class="section-title">
+            <i data-lucide="layout-dashboard"></i>
+            Dashboard
+          </h1>
+          <span class="section-subtitle">Overview of your portfolio</span>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="image"></i>
+              </div>
+              <div class="stat-ring">
+                <svg viewBox="0 0 36 36">
+                  <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  <path class="ring-fill" stroke-dasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
               </div>
             </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Images</span>
+              <span class="stat-value" id="postCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="activity" class="meta-icon"></i>
+                Live updates
+              </span>
+            </div>
           </div>
-          <div class="card span-6">
-            <div class="kpi">
-              <div>
-                <h3>Total Projects</h3>
-                <div id="projectCount" class="num">0</div>
-                <small class="sub">Updated live</small>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="folder"></i>
+              </div>
+              <div class="stat-ring">
+                <svg viewBox="0 0 36 36">
+                  <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  <path class="ring-fill" stroke-dasharray="60, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Projects</span>
+              <span class="stat-value" id="projectCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="activity" class="meta-icon"></i>
+                Live updates
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="eye"></i>
+              </div>
+              <div class="stat-ring">
+                <svg viewBox="0 0 36 36">
+                  <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                  <path class="ring-fill" stroke-dasharray="85, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                </svg>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Views</span>
+              <span class="stat-value" id="viewCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="trending-up" class="meta-icon"></i>
+                This month
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="server"></i>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">API Status</span>
+              <span class="stat-status" id="apiStatusBadge">
+                <span class="status-indicator checking"></span>
+                Checking
+              </span>
+              <span class="stat-meta">
+                <i data-lucide="clock" class="meta-icon"></i>
+                Just now
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="two-col">
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="zap"></i>
+                Quick Actions
+              </h3>
+            </div>
+            <div class="action-grid">
+              <a href="./posts.html" class="action-card">
+                <div class="action-icon">
+                  <i data-lucide="plus"></i>
+                </div>
+                <span class="action-label">New Post</span>
+              </a>
+              <a href="./projects.html" class="action-card">
+                <div class="action-icon">
+                  <i data-lucide="folder-plus"></i>
+                </div>
+                <span class="action-label">New Project</span>
+              </a>
+              <a href="./posts.html#upload" class="action-card">
+                <div class="action-icon">
+                  <i data-lucide="upload"></i>
+                </div>
+                <span class="action-label">Upload</span>
+              </a>
+              <button class="action-card" id="copyApiUrl">
+                <div class="action-icon">
+                  <i data-lucide="copy"></i>
+                </div>
+                <span class="action-label">Copy API</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- System Health -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="activity"></i>
+                System Health
+              </h3>
+              <button id="refreshHealth" class="icon-btn-sm" title="Refresh">
+                <i data-lucide="refresh-cw"></i>
+              </button>
+            </div>
+            <div class="health-list">
+              <div class="health-row">
+                <div class="health-label">
+                  <i data-lucide="database"></i>
+                  <span>Storage</span>
+                </div>
+                <div class="health-bar">
+                  <div class="bar-track">
+                    <div class="bar-fill" id="storageFill" style="width: 0%"></div>
+                  </div>
+                  <span class="bar-text" id="storageText">—</span>
+                </div>
+              </div>
+              <div class="health-row">
+                <div class="health-label">
+                  <i data-lucide="cpu"></i>
+                  <span>Server</span>
+                </div>
+                <div class="health-bar">
+                  <div class="bar-track">
+                    <div class="bar-fill" style="width: 35%"></div>
+                  </div>
+                  <span class="bar-text">Normal</span>
+                </div>
+              </div>
+              <div class="health-row">
+                <div class="health-label">
+                  <i data-lucide="wifi"></i>
+                  <span>Connection</span>
+                </div>
+                <span class="health-status online" id="connectionStatus">
+                  <span class="dot"></span>
+                  Connected
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Quick Actions -->
-      <section class="cards grid-2" aria-label="Quick actions" style="margin-top:14px">
-        <div class="card span-4">
-          <h3>Quick Actions</h3>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
-            <a class="btn" href="./posts.html">+ New Post</a>
-            <a class="btn secondary" href="./projects.html">+ New Project</a>
-            <a class="btn secondary" href="./posts.html#upload">Upload Image</a>
-            <button class="btn secondary" id="copyApiUrl">Copy API URL</button>
+        <!-- Projects & Activity -->
+        <div class="two-col">
+          <!-- Recent Projects -->
+          <div class="card card-large">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="folder-open"></i>
+                Recent Projects
+              </h3>
+              <a href="./projects.html" class="link-btn">
+                View All
+                <i data-lucide="arrow-right"></i>
+              </a>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="projectRows">
+                  <tr>
+                    <td colspan="4" class="loading-cell">
+                      <div class="skeleton-line"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <!-- Activity -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="clock"></i>
+                Activity
+              </h3>
+              <button id="refreshActivity" class="icon-btn-sm" title="Refresh">
+                <i data-lucide="refresh-cw"></i>
+              </button>
+            </div>
+            <ul id="activityList" class="activity-feed">
+              <li class="activity-item loading">
+                <div class="skeleton-line"></div>
+              </li>
+            </ul>
           </div>
         </div>
-        <div class="card span-8">
-          <h3>System Health</h3>
-          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px">
-            <div style="flex:1;min-width:180px">
-              <div style="font-size:12px;opacity:.7">API</div>
-              <div id="apiStatusBadge" class="badge" style="display:inline-block">Checking…</div>
-            </div>
-            <div style="flex:2;min-width:220px">
-              <div style="font-size:12px;opacity:.7">Storage</div>
-              <div style="display:flex;align-items:center;gap:10px">
-                <progress id="storageUsed" value="0" max="100" style="width:100%"></progress>
-                <small id="storageText">—</small>
+
+        <!-- Visitor Analytics Section -->
+        <div class="section-header" style="margin-top: 32px;">
+          <h2 class="section-title">
+            <i data-lucide="map-pin"></i>
+            Visitor Analytics
+          </h2>
+          <span class="section-subtitle">Track who's visiting your portfolio</span>
+        </div>
+
+        <!-- Visitor Stats Cards -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="eye"></i>
               </div>
             </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Views</span>
+              <span class="stat-value" id="totalViewsCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="activity" class="meta-icon"></i>
+                All time
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="calendar"></i>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Today's Views</span>
+              <span class="stat-value" id="todayViewsCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="sun" class="meta-icon"></i>
+                Today
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="users"></i>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Unique Visitors</span>
+              <span class="stat-value" id="uniqueVisitorsCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="user-check" class="meta-icon"></i>
+                Distinct
+              </span>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-visual">
+              <div class="stat-icon">
+                <i data-lucide="navigation"></i>
+              </div>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Location Granted</span>
+              <span class="stat-value" id="locationGrantedCount">—</span>
+              <span class="stat-meta">
+                <i data-lucide="map-pin" class="meta-icon"></i>
+                With location
+              </span>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- Two Column: Recent Projects & Activity -->
-      <section class="cards grid-2" aria-label="Recent data" style="margin-top:14px">
-        <div class="card span-7">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3>Recent Projects</h3>
-            <a href="./projects.html" class="badge">View all</a>
+        <!-- Geographic Distribution -->
+        <div class="two-col">
+          <!-- Top Countries -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="globe"></i>
+                Top Countries
+              </h3>
+              <button id="refreshVisitorStats" class="icon-btn-sm" title="Refresh">
+                <i data-lucide="refresh-cw"></i>
+              </button>
+            </div>
+            <ul id="topCountriesList" class="location-list">
+              <li class="location-item loading">
+                <div class="skeleton-line"></div>
+              </li>
+            </ul>
           </div>
-          <div style="overflow:auto;border-radius:12px;border:1px solid rgba(255,255,255,.08);margin-top:8px">
-            <table style="width:100%;border-collapse:separate;border-spacing:0">
+          
+          <!-- Top Cities -->
+          <div class="card">
+            <div class="card-header">
+              <h3>
+                <i data-lucide="building-2"></i>
+                Top Cities
+              </h3>
+            </div>
+            <ul id="topCitiesList" class="location-list">
+              <li class="location-item loading">
+                <div class="skeleton-line"></div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Recent Visitors -->
+        <div class="card card-full" style="margin-top: 24px;">
+          <div class="card-header">
+            <h3>
+              <i data-lucide="users"></i>
+              Recent Visitors
+            </h3>
+            <span class="stat-meta" style="margin-left: auto; margin-right: 12px;">
+              Last 20 visits
+            </span>
+          </div>
+          <div class="table-wrap">
+            <table>
               <thead>
                 <tr>
-                  <th style="text-align:left;padding:10px">Name</th>
-                  <th style="text-align:left;padding:10px">Status</th>
-                  <th style="text-align:left;padding:10px">Updated</th>
+                  <th>Location</th>
+                  <th>Page</th>
+                  <th>Time</th>
+                  <th>GPS</th>
                 </tr>
               </thead>
-              <tbody id="projectRows">
-                <tr><td colspan="3" style="padding:12px">Loading…</td></tr>
+              <tbody id="recentVisitorsTable">
+                <tr>
+                  <td colspan="4" class="loading-cell">
+                    <div class="skeleton-line"></div>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div class="card span-5">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3>Activity</h3>
-            <button id="refreshActivity" class="btn secondary" title="Refresh">↻</button>
-          </div>
-          <ul id="activityList" style="list-style:none;display:grid;gap:8px;margin-top:10px;padding:0">
-            <li class="muted">Loading…</li>
-          </ul>
-        </div>
       </section>
 
       <!-- Notifications Panel -->
-      <section id="notifPanel" hidden aria-label="Notifications" style="position:fixed;right:16px;top:64px;z-index:50;max-width:360px">
-        <div class="card" style="padding:12px">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <h3 style="margin:0">Notifications</h3>
-            <button id="notifClose" class="btn secondary">Close</button>
+      <div id="notifPanel" class="notif-panel" hidden>
+        <div class="notif-container">
+          <div class="notif-head">
+            <h3>
+              <i data-lucide="bell"></i>
+              Notifications
+            </h3>
+            <button id="notifClose" class="close-btn">
+              <i data-lucide="x"></i>
+            </button>
           </div>
-          <ul id="notifList" style="list-style:none;display:grid;gap:8px;margin:10px 0 0;padding:0">
-            <li class="muted">No new notifications.</li>
+          <ul id="notifList" class="notif-feed">
+            <li class="notif-empty">
+              <i data-lucide="inbox"></i>
+              <span>No notifications</span>
+            </li>
           </ul>
         </div>
-      </section>
+      </div>
     </main>
 
-    <aside class="sidebar" id="sidebar" aria-label="Primary">
-      <div>
-        <nav class="nav">
-          <a href="./dashboard.html" data-route class="active">Dashboard <span class="kbd" aria-hidden="true">⌘1</span></a>
-          <a href="./posts.html" data-route>Posts <span id="navPostCount" class="badge" aria-label="Total posts">0</span></a>
-          <a href="./projects.html" data-route>Projects <span id="navProjectCount" class="badge" aria-label="Total projects">0</span></a>
-        </nav>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <i data-lucide="terminal"></i>
+        </div>
+        <span class="brand-name">Portfolio<span class="brand-accent">Admin</span></span>
       </div>
-      <div class="logout">
-        <button id="logoutBtn" class="btn warn">Logout</button>
+      
+      <nav class="sidebar-menu">
+        <span class="menu-label">Navigation</span>
+        <a href="./dashboard.html" class="menu-item active">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+          <span class="kbd">⌘1</span>
+        </a>
+        <a href="./posts.html" class="menu-item">
+          <i data-lucide="image"></i>
+          <span>Posts</span>
+          <span class="badge" id="navPostCount">0</span>
+        </a>
+        <a href="./projects.html" class="menu-item">
+          <i data-lucide="folder"></i>
+          <span>Projects</span>
+          <span class="badge" id="navProjectCount">0</span>
+        </a>
+        
+        <span class="menu-label">More</span>
+        <a href="./gallery.html" class="menu-item">
+          <i data-lucide="grid-3x3"></i>
+          <span>Gallery</span>
+        </a>
+        <a href="./index.html" class="menu-item">
+          <i data-lucide="globe"></i>
+          <span>View Site</span>
+        </a>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar">
+            <i data-lucide="user"></i>
+          </div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUser">Admin</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+        <button id="logoutBtn" class="logout-btn">
+          <i data-lucide="log-out"></i>
+          Logout
+        </button>
       </div>
     </aside>
 
-    <!-- Backdrop for off-canvas -->
+    <!-- Backdrop -->
     <div class="backdrop" id="backdrop" hidden></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" hidden>
+    <i data-lucide="check-circle" class="toast-icon"></i>
+    <span class="toast-msg"></span>
+    <button class="toast-close">
+      <i data-lucide="x"></i>
+    </button>
+  </div>
+
+  <!-- Custom Confirmation Modal -->
+  <div id="confirmModal" class="confirm-overlay" hidden>
+    <div class="confirm-box">
+      <div class="confirm-icon" id="confirmIcon">
+        <i data-lucide="alert-triangle"></i>
+      </div>
+      <h3 class="confirm-title" id="confirmTitle">Confirm Action</h3>
+      <p class="confirm-message" id="confirmMessage">Are you sure you want to proceed?</p>
+      <div class="confirm-actions">
+        <button class="confirm-btn cancel" id="confirmCancel">
+          <i data-lucide="x"></i>
+          Cancel
+        </button>
+        <button class="confirm-btn proceed" id="confirmProceed">
+          <i data-lucide="check"></i>
+          Confirm
+        </button>
+      </div>
+    </div>
   </div>
 
   <script src="./config.js" defer></script>
@@ -223,6 +569,10 @@
 
   <script>
   (function(){
+    // Initialize icons
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
 
     const AC = window.AppCommon || {};
     const http = AC.http || (async (path, opts={}) => {
@@ -235,88 +585,1723 @@
     });
     const API = (window.API_BASE||'').replace(/\/+$/,'');
 
-    // THEME TOGGLE (fix: actually switches [data-theme] and persists)
-    const themeToggle = document.getElementById('themeToggle');
-    const startTheme = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', startTheme);
-    if (themeToggle) themeToggle.checked = (startTheme === 'dark');
-    themeToggle?.addEventListener('change', ()=>{
-      const val = themeToggle.checked ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', val);
-      localStorage.setItem('theme', val);
+    // ===== Custom Confirmation Modal =====
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmIcon = document.getElementById('confirmIcon');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const confirmProceed = document.getElementById('confirmProceed');
+    
+    let confirmCallback = null;
+    
+    function showConfirm(options = {}) {
+      const {
+        title = 'Confirm Action',
+        message = 'Are you sure you want to proceed?',
+        icon = 'alert-triangle',
+        iconColor = 'warning',
+        confirmText = 'Confirm',
+        cancelText = 'Cancel',
+        confirmStyle = 'default',
+        onConfirm = null
+      } = options;
+      
+      if (confirmTitle) confirmTitle.textContent = title;
+      if (confirmMessage) confirmMessage.textContent = message;
+      if (confirmIcon) {
+        confirmIcon.innerHTML = `<i data-lucide="${icon}"></i>`;
+        confirmIcon.className = `confirm-icon ${iconColor}`;
+      }
+      if (confirmProceed) {
+        confirmProceed.innerHTML = `<i data-lucide="check"></i>${confirmText}`;
+        confirmProceed.className = `confirm-btn proceed ${confirmStyle}`;
+      }
+      if (confirmCancel) {
+        confirmCancel.innerHTML = `<i data-lucide="x"></i>${cancelText}`;
+      }
+      
+      confirmCallback = onConfirm;
+      if (confirmModal) {
+        confirmModal.hidden = false;
+        document.body.classList.add('no-scroll');
+      }
+      
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+    
+    function hideConfirm() {
+      if (confirmModal) {
+        confirmModal.hidden = true;
+        document.body.classList.remove('no-scroll');
+      }
+      confirmCallback = null;
+    }
+    
+    confirmCancel?.addEventListener('click', hideConfirm);
+    
+    confirmProceed?.addEventListener('click', () => {
+      if (confirmCallback) confirmCallback();
+      hideConfirm();
+    });
+    
+    // Close on backdrop click
+    confirmModal?.addEventListener('click', (e) => {
+      if (e.target === confirmModal) hideConfirm();
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && confirmModal && !confirmModal.hidden) {
+        hideConfirm();
+      }
     });
 
-    // COPY API URL
-    document.getElementById('copyApiUrl')?.addEventListener('click', async ()=>{
-      try { await navigator.clipboard.writeText(API||''); alert('API URL copied'); } catch { alert('Could not copy'); }
+    // Hide loading screen
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loadingScreen');
+      if (loader) {
+        setTimeout(() => {
+          loader.classList.add('fade-out');
+          setTimeout(() => loader.remove(), 400);
+        }, 300);
+      }
     });
 
-    // API STATUS + STORAGE
-    (async function checkApi(){
+    // Set date
+    const dateEl = document.getElementById('dateDisplay');
+    if (dateEl) {
+      dateEl.textContent = new Date().toLocaleDateString('en-US', { 
+        weekday: 'short', month: 'short', day: 'numeric'
+      });
+    }
+
+    // Toast
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      const msgEl = toast?.querySelector('.toast-msg');
+      const icon = toast?.querySelector('.toast-icon');
+      if (toast && msgEl) {
+        msgEl.textContent = msg;
+        toast.className = `toast ${type}`;
+        toast.hidden = false;
+        if (icon) {
+          icon.setAttribute('data-lucide', type === 'success' ? 'check-circle' : 'alert-circle');
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        setTimeout(() => toast.hidden = true, 3000);
+      }
+    }
+    document.querySelector('.toast-close')?.addEventListener('click', () => {
+      document.getElementById('toast').hidden = true;
+    });
+
+    // ===== Copy API with Confirmation =====
+    document.getElementById('copyApiUrl')?.addEventListener('click', () => {
+      showConfirm({
+        title: 'Copy API URL',
+        message: 'Do you want to copy the API URL to your clipboard?',
+        icon: 'copy',
+        iconColor: 'info',
+        confirmText: 'Copy',
+        onConfirm: async () => {
+          try { 
+            await navigator.clipboard.writeText(API || 'Not configured'); 
+            showToast('API URL copied!');
+          } catch { 
+            showToast('Copy failed', 'error');
+          }
+        }
+      });
+    });
+
+    // ===== Logout with Confirmation =====
+    function handleLogout() {
+      showConfirm({
+        title: 'Logout',
+        message: 'Are you sure you want to log out? You will need to sign in again.',
+        icon: 'log-out',
+        iconColor: 'danger',
+        confirmText: 'Logout',
+        confirmStyle: 'danger',
+        onConfirm: () => {
+          localStorage.clear();
+          showToast('Logged out successfully');
+          setTimeout(() => {
+            location.replace('index.html');
+          }, 500);
+        }
+      });
+    }
+    
+    document.getElementById('logoutBtn')?.addEventListener('click', handleLogout);
+    document.getElementById('logoutBtnTop')?.addEventListener('click', handleLogout);
+
+    // Health check
+    async function checkHealth() {
       const badge = document.getElementById('apiStatusBadge');
       try {
-        if (!API) throw new Error('API_BASE missing');
+        if (!API) throw new Error('No API');
         const res = await fetch(API + '/health', { credentials:'include' });
         if (badge) {
-          badge.textContent = res.ok ? 'Online' : 'Degraded';
-          badge.classList.toggle('warn', !res.ok);
+          badge.innerHTML = res.ok 
+            ? '<span class="status-indicator online"></span>Online'
+            : '<span class="status-indicator warning"></span>Degraded';
         }
-      } catch (e) { if (badge){ badge.textContent = 'Offline'; badge.classList.add('warn'); } }
-      const pg = document.getElementById('storageUsed');
-      const txt = document.getElementById('storageText');
-      if (pg && txt){ const used = Math.min(100, Math.floor(Math.random()*40)+55); pg.value = used; txt.textContent = used + '%'; }
-    })();
+      } catch { 
+        if (badge) badge.innerHTML = '<span class="status-indicator offline"></span>Offline';
+      }
+      
+      const storageFill = document.getElementById('storageFill');
+      const storageText = document.getElementById('storageText');
+      if (storageFill && storageText) { 
+        const used = Math.floor(Math.random() * 35) + 50;
+        storageFill.style.width = used + '%';
+        storageText.textContent = used + '%';
+      }
+      
+      const viewCount = document.getElementById('viewCount');
+      if (viewCount) viewCount.textContent = Math.floor(Math.random() * 500 + 1200).toLocaleString();
+    }
+    checkHealth();
+    
+    // ===== Refresh Health with Confirmation =====
+    document.getElementById('refreshHealth')?.addEventListener('click', () => {
+      showConfirm({
+        title: 'Refresh Status',
+        message: 'Do you want to refresh the system health status?',
+        icon: 'refresh-cw',
+        iconColor: 'info',
+        confirmText: 'Refresh',
+        onConfirm: () => {
+          checkHealth();
+          showToast('Status refreshed');
+        }
+      });
+    });
 
-    // RECENT PROJECTS (fix: support name/title and various date fields)
-    (async function loadProjects(){
+    // Load projects
+    async function loadProjects() {
       const body = document.getElementById('projectRows');
       if (!body) return;
-      body.innerHTML = '<tr><td colspan="3" style="padding:12px">Loading…</td></tr>';
-      try{
+      body.innerHTML = '<tr><td colspan="4" class="loading-cell"><div class="skeleton-line"></div></td></tr>';
+      
+      try {
         const list = await http('/api/projects');
-        const items = Array.isArray(list) ? list.slice(0,5) : [];
-        if (!items.length){ body.innerHTML = '<tr><td colspan="3" style="padding:12px">No projects yet.</td></tr>'; return; }
+        const items = Array.isArray(list) ? list.slice(0, 5) : [];
+        
+        if (!items.length) { 
+          body.innerHTML = '<tr><td colspan="4" class="empty-cell"><i data-lucide="folder-x"></i>No projects</td></tr>'; 
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          return; 
+        }
+        
         body.innerHTML = items.map(p => {
           const name = p.title || p.name || 'Untitled';
           const status = p.status || p.state || 'draft';
-          const updated = p.updatedAt || p.updated || p.modifiedAt || p.lastModified || '—';
-          return `<tr>
-            <td style="padding:10px">${name}</td>
-            <td style="padding:10px"><span class="badge">${status}</span></td>
-            <td style="padding:10px">${updated}</td>
-          </tr>`;
+          const updated = p.updatedAt || p.updated || '—';
+          const statusClass = status.toLowerCase() === 'published' ? 'success' : 'neutral';
+          return `
+            <tr>
+              <td><span class="project-name"><i data-lucide="file"></i>${name}</span></td>
+              <td><span class="status-tag ${statusClass}">${status}</span></td>
+              <td class="muted">${updated}</td>
+              <td>
+                <button class="icon-btn-sm" title="Edit"><i data-lucide="edit-2"></i></button>
+              </td>
+            </tr>
+          `;
         }).join('');
-      }catch(e){ body.innerHTML = '<tr><td colspan="3" style="padding:12px">Failed to load projects.</td></tr>'; }
-    })();
-
-    // ACTIVITY (fix: always attempts fetch even if AppCommon missing)
-    async function refreshActivity(){
-      const ul = document.getElementById('activityList'); if(!ul) return;
-      ul.innerHTML = '<li class="muted">Loading…</li>';
-      try{
-        const [posts, projects] = await Promise.all([
-          http('/api/images').catch(()=>[]),
-          http('/api/projects').catch(()=>[])
-        ]);
-        const events = [];
-        (Array.isArray(posts)?posts:[]).slice(0,5).forEach(p=>events.push({t:'Post', d:p.name||p.title||'Untitled'}));
-        (Array.isArray(projects)?projects:[]).slice(0,5).forEach(p=>events.push({t:'Project', d:p.title||p.name||'Untitled'}));
-        if(!events.length){ ul.innerHTML = '<li class="muted">No recent activity.</li>'; return; }
-        ul.innerHTML = events.map(e=>`<li style="padding:10px;border:1px solid rgba(241,196,15,.25);border-radius:10px">${e.t}: <strong>${e.d}</strong></li>`).join('');
-      }catch(e){ ul.innerHTML = '<li class="muted">Failed to load activity.</li>'; }
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      } catch { 
+        body.innerHTML = '<tr><td colspan="4" class="error-cell"><i data-lucide="alert-triangle"></i>Failed to load</td></tr>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
     }
-    document.getElementById('refreshActivity')?.addEventListener('click', refreshActivity);
-    refreshActivity();
+    loadProjects();
 
-    // NOTIFICATIONS POPOVER
+    // Activity
+    async function loadActivity() {
+      const ul = document.getElementById('activityList');
+      if (!ul) return;
+      ul.innerHTML = '<li class="activity-item loading"><div class="skeleton-line"></div></li>';
+      
+      try {
+        const [posts, projects] = await Promise.all([
+          http('/api/images').catch(() => []),
+          http('/api/projects').catch(() => [])
+        ]);
+        
+        const events = [];
+        (Array.isArray(posts) ? posts : []).slice(0, 3).forEach(p => 
+          events.push({ type: 'image', name: p.name || p.title || 'Untitled' })
+        );
+        (Array.isArray(projects) ? projects : []).slice(0, 3).forEach(p => 
+          events.push({ type: 'folder', name: p.title || p.name || 'Untitled' })
+        );
+        
+        if (!events.length) { 
+          ul.innerHTML = '<li class="activity-empty"><i data-lucide="inbox"></i>No activity</li>';
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+          return;
+        }
+        
+        ul.innerHTML = events.slice(0, 5).map(e => `
+          <li class="activity-item">
+            <div class="activity-icon"><i data-lucide="${e.type}"></i></div>
+            <div class="activity-text">
+              <span class="activity-name">${e.name}</span>
+              <span class="activity-time">Recently</span>
+            </div>
+          </li>
+        `).join('');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      } catch { 
+        ul.innerHTML = '<li class="activity-empty error"><i data-lucide="alert-triangle"></i>Failed to load</li>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+    
+    // ===== Refresh Activity with Confirmation =====
+    document.getElementById('refreshActivity')?.addEventListener('click', () => {
+      showConfirm({
+        title: 'Refresh Activity',
+        message: 'Do you want to refresh the activity feed?',
+        icon: 'refresh-cw',
+        iconColor: 'info',
+        confirmText: 'Refresh',
+        onConfirm: () => {
+          loadActivity();
+          showToast('Activity refreshed');
+        }
+      });
+    });
+    loadActivity();
+
+    // Notifications
     const bell = document.getElementById('notifBell');
     const panel = document.getElementById('notifPanel');
     const closeBtn = document.getElementById('notifClose');
-    function toggleNotif(){ if(!panel) return; const open = panel.hasAttribute('hidden'); if(open){ panel.removeAttribute('hidden'); bell?.setAttribute('aria-expanded','true'); } else { panel.setAttribute('hidden',''); bell?.setAttribute('aria-expanded','false'); } }
+    
+    function toggleNotif() {
+      if (!panel) return;
+      panel.hidden = !panel.hidden;
+      bell?.setAttribute('aria-expanded', !panel.hidden);
+    }
+    
     bell?.addEventListener('click', toggleNotif);
     closeBtn?.addEventListener('click', toggleNotif);
-    document.addEventListener('click', (e)=>{ if(!panel || !bell) return; if(panel.contains(e.target) || bell.contains(e.target)) return; if(!panel.hasAttribute('hidden')) panel.setAttribute('hidden',''); });
+    document.addEventListener('click', e => {
+      if (!panel || !bell) return;
+      if (!panel.hidden && !panel.contains(e.target) && !bell.contains(e.target)) {
+        panel.hidden = true;
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', e => {
+      if (e.metaKey || e.ctrlKey) {
+        if (e.key === '1') { e.preventDefault(); location.href = './dashboard.html'; }
+        if (e.key === '2') { e.preventDefault(); location.href = './posts.html'; }
+        if (e.key === '3') { e.preventDefault(); location.href = './projects.html'; }
+      }
+    });
+
+    // ===== Visitor Analytics =====
+    
+    // Helper to show error in visitor stats section
+    function showVisitorStatsError(message) {
+      const elements = ['totalViewsCount', 'todayViewsCount', 'uniqueVisitorsCount', 'locationGrantedCount'];
+      elements.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+      });
+      
+      const countriesList = document.getElementById('topCountriesList');
+      if (countriesList) {
+        countriesList.innerHTML = '<li class="location-empty"><i data-lucide="alert-triangle"></i><span>' + message + '</span></li>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+      
+      const citiesList = document.getElementById('topCitiesList');
+      if (citiesList) {
+        citiesList.innerHTML = '<li class="location-empty"><i data-lucide="alert-triangle"></i><span>' + message + '</span></li>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+      
+      const visitorsTable = document.getElementById('recentVisitorsTable');
+      if (visitorsTable) {
+        visitorsTable.innerHTML = '<tr><td colspan="4" class="error-cell"><i data-lucide="alert-triangle"></i>' + message + '</td></tr>';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+    
+    async function loadVisitorStats() {
+      console.log('[Visitor Stats] Loading visitor analytics...');
+      
+      try {
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+          console.warn('[Visitor Stats] No JWT token found');
+          return;
+        }
+        if (!API) {
+          console.warn('[Visitor Stats] No API URL configured');
+          return;
+        }
+
+        console.log('[Visitor Stats] Fetching from:', API + '/api/visitors/stats');
+        
+        const res = await fetch(API + '/api/visitors/stats', {
+          headers: { 
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+          },
+          credentials: 'include'
+        });
+
+        if (!res.ok) {
+          console.warn('[Visitor Stats] Could not load:', res.status, res.statusText);
+          // Show error in UI
+          showVisitorStatsError('Failed to load visitor stats');
+          return;
+        }
+
+        const stats = await res.json();
+        console.log('[Visitor Stats] Data received:', stats);
+        console.log('[Visitor Stats] Total Views:', stats.totalViews);
+        console.log('[Visitor Stats] Recent Visitors count:', stats.recentVisitors?.length || 0);
+
+        // Update stat cards
+        const totalViews = document.getElementById('totalViewsCount');
+        const todayViews = document.getElementById('todayViewsCount');
+        const uniqueVisitors = document.getElementById('uniqueVisitorsCount');
+        const locationGranted = document.getElementById('locationGrantedCount');
+
+        if (totalViews) {
+          totalViews.textContent = (stats.totalViews || 0).toLocaleString();
+          console.log('[Visitor Stats] Updated totalViews element');
+        }
+        if (todayViews) todayViews.textContent = (stats.todayViews || 0).toLocaleString();
+        if (uniqueVisitors) uniqueVisitors.textContent = (stats.uniqueVisitors || 0).toLocaleString();
+        if (locationGranted) locationGranted.textContent = (stats.locationGrantedCount || 0).toLocaleString();
+
+        // Update the main viewCount as well (if it exists from the original stats)
+        const viewCount = document.getElementById('viewCount');
+        if (viewCount) viewCount.textContent = (stats.thisMonthViews || stats.totalViews || 0).toLocaleString();
+
+        // Top Countries
+        const countriesList = document.getElementById('topCountriesList');
+        if (countriesList) {
+          const countries = stats.topCountries || [];
+          if (countries.length === 0) {
+            countriesList.innerHTML = '<li class="location-empty"><i data-lucide="globe"></i><span>No country data yet</span></li>';
+          } else {
+            countriesList.innerHTML = countries.map(c => `
+              <li class="location-item">
+                <div class="location-info">
+                  <i data-lucide="flag"></i>
+                  <span class="location-name">${c.name || 'Unknown'}</span>
+                </div>
+                <span class="location-count">${c.count || 0}</span>
+              </li>
+            `).join('');
+          }
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Top Cities
+        const citiesList = document.getElementById('topCitiesList');
+        if (citiesList) {
+          const cities = stats.topCities || [];
+          if (cities.length === 0) {
+            citiesList.innerHTML = '<li class="location-empty"><i data-lucide="building-2"></i><span>No city data yet</span></li>';
+          } else {
+            citiesList.innerHTML = cities.map(c => `
+              <li class="location-item">
+                <div class="location-info">
+                  <i data-lucide="map-pin"></i>
+                  <span class="location-name">${c.name || 'Unknown'}${c.secondaryName ? ', ' + c.secondaryName : ''}</span>
+                </div>
+                <span class="location-count">${c.count || 0}</span>
+              </li>
+            `).join('');
+          }
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // Recent Visitors Table
+        const visitorsTable = document.getElementById('recentVisitorsTable');
+        if (visitorsTable) {
+          const visitors = stats.recentVisitors || [];
+          console.log('[Visitor Stats] Rendering', visitors.length, 'visitors');
+          
+          if (visitors.length === 0) {
+            visitorsTable.innerHTML = '<tr><td colspan="4" class="empty-cell"><i data-lucide="users"></i>No visitors yet</td></tr>';
+          } else {
+            visitorsTable.innerHTML = visitors.map(v => `
+              <tr>
+                <td>
+                  <span class="visitor-location">
+                    <i data-lucide="map-pin"></i>
+                    ${v.city && v.city !== 'Unknown' ? v.city : 'Unknown'}${v.country && v.country !== 'Unknown' ? ', ' + v.country : ''}
+                  </span>
+                </td>
+                <td class="muted page-url">${v.pageUrl ? v.pageUrl.replace(/https?:\/\//, '').substring(0, 30) : '—'}</td>
+                <td class="muted">${v.visitedAt || '—'}</td>
+                <td>
+                  <span class="gps-badge ${v.locationGranted ? 'granted' : 'denied'}">
+                    <i data-lucide="${v.locationGranted ? 'check-circle' : 'x-circle'}"></i>
+                    ${v.locationGranted ? 'Yes' : 'No'}
+                  </span>
+                </td>
+              </tr>
+            `).join('');
+            console.log('[Visitor Stats] Table HTML updated');
+          }
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        
+        console.log('[Visitor Stats] Dashboard updated successfully!');
+
+      } catch (e) {
+        console.warn('[Visitor Stats] Error loading:', e);
+      }
+    }
+
+    // Load visitor stats on page load
+    loadVisitorStats();
+
+    // Refresh visitor stats button
+    document.getElementById('refreshVisitorStats')?.addEventListener('click', () => {
+      showConfirm({
+        title: 'Refresh Visitor Stats',
+        message: 'Do you want to refresh the visitor analytics?',
+        icon: 'refresh-cw',
+        iconColor: 'info',
+        confirmText: 'Refresh',
+        onConfirm: () => {
+          loadVisitorStats();
+          showToast('Visitor stats refreshed');
+        }
+      });
+    });
   })();
-</script>
+  </script>
+
+  <style>
+    /* ===== Black & White Dashboard Styles ===== */
+    
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease;
+    }
+    .loading-screen.fade-out { opacity: 0; pointer-events: none; }
+    
+    .loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    
+    .loader-ring {
+      width: 48px;
+      height: 48px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .loader-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    
+    .noscript-warning {
+      display: block;
+      padding: 16px;
+      background: #111;
+      color: #888;
+      text-align: center;
+      font-size: 14px;
+    }
+    
+    /* ===== Custom Confirmation Modal ===== */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    .confirm-overlay[hidden] {
+      display: none;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .confirm-box {
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 32px 28px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9) translateY(-10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    
+    .confirm-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .confirm-icon i {
+      width: 28px;
+      height: 28px;
+    }
+    
+    .confirm-icon.warning {
+      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.3);
+      color: #fbbf24;
+    }
+    
+    .confirm-icon.danger {
+      background: rgba(248, 113, 113, 0.1);
+      border-color: rgba(248, 113, 113, 0.3);
+      color: #f87171;
+    }
+    
+    .confirm-icon.info {
+      background: rgba(96, 165, 250, 0.1);
+      border-color: rgba(96, 165, 250, 0.3);
+      color: #60a5fa;
+    }
+    
+    .confirm-icon.success {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: rgba(74, 222, 128, 0.3);
+      color: #4ade80;
+    }
+    
+    .confirm-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 10px;
+      letter-spacing: -0.3px;
+    }
+    
+    .confirm-message {
+      font-size: 14px;
+      color: #888;
+      margin: 0 0 28px;
+      line-height: 1.6;
+    }
+    
+    .confirm-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    
+    .confirm-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 120px;
+    }
+    
+    .confirm-btn i {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .confirm-btn.cancel {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #888;
+    }
+    
+    .confirm-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #fff;
+    }
+    
+    .confirm-btn.proceed {
+      background: #fff;
+      border: 1px solid #fff;
+      color: #000;
+    }
+    
+    .confirm-btn.proceed:hover {
+      background: #e5e5e5;
+      border-color: #e5e5e5;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+    }
+    
+    .confirm-btn.proceed.danger {
+      background: #f87171;
+      border-color: #f87171;
+      color: #fff;
+    }
+    
+    .confirm-btn.proceed.danger:hover {
+      background: #ef4444;
+      border-color: #ef4444;
+      box-shadow: 0 8px 20px rgba(248, 113, 113, 0.3);
+    }
+    
+    .no-scroll {
+      overflow: hidden;
+    }
+    
+    /* Section Header */
+    .section-header {
+      margin-bottom: 32px;
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      margin: 0 0 6px;
+      letter-spacing: -0.5px;
+    }
+    
+    .section-title i { opacity: 0.7; }
+    
+    .section-subtitle {
+      font-size: 14px;
+      color: #666;
+      letter-spacing: 0.3px;
+    }
+    
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    
+    .stat-card {
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    
+    .stat-visual {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+    
+    .stat-icon {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      z-index: 1;
+    }
+    
+    .stat-icon i { 
+      width: 24px; 
+      height: 24px;
+      opacity: 0.8;
+    }
+    
+    .stat-ring {
+      position: absolute;
+      inset: -4px;
+    }
+    
+    .stat-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+    
+    .ring-bg {
+      fill: none;
+      stroke: rgba(255,255,255,0.05);
+      stroke-width: 2;
+    }
+    
+    .ring-fill {
+      fill: none;
+      stroke: rgba(255,255,255,0.25);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: stroke-dasharray 1s ease;
+    }
+    
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    
+    .stat-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    
+    .status-indicator.online { background: #4ade80; box-shadow: 0 0 12px rgba(74,222,128,0.5); }
+    .status-indicator.offline { background: #f87171; box-shadow: 0 0 12px rgba(248,113,113,0.5); }
+    .status-indicator.warning { background: #fbbf24; }
+    .status-indicator.checking { background: #666; animation: none; }
+    
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .stat-meta {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: #555;
+      margin-top: 4px;
+    }
+    
+    .meta-icon { width: 12px; height: 12px; }
+    
+    /* Two Column Layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    @media (min-width: 900px) {
+      .two-col { grid-template-columns: 1fr 1fr; }
+      .two-col .card-large { grid-column: span 1; }
+    }
+    
+    /* Card Styling */
+    .card {
+      background: linear-gradient(145deg, #1a1a1a, #111);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      border-color: rgba(255,255,255,0.12);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    .card-header h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+    }
+    
+    .card-header h3 i { opacity: 0.6; width: 18px; height: 18px; }
+    
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #888;
+      text-decoration: none;
+      transition: color 0.2s ease, gap 0.2s ease;
+    }
+    
+    .link-btn:hover { color: #fff; gap: 10px; }
+    .link-btn i { width: 14px; height: 14px; }
+    
+    .icon-btn-sm {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .icon-btn-sm:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    
+    .icon-btn-sm i { width: 14px; height: 14px; }
+    
+    /* Action Grid */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .action-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .action-card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    
+    .action-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+    }
+    
+    .action-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #aaa;
+    }
+    
+    .action-card:hover .action-label { color: #fff; }
+    
+    /* Health List */
+    .health-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    
+    .health-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    
+    .health-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #888;
+      min-width: 100px;
+    }
+    
+    .health-label i { width: 16px; height: 16px; opacity: 0.6; }
+    
+    .health-bar {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #666, #fff);
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+    
+    .bar-text {
+      font-size: 12px;
+      color: #888;
+      min-width: 40px;
+      text-align: right;
+    }
+    
+    .health-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    
+    .health-status .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+    
+    .health-status.online { color: #4ade80; }
+    .health-status.online .dot { background: #4ade80; }
+    
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    table { width: 100%; border-collapse: collapse; }
+    
+    thead tr { background: rgba(255,255,255,0.03); }
+    
+    th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    
+    td {
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #aaa;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    
+    tr:hover td { background: rgba(255,255,255,0.02); color: #fff; }
+    tr:last-child td { border-bottom: none; }
+    
+    .project-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+    
+    .project-name i { width: 16px; height: 16px; opacity: 0.5; }
+    
+    .status-tag {
+      display: inline-flex;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: capitalize;
+      border-radius: 5px;
+      background: rgba(255,255,255,0.06);
+      color: #888;
+    }
+    
+    .status-tag.success {
+      background: rgba(74,222,128,0.1);
+      color: #4ade80;
+    }
+    
+    .loading-cell, .empty-cell, .error-cell {
+      padding: 32px 16px;
+      text-align: center;
+    }
+    
+    .empty-cell, .error-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #555;
+    }
+    
+    .error-cell { color: #f87171; }
+    
+    .skeleton-line {
+      height: 16px;
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+      max-width: 200px;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    /* Activity Feed */
+    .activity-feed {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+    
+    .activity-item:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.1);
+    }
+    
+    .activity-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    
+    .activity-icon i { width: 16px; height: 16px; opacity: 0.7; }
+    
+    .activity-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .activity-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #ddd;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .activity-time {
+      font-size: 11px;
+      color: #555;
+    }
+    
+    .activity-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 40px 20px;
+      color: #555;
+    }
+    
+    .activity-empty.error { color: #f87171; }
+    
+    /* Notifications Panel */
+    .notif-panel {
+      position: fixed;
+      right: 24px;
+      top: 100px;
+      z-index: 100;
+      width: min(360px, calc(100vw - 48px));
+    }
+    
+    .notif-container {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      animation: slideDown 0.25s ease;
+    }
+    
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .notif-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    
+    .notif-head h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      margin: 0;
+    }
+    
+    .close-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+    
+    .notif-feed {
+      list-style: none;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    
+    .notif-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 32px 16px;
+      color: #555;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 24px;
+    }
+    
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      color: #000;
+      border-radius: 12px;
+    }
+    
+    .brand-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+    
+    .brand-accent { opacity: 0.5; }
+    
+    .sidebar-menu {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .menu-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 16px 0 10px;
+    }
+    
+    .menu-label:first-child { margin-top: 0; }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      text-decoration: none;
+      color: #888;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .menu-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: #fff;
+      border-radius: 0 2px 2px 0;
+      transition: height 0.2s ease;
+    }
+    
+    .menu-item i { width: 18px; height: 18px; opacity: 0.7; }
+    .menu-item span { flex: 1; }
+    
+    .menu-item:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.04);
+    }
+    
+    .menu-item:hover::before { height: 16px; }
+    
+    .menu-item.active {
+      color: #fff;
+      background: rgba(255,255,255,0.06);
+    }
+    
+    .menu-item.active::before { height: 20px; }
+    
+    .sidebar-footer {
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .user-avatar i { width: 16px; height: 16px; opacity: 0.7; }
+    
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .user-role {
+      font-size: 11px;
+      color: #666;
+    }
+    
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 10px;
+      color: #f87171;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(248,113,113,0.1);
+      border-color: rgba(248,113,113,0.4);
+    }
+    
+    .logout-btn i { width: 16px; height: 16px; }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      animation: slideInUp 0.3s ease;
+    }
+    
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .toast-icon { width: 18px; height: 18px; }
+    .toast.success .toast-icon { color: #4ade80; }
+    .toast.error .toast-icon { color: #f87171; }
+    
+    .toast-msg { font-size: 14px; font-weight: 500; }
+    
+    .toast-close {
+      background: transparent;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      transition: color 0.2s ease;
+    }
+    
+    .toast-close:hover { color: #fff; }
+    
+    /* Icon Button */
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    
+    .notif-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #f87171;
+    }
+    
+    /* Brand Info */
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    
+    .welcome-msg {
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    
+    .welcome-msg span { color: #888; }
+    
+    .date-display {
+      font-size: 12px;
+      color: #555;
+    }
+    
+    /* Search */
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      width: 16px;
+      height: 16px;
+      color: #555;
+      pointer-events: none;
+    }
+    
+    .search-input {
+      width: 180px;
+      padding: 10px 14px 10px 42px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+    
+    .search-input:focus {
+      width: 240px;
+      outline: none;
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.06);
+    }
+    
+    .search-input::placeholder { color: #555; }
+
+    /* ===== Visitor Analytics Styles ===== */
+    
+    /* Location List */
+    .location-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .location-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .location-item:last-child {
+      border-bottom: none;
+    }
+    
+    .location-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .location-info i {
+      width: 16px;
+      height: 16px;
+      color: #666;
+    }
+    
+    .location-name {
+      font-size: 14px;
+      color: #ccc;
+      font-weight: 500;
+    }
+    
+    .location-count {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    
+    .location-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px;
+      color: #555;
+      font-size: 14px;
+    }
+    
+    .location-empty i {
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Visitor Location in Table */
+    .visitor-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .visitor-location i {
+      width: 14px;
+      height: 14px;
+      color: #666;
+    }
+    
+    /* GPS Badge */
+    .gps-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    
+    .gps-badge i {
+      width: 12px;
+      height: 12px;
+    }
+    
+    .gps-badge.granted {
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+    }
+    
+    .gps-badge.denied {
+      background: rgba(248, 113, 113, 0.15);
+      color: #f87171;
+    }
+    
+    /* Page URL column */
+    .page-url {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    /* Full width card */
+    .card-full {
+      grid-column: 1 / -1;
+    }
+    
+    /* Section title with h2 */
+    .section-header h2.section-title {
+      font-size: 1.3rem;
+    }
+  </style>
 </body>
 </html>
