@@ -632,6 +632,7 @@
     async function secureFetch(path, opts = {}) {
       const base = (window.API_BASE || '').replace(/\/+$/, '');
       const url = path.startsWith('http') ? path : base + path;
+      console.log(`[secureFetch] Fetching: ${url}`);
       const token = localStorage.getItem('jwtToken') || localStorage.getItem('authToken') || '';
       const bearer = token ? (token.startsWith('Bearer ') ? token : `Bearer ${token}`) : '';
       
@@ -1071,6 +1072,12 @@
       console.log('[Visitor Stats] Loading visitor analytics...');
       
       try {
+        // Quick check if controller is reachable
+        fetch((window.API_BASE || '') + '/api/visitors/test')
+          .then(r => r.json())
+          .then(d => console.log('[Visitor Stats] Controller test reachable:', d))
+          .catch(e => console.warn('[Visitor Stats] Controller test failed:', e));
+
         // Use our local secureFetch helper
         const stats = await secureFetch('/api/visitors/stats');
         
