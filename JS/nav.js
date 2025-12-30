@@ -9,22 +9,28 @@ document.addEventListener('DOMContentLoaded', function() {
   const navLinks = document.getElementById('nav-links');
 
   // Mobile Menu Control
+  const navOverlay = document.getElementById('nav-overlay');
+
   if (menuOpen && menuClose && navLinks) {
     menuOpen.addEventListener('click', () => {
       navLinks.classList.add('show');
-      document.body.style.overflow = 'hidden'; // Prevent background scroll
+      if (navOverlay) navOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden'; 
     });
 
-    menuClose.addEventListener('click', () => {
+    const closeNav = () => {
       navLinks.classList.remove('show');
+      if (navOverlay) navOverlay.classList.remove('show');
       document.body.style.overflow = '';
-    });
+    };
+
+    menuClose.addEventListener('click', closeNav);
+    if (navOverlay) navOverlay.addEventListener('click', closeNav);
 
     // Close menu when clicking a link
     navLinks.addEventListener('click', (e) => {
       if (e.target.tagName === 'A' && !e.target.closest('.login-dropdown')) {
-        navLinks.classList.remove('show');
-        document.body.style.overflow = '';
+        closeNav();
       }
     });
   }

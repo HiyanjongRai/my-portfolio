@@ -468,16 +468,34 @@ nav ul li a:hover::after {
     -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
     align-items: flex-start;
-    padding: 60px 30px;
-    gap: 20px;
+    padding: 80px 30px 40px;
+    gap: 15px;
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0;
     z-index: 2000;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   nav ul.show {
     right: 0;
+  }
+  
+  /* Mobile Overlay */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1500;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+  }
+  .nav-overlay.show {
+    opacity: 1;
+    visibility: visible;
   }
 
   #nav-links > li:first-child {
@@ -507,19 +525,24 @@ nav ul li a:hover::after {
 
   .login-dropdown .dropdown-content {
     position: relative;
-    top: 10px;
+    top: 5px;
     right: auto;
-    width: 100%;
+    left: 0;
+    width: calc(100% + 20px);
+    margin-left: -10px;
     min-width: unset;
-    margin-top: 10px;
-    padding: 24px 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: none;
-    animation: none;
+    animation: fadeIn 0.3s ease;
     transform: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1; /* Reset to 1 because display: none handles visibility */
+    visibility: visible;
+  }
+
+  .login-dropdown:not(.open) .dropdown-content {
+    display: none !important;
   }
   
   .login-dropdown a {
@@ -530,17 +553,23 @@ nav ul li a:hover::after {
   }
   
   .dropdown-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  
+  .dropdown-header p {
+    font-size: 0.8rem;
   }
   
   .dropdown-header i {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    margin-bottom: 12px;
   }
   
   .dropdown-content input {
     padding: 12px 14px 12px 40px;
     background: rgba(255, 255, 255, 0.06);
-    border: 2px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
     font-size: 0.9rem;
   }
