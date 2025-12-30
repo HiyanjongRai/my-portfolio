@@ -17,7 +17,7 @@
     .section-title .bar{flex:1;height:2px;background:linear-gradient(90deg,transparent,var(--brand))}
 
     /* ===== NAVBAR ===== */
-    header{position:sticky;top:0;z-index:3000}
+    header{position:sticky;top:0;z-index:4000}
     nav{width:100%;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.1)}
     .nav-container{max-width:1200px;margin:0 auto;padding:12px 40px;display:flex;justify-content:space-between;align-items:center}
     .logo a{text-decoration:none;color:#fff;font-family:"Bebas Neue",sans-serif}
@@ -167,15 +167,20 @@
 
     /* Mobile menu */
     @media (max-width:900px){
-      nav ul{position:fixed;top:0;right:-100%;height:100dvh;overflow-y:auto;overflow-x:hidden;width:min(85vw,320px);background:rgba(0,0,0,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-direction:column;align-items:flex-start;padding:80px 24px 40px;gap:15px;transition:right .3s cubic-bezier(0.4, 0, 0.2, 1);border-left:1px solid rgba(255,255,255,.1);border-radius:0;z-index:3500; box-shadow: -10px 0 30px rgba(0,0,0,0.5);}
+      nav ul{position:fixed;top:0;right:-100%;height:100dvh;overflow-y:auto;overflow-x:hidden;width:min(85vw,320px);background:rgba(0,0,0,.98);flex-direction:column;align-items:flex-start;padding:100px 32px 60px;gap:0;transition:right .3s cubic-bezier(0.4, 0, 0.2, 1);border-left:1px solid rgba(255,255,255,.1);border-radius:0;z-index:3500; box-shadow: -10px 0 30px rgba(0,0,0,0.8);}
       nav ul.show{right:0}
+      
+      .menu-toggle {
+        display: block !important;
+        position: relative;
+        z-index: 3501;
+      }
       
       /* Mobile Overlay */
       .nav-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.7);
         z-index: 3400;
         opacity: 0;
         visibility: hidden;
@@ -186,10 +191,25 @@
         visibility: visible;
       }
 
-      #nav-links>li:first-child{width:100%;display:flex;justify-content:flex-start;margin-bottom:10px}
+      #nav-links>li:first-child{position:absolute;top:25px;right:25px;width:auto;margin-bottom:0}
       .menu-toggle,.menu-close{display:block}
-      nav ul li a{display:block;width:100%;padding:12px 8px;font-size:1rem; border-bottom: 1px solid rgba(255,255,255,0.05);}
+      .menu-close { font-size: 2.2rem; color: rgba(255,255,255,0.8); padding: 10px; line-height: 1; }
       
+      nav ul li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+      nav ul li:last-child { border-bottom: none; }
+      
+      nav ul li a{display:flex;align-items:center;width:100%;padding:24px 0;font-size:1.3rem;font-weight:700;letter-spacing:2px;color:#ffffff;transition:all 0.3s ease;text-shadow:0 2px 4px rgba(0,0,0,0.3);}
+      nav ul li a:hover { color: #ffb400; padding-left: 12px; }
+      
+      .login-dropdown a {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 16px 20px !important;
+        font-size: 1.05rem;
+        margin-top: 15px;
+        background: rgba(56, 189, 248, 0.1);
+        border-color: rgba(56, 189, 248, 0.3);
+      }
       .login-dropdown .dropdown-content {
         position: relative;
         top: 5px;

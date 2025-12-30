@@ -1,7 +1,7 @@
 header {
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 nav {
@@ -463,18 +463,16 @@ nav ul li a:hover::after {
     right: -100%;
     height: 100dvh;
     width: min(85vw, 320px);
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.98);
     flex-direction: column;
     align-items: flex-start;
-    padding: 80px 30px 40px;
-    gap: 15px;
+    padding: 100px 32px 60px;
+    gap: 0; /* Switching to padding on items for better control */
     transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 0;
     z-index: 2000;
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -482,12 +480,17 @@ nav ul li a:hover::after {
     right: 0;
   }
   
+  .menu-toggle {
+    display: block !important;
+    position: relative;
+    z-index: 1001;
+  }
+  
   /* Mobile Overlay */
   .nav-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1500;
     opacity: 0;
     visibility: hidden;
@@ -499,23 +502,45 @@ nav ul li a:hover::after {
   }
 
   #nav-links > li:first-child {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 6px;
-  }
-  .menu-toggle {
-    display: block;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: auto;
+    margin-bottom: 0;
   }
   .menu-close {
     display: block;
+    font-size: 2.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    line-height: 1;
+  }
+  
+  nav ul li {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 5px;
+  }
+  
+  nav ul li:last-child {
+    border-bottom: none;
   }
 
   nav ul li a {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 8px 4px;
-    font-size: .9rem;
+    padding: 24px 0; /* Huge padding for better touch and space */
+    font-size: 1.3rem; /* Larger font */
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  nav ul li a:hover {
+    color: #ffb400;
+    padding-left: 12px;
   }
 
   /* Mobile login dropdown refinement */
@@ -548,22 +573,35 @@ nav ul li a:hover::after {
   .login-dropdown a {
     width: 100%;
     justify-content: flex-start;
-    padding: 12px 18px !important;
-    font-size: 0.95rem;
+    padding: 16px 20px !important;
+    font-size: 1.05rem;
+    margin-top: 15px;
+    background: rgba(102, 126, 234, 0.1);
+    border-color: rgba(102, 126, 234, 0.3);
+  }
+  
+  .dropdown-header {
+    padding-top: 10px;
+    margin-bottom: 25px;
   }
   
   .dropdown-header h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-weight: 700;
   }
   
   .dropdown-header p {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
   }
   
   .dropdown-header i {
-    font-size: 2rem;
-    margin-bottom: 12px;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: #ffb400;
+    display: block;
   }
   
   .dropdown-content input {
