@@ -5,8 +5,7 @@
       const phrases = [
         'Backend Developer',
         'BCA Student',
-        'SEO Executive',
-        'Intern'
+        'Full Stack Enthusiast'
       ];
 
       if (matchMedia('(prefers-reduced-motion: reduce)').matches){
