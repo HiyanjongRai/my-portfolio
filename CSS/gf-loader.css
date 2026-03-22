@@ -24,35 +24,66 @@
   gap: 1.5rem;
 }
 
-.gf-squares {
+.moving-car-wrapper {
+  position: relative;
+  width: 160px;
+  height: 60px;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 5px;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
-.gf-squares span {
-  width: 20px;
-  height: 20px;
-  background-color: #fff;
-  border-radius: 4px;
-  animation: gf-bounce 1s infinite alternate cubic-bezier(0.5, 0, 0.5, 1);
+.moving-car {
+  font-size: 2.2rem;
+  color: #fff;
+  animation: carBob 0.35s infinite alternate cubic-bezier(0.5, 0.05, 0.5, 0.95);
+  position: relative;
+  z-index: 2;
+  margin-bottom: 6px;
 }
 
-.gf-squares span:nth-child(2) { animation-delay: 0.1s; }
-.gf-squares span:nth-child(3) { animation-delay: 0.2s; }
-.gf-squares span:nth-child(4) { animation-delay: 0.3s; }
+@keyframes carBob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-2px); }
+}
 
-@keyframes gf-bounce {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-30px) rotate(90deg); }
+.road-lines {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 300px;
+  display: flex;
+  gap: 15px;
+  animation: roadMove 0.4s infinite linear;
+}
+
+.road-lines span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+@keyframes roadMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40px); }
 }
 
 .gf-loading-text {
-  font-family: inherit;
-  font-weight: 800;
-  font-size: 2rem;
-  letter-spacing: 0.3em;
+  font-family: "Bitcount Prop Double Ink", "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 3.2rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   color: #fff;
-  padding-left: 0.3em;
+  padding-left: 0.15em;
+  filter: drop-shadow(0 4px 10px rgba(255, 255, 255, 0.2));
 }
 
 /* Pause hero animations until loader finishes */

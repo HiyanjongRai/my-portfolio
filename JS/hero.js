@@ -13,15 +13,7 @@
         return;
       }
 
-      // Reserve exact height for the tallest phrase
-      const longest = phrases.reduce((a,b)=> a.length > b.length ? a : b);
-      const prev = el.textContent;
-      el.style.visibility = 'hidden';
-      el.textContent = longest;
-      const h = el.getBoundingClientRect().height;
-      el.style.minHeight = Math.ceil(h) + 'px';
-      el.textContent = '';
-      el.style.visibility = 'visible';
+      // Removed manual min-height calculation to prevent layout collapse on mobile
 
       let i = 0, j = 0, dir = 1;
       const TYPE = 120, ERASE = 60, HOLD = 1800, GAP = 500;
@@ -36,6 +28,74 @@
         if (dir < 0 && j === 0){ dir = 1; i = (i + 1) % phrases.length; return setTimeout(tick, GAP); }
       }
       tick();
+    })();
+    
+    // Cycle between English and Nepali names with typewriter effect
+    (function typeName() {
+      const nameFirst = document.querySelector(".title .highlight");
+      const nameLast = document.querySelector(".title .highlight-sub");
+      
+      if (!nameFirst || !nameLast) return;
+      
+      // Array of spreadable strings.
+      // Spread operator beautifully preserves unicode components for realistic Nepali typing.
+      const names = [
+        { first: [... "Hiyan"], last: [... "Jong Rai"] },
+        { first: [... "हियान"], last: [... "जोंग राई"] }
+      ];
+      
+      let langIndex = 0;
+      let isDeleting = false;
+      let charIndex = names[0].first.length + names[0].last.length; // Start fully typed in English
+      
+      function typeLoop() {
+        const currentName = names[langIndex];
+        const totalLength = currentName.first.length + currentName.last.length;
+        
+        let typeSpeed = isDeleting ? 40 : 100;
+        
+        if (!isDeleting) {
+           charIndex++;
+        } else {
+           charIndex--;
+        }
+        
+        // Distribution of typed characters over the two lines
+        let typedFirst = 0;
+        let typedLast = 0;
+        
+        if (charIndex <= currentName.first.length) {
+          typedFirst = charIndex;
+          typedLast = 0;
+        } else {
+          typedFirst = currentName.first.length;
+          typedLast = charIndex - currentName.first.length;
+        }
+        
+        // Join the typed character arrays
+        nameFirst.textContent = currentName.first.slice(0, typedFirst).join("");
+        nameLast.textContent = currentName.last.slice(0, Math.max(0, typedLast)).join("");
+        
+        // Handle state changes
+        if (!isDeleting && charIndex === totalLength) {
+          // Pause when fully typed
+          typeSpeed = 1500; 
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          // Switch languages when fully erased
+          isDeleting = false;
+          langIndex = (langIndex + 1) % names.length;
+          typeSpeed = 300; // Small pause before typing new word
+        }
+        
+        setTimeout(typeLoop, typeSpeed);
+      }
+      
+      // Delay start to allow GSAP entrance animation to finish
+      setTimeout(() => {
+        isDeleting = true; 
+        typeLoop();
+      }, 3000); 
     })();
 
     /* Hero slider */
