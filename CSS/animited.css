@@ -19,6 +19,14 @@
   filter: blur(8px);
 }
 
+.js-reveal .reveal.from-left:not(.is-visible) {
+  transform: translateX(-100px) scale(0.95);
+}
+
+.js-reveal .reveal.from-right:not(.is-visible) {
+  transform: translateX(100px) scale(0.95);
+}
+
 .reveal.is-visible {
   opacity: 1;
   transform: none;
@@ -394,7 +402,7 @@
   }
 }
 
-body {
+main {
   animation: pageLoad 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

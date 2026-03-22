@@ -1,0 +1,232 @@
+/* Expertise Modal and Interactive Enhancements */
+
+/* Dim/Blur effect for the grid when modal is open */
+.xp-grid.modal-active {
+  pointer-events: none;
+}
+.xp-grid.modal-active .xp-card {
+  opacity: 0.4;
+  transform: scale(0.95);
+  filter: blur(4px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modal Overlay */
+#xp-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+#xp-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* The expanding modal box */
+#xp-modal {
+  position: fixed;
+  background: var(--card, #111);
+  border: 1px solid var(--brand, #f1b72a);
+  border-radius: var(--radius, 16px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(241, 183, 42, 0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Will be animated via JS from start rect to centered rect */
+  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10000;
+  transform-origin: center;
+}
+#xp-modal.animating {
+  opacity: 1;
+}
+#xp-modal.open {
+  opacity: 1;
+  pointer-events: auto;
+  /* Centered dimensions */
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 90vw !important;
+  max-width: 800px !important;
+  height: 80vh !important;
+  max-height: 600px !important;
+}
+
+/* Modal Content Wrapper */
+.xp-modal-inner {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.3s;
+}
+#xp-modal.open .xp-modal-inner {
+  opacity: 1;
+}
+
+/* Top Progress Bar */
+.xp-progress-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  position: relative;
+}
+.xp-progress-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: var(--brand, #f1b72a);
+  width: 0%;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 10px rgba(241, 183, 42, 0.5);
+}
+
+/* Header inside modal */
+.xp-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.xp-modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.xp-modal-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(241, 183, 42, 0.15);
+  color: var(--brand, #f1b72a);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.xp-modal-icon svg { width: 26px; height: 26px; }
+.xp-modal-title {
+  margin: 0;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+}
+.xp-modal-close {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.xp-modal-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+/* Body */
+.xp-modal-body {
+  padding: 32px;
+  flex: 1;
+  overflow-y: auto;
+  color: var(--muted, #b0b0b0);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.xp-modal-body h4 {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+.xp-modal-body p { margin-bottom: 20px; }
+.xp-modal-body ul {
+  list-style: none;
+  padding-left: 0;
+}
+.xp-modal-body ul li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+}
+.xp-modal-body ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--brand, #f1b72a);
+  font-weight: bold;
+}
+
+/* Footer / Navigation */
+.xp-modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.3);
+}
+.xp-nav-btn {
+  background: rgba(241, 183, 42, 0.1);
+  color: var(--brand, #f1b72a);
+  border: 1px solid rgba(241, 183, 42, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+.xp-nav-btn:hover {
+  background: var(--brand, #f1b72a);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(241, 183, 42, 0.3);
+}
+.xp-nav-btn:disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.xp-indicator {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.xp-indicator span { color: var(--brand, #f1b72a); }
+
+/* Cursor indicator on cards */
+.xp-card {
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  #xp-modal.open {
+    width: 95vw !important;
+    height: 90vh !important;
+  }
+  .xp-modal-header, .xp-modal-body, .xp-modal-nav {
+    padding: 20px;
+  }
+}

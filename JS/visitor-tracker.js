@@ -232,23 +232,47 @@
           border-radius: 12px;
           box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
           margin: 0 10px;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .location-dialog-box:hover {
+          transform: translateY(-2px) scale(1.02);
+          box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8), 0 0 20px rgba(241, 183, 42, 0.15);
+          border-color: rgba(241, 183, 42, 0.5);
         }
         
         .location-dialog-icon {
           width: 38px;
           height: 38px;
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(241, 183, 42, 0.15);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          animation: locationIconPulse 2s infinite;
+        }
+
+        @keyframes locationIconPulse {
+          0% { box-shadow: 0 0 0 0 rgba(241, 183, 42, 0.4); }
+          70% { box-shadow: 0 0 0 10px rgba(241, 183, 42, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(241, 183, 42, 0); }
         }
         
         .location-dialog-icon svg {
           width: 18px;
           height: 18px;
-          color: #fff;
+          color: #f1b72a;
+          animation: locationWiggle 3s infinite ease-in-out;
+        }
+
+        @keyframes locationWiggle {
+          0%, 100% { transform: rotate(0deg); }
+          5% { transform: rotate(-15deg); }
+          10% { transform: rotate(15deg); }
+          15% { transform: rotate(-15deg); }
+          20% { transform: rotate(15deg); }
+          25% { transform: rotate(0deg); }
         }
         
         .location-dialog-content {

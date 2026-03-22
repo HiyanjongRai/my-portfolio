@@ -43,6 +43,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // Smart Scroll Navbar logic
+  const header = document.querySelector('header');
+  let lastScrollTop = 0;
+  
+  if (header) {
+    window.addEventListener('scroll', () => {
+      let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Add styling class when scrolled past top
+      if (currentScroll > 50) {
+        header.classList.add('nav-scrolled');
+      } else {
+        header.classList.remove('nav-scrolled');
+      }
+
+      // Hide when scrolling down, show when scrolling up
+      if (currentScroll > lastScrollTop && currentScroll > 100) {
+        // Scrolling Down
+        header.classList.add('nav-up');
+        // Close mobile dropdown if open
+        if (navLinks.classList.contains('show')) {
+           navLinks.classList.remove('show');
+           if (navOverlay) navOverlay.classList.remove('show');
+           document.body.style.overflow = '';
+        }
+      } else {
+        // Scrolling Up
+        header.classList.remove('nav-up');
+      }
+      
+      lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, { passive: true });
+  }
+
   
   if (!loginToggle || !loginDropdown) {
     console.warn('Login elements not found');

@@ -100,6 +100,14 @@ body {
   border-radius:var(--radius);
   padding:32px 28px;
   display:block;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.about-left:hover,
+.about-right:hover {
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0,0,0,.8), 0 0 20px rgba(241,183,42,0.15);
+  border-color: var(--accent);
 }
 
 /* ---------- Avatar ---------- */
@@ -114,6 +122,12 @@ body {
   border:6px solid var(--bg);
   outline:3px solid var(--accent);
   box-shadow:0 12px 28px rgba(0,0,0,.5);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.about-left:hover .avatar img {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 15px 35px rgba(241,183,42,0.4);
 }
 
 /* ---------- Facts ---------- */
