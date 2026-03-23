@@ -427,3 +427,34 @@ button.send-button:hover {
 .contact-text a:hover { color: #fff; }
 
 /* Social media */
+
+/* Responsive Contact Section */
+@media (max-width: 768px) {
+  .contact-wrapper { gap: 16px; flex-wrap: nowrap; margin-top: 24px; }
+  .contact-card { padding: 20px 14px; flex: 1 1 0; max-width: 50%; }
+  .form-control, textarea { padding: 8px; font-size: 0.85rem; }
+  .list-item { font-size: 13px; margin: 8px 0; }
+}
+@media (max-width: 600px) {
+  #contact { padding: 40px 10px; }
+  .contact-wrapper { gap: 10px; margin-top: 16px; }
+  .contact-card { padding: 14px 8px; border-radius: 10px; }
+  .form-control, textarea { padding: 6px; font-size: 0.75rem; margin: 4px 0; }
+  button.send-button { padding: 8px; font-size: 0.75rem; margin-top: 8px; }
+  .list-item { font-size: 11px; margin: 4px 0; }
+  .contact-text a { font-size: 11px; word-break: break-all; }
+  .social-media-list a { width: 28px; height: 28px; font-size: 12px; }
+  .social-media-list { gap: 6px; }
+}
+@media (max-width: 400px) {
+  .contact-wrapper { gap: 6px; }
+  .contact-card { padding: 10px 6px; border-radius: 8px; }
+  .form-control, textarea { padding: 5px; font-size: 0.65rem; margin: 4px 0; }
+  button.send-button { padding: 6px; font-size: 0.65rem; margin-top: 6px; }
+  .list-item { font-size: 9px; margin: 2px 0; }
+  .list-item i { margin-right: 4px; font-size: 10px; }
+  .contact-text a { font-size: 9px; line-height: 1.1; display: inline-block; }
+  .social-media-list a { width: 22px; height: 22px; font-size: 10px; }
+  .social-media-list { gap: 4px; }
+  .follow-text { font-size: 12px; margin-bottom: 4px; }
+}

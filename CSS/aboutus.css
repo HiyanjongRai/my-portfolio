@@ -250,12 +250,51 @@ body {
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width:980px){
-  .about-grid{ grid-template-columns:1fr; gap:28px; }
+@media (max-width:768px){
+  .about-grid{ 
+    gap: 16px; 
+    padding: 0 10px;
+  }
+  .about-left, .about-right { padding: 16px 12px; }
+  .avatar img { width: 120px; height: 120px; }
 }
 @media (max-width:600px){
-  .profile{ grid-template-columns:1fr; }
-  .about-left, .about-right{ padding:24px; }
+  .about-grid { gap: 10px; padding: 0 8px; }
+  .about-left, .about-right { padding: 12px 10px; }
+  
+  .avatar { margin: 0 0 12px; }
+  .avatar img { width: 70px; height: 70px; border-width: 3px; outline-width: 2px; }
+  
+  .facts { gap: 2px; margin: 0 0 12px; }
+  .facts li { font-size: 0.7rem; line-height: 1.2; }
+  .skills-title { font-size: 0.9rem; margin: 8px 0 6px; }
+  
+  .bar { margin: 6px 0 10px; }
+  .bar-top { font-size: 0.65rem; margin-bottom: 4px; }
+  .bar-track { height: 6px; }
+  
+  .lead, .about-right p { font-size: 0.7rem; line-height: 1.4; margin: 8px 0; }
+  
+  .profile { grid-template-columns: 1fr; gap: 4px; margin: 10px 0; }
+  .profile dt, .profile dd { font-size: 0.7rem; }
+  
+  .metric b.count { font-size: 1.3rem; }
+  .metric span { font-size: 0.7rem; }
+  
+  .btn.badge { padding: 8px 12px; font-size: 0.75rem; }
+}
+
+@media (max-width:380px){
+  .about-grid { gap: 6px; padding: 0 4px; }
+  .about-left, .about-right { padding: 8px 6px; }
+  .avatar img { width: 60px; height: 60px; }
+  .facts li { font-size: 0.6rem; }
+  .skills-title { font-size: 0.8rem; }
+  .bar-top { font-size: 0.6rem; }
+  .lead, .about-right p, .profile dt, .profile dd { font-size: 0.6rem; }
+  .metric b.count { font-size: 1.1rem; }
+  .metric span { font-size: 0.6rem; }
+  .btn.badge { padding: 6px 10px; font-size: 0.65rem; }
 }
 @media (prefers-reduced-motion:reduce){
   .bar-fill{ transition:none; }

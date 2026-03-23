@@ -131,8 +131,30 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .edu-grid { gap: 20px; }
+  .edu-grid { gap: 16px; }
+  .edu-card { padding: 20px 16px; min-height: 220px; }
 }
-@media (max-width: 600px) {
-  .edu-grid { grid-template-columns: 1fr; }
+@media (max-width: 640px) {
+  .edu-grid { gap: 12px; padding: 0 4px; }
+  .edu-card { padding: 14px 10px; min-height: auto; border-radius: 10px; }
+  .edu-year { font-size: 0.85rem; margin-bottom: 6px; }
+  .edu-degree { font-size: 0.9rem; margin-bottom: 4px; }
+  .edu-school { font-size: 0.75rem; margin-bottom: 6px; }
+  .edu-grade { font-size: 0.75rem; margin-bottom: 8px; }
+  .edu-card p, .edu-desc { font-size: 0.7rem; line-height: 1.4; margin-bottom: 8px; }
+  .edu-list { font-size: 0.7rem; padding-left: 14px; }
+  .edu-list li { margin: 4px 0; line-height: 1.3; }
+}
+@media (max-width: 380px) {
+  .education-section { padding: 50px 10px; }
+  .edu-grid { gap: 8px; }
+  .edu-card { padding: 10px 8px; border-radius: 8px; }
+  .edu-year { font-size: 0.75rem; margin-bottom: 4px; }
+  .edu-degree { font-size: 0.8rem; }
+  .edu-school { font-size: 0.65rem; margin-bottom: 4px; }
+  .edu-grade { font-size: 0.65rem; margin-bottom: 6px; }
+  .edu-card p, .edu-desc { font-size: 0.65rem; margin-bottom: 6px; line-height: 1.3; }
+  .edu-list { font-size: 0.65rem; padding-left: 12px; }
+  .edu-list li { margin: 2px 0; }
+  .education-section h2 { font-size: 1.6rem; }
 }
