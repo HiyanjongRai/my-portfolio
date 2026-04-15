@@ -440,16 +440,22 @@ button { font-family: inherit; cursor: pointer; }
   font-family: var(--f-body);
   font-size: 180px;
   font-weight: 900;
-  fill: rgba(255, 255, 255, 0.05);
-  stroke: #ffffff;
+  fill: rgba(255, 255, 255, 0.02);
+  stroke: rgba(255, 255, 255, 0.15);
   stroke-width: 1.8px;
   stroke-dashoffset: 2500;
   stroke-dasharray: 2500;
   animation: clashRun 14s linear infinite;
-  filter: drop-shadow(0 0 18px rgba(255,255,255,0.7));
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
 }
 @media (max-width: 414px) {
   .lum-nepali-stroke { font-size: 100px; stroke-width: 1.2px; }
+}
+
+@keyframes clashRun {
+  0% { stroke-dashoffset: 2500; }
+  50% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -2500; }
 }
 
 /* Typewriter */
