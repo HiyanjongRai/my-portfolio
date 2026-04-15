@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Primary Meta Tags -->
+  <title>Hiyan Jong Rai - Backend Developer | Spring Boot & MySQL</title>
+  <meta name="title" content="Hiyan Jong Rai - Backend Developer | Spring Boot & MySQL">
+  <meta name="description" content="Backend Developer from Nepal specializing in Spring Boot, MySQL, and PostgreSQL. View my portfolio of e-commerce and web solutions.">
+  <meta name="keywords" content="Backend Developer, Spring Boot, MySQL, PostgreSQL, Java, Nepal, Hiyan Jong Rai, Full Stack, Web Development">
+  <meta name="author" content="Hiyan Jong Rai">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://hiyanjong.vercel.app/">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hiyanjong.vercel.app/">
+  <meta property="og:site_name" content="Hiyan Jong Rai Portfolio">
+  <meta property="og:title" content="Hiyan Jong Rai - Backend Developer | Spring Boot">
+  <meta property="og:description" content="Backend Developer from Nepal specializing in Spring Boot, MySQL, and PostgreSQL. View my portfolio.">
+  <meta property="og:image" content="https://hiyanjong.vercel.app/images/me.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hiyan Jong Rai - Backend Developer">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://hiyanjong.vercel.app/">
+  <meta name="twitter:title" content="Hiyan Jong Rai - Backend Developer | Spring Boot">
+  <meta name="twitter:description" content="Backend Developer from Nepal specializing in Spring Boot, MySQL, and PostgreSQL.">
+  <meta name="twitter:image" content="https://hiyanjong.vercel.app/images/me.webp">
+  <meta name="twitter:image:alt" content="Hiyan Jong Rai - Backend Developer">
+
+  <!-- Enhanced Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hiyan Jong Rai",
+      "url": "https://hiyanjong.vercel.app/",
+      "image": "https://hiyanjong.vercel.app/images/me.webp",
+      "jobTitle": "Backend Developer",
+      "worksFor": [
+        { "@type": "Organization", "name": "Mirai Design & Print" },
+        { "@type": "Organization", "name": "DelhitoKathmandu" },
+        { "@type": "Organization", "name": "HimalayanHub" }
+      ],
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Tribhuvan University"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kathmandu",
+        "addressCountry": "NP"
+      },
+      "email": "raihenjong332@gmail.com",
+      "telephone": "+9779765006485",
+      "sameAs": [
+        "https://github.com/HiyanjongRai",
+        "https://www.linkedin.com/in/hiyanjongrai",
+        "https://www.facebook.com/hiyanjong.rai69",
+        "https://www.instagram.com/tilung.hiyanjongrai/",
+        "https://www.pinterest.com/hiyanjongrai"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Hiyan Jong Rai - Web Development",
+      "image": "https://hiyanjong.vercel.app/images/me.webp",
+      "telephone": "+9779765006485",
+      "email": "raihenjong332@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Kathmandu",
+        "addressRegion": "Bagmati",
+        "addressCountry": "NP"
+      },
+      "url": "https://hiyanjong.vercel.app/",
+      "priceRange": "$$"
+    }
+  ]
+  </script>
+
+  <!-- Pinterest Verification -->
+  <meta name="p:domain_verify" content="f38c642430bc7f307780f539033e3f8e">
+
+  <!-- Favicons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
+
+  <!-- DNS Prefetch for Performance -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  
+  <!-- Preconnect for Critical Resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload Critical Fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Prop+Double+Ink&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="./CSS/style.css">
+  <link rel="stylesheet" href="./CSS/navbar.css">
+  <link rel="stylesheet" href="./CSS/responsive.css">
+  <link rel="stylesheet" href="./CSS/animited.css">
+  <link rel="stylesheet" href="./CSS/micro-interactions.css">
+  <link rel="stylesheet" href="./CSS/hero.css">
+  <link rel="stylesheet" href="./CSS/education.css">
+  <link rel="stylesheet" href="./CSS/expertise.css">
+  <link rel="stylesheet" href="./CSS/aboutus.css">
+  <link rel="stylesheet" href="./CSS/form.css">
+  <link rel="stylesheet" href="./CSS/index-inline.css">
+  <link rel="stylesheet" href="./CSS/gf-loader.css">
+  <link rel="stylesheet" href="./CSS/expertise-modal.css">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T2CWNSRMBY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-T2CWNSRMBY");
+  </script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+
+<!-- Initial Loading Screen (Good Fella Style) -->
+<div id="gf-loader">
+  <div class="gf-loader-content">
+    <div class="moving-car-wrapper">
+      <i class="fa-solid fa-car-side moving-car"></i>
+      <div class="road-lines">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="gf-loading-text">LOADING</div>
+  </div>
+</div>
+
+<!-- Scroll Progress Indicator -->
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="nav-overlay" id="nav-overlay"></div>
+
+<header role="banner">
+  
+  <nav aria-label="Main">
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="logo smooth-transition">
+        <a href="index.html" aria-label="Go to homepage">
+          <h2>HIYAN JONG RAI</h2>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="menu-toggle smooth-transition" id="menu-open">☰</div>
+
+      <!-- Navigation Links -->
+      <ul id="nav-links">
+        <li><span class="menu-close" id="menu-close">✕</span></li>
+        <li class="stagger-item"><a href="#about" class="smooth-transition">About Me</a></li>
+        <li class="stagger-item"><a href="#expertise" class="smooth-transition">Expertise</a></li>
+        <li class="stagger-item"><a href="#education" class="smooth-transition">Education</a></li>
+        <li class="stagger-item"><a href="#experience" class="smooth-transition">Experience</a></li>
+        <li class="stagger-item"><a href="#project" class="smooth-transition">Projects</a></li>
+        <li class="stagger-item"><a href="https://hiyanjongblog.vercel.app/" class="smooth-transition" target="_blank">Blogs</a></li>
+        <li class="stagger-item"><a href="#contact" class="smooth-transition">Contact Me</a></li>
+
+        <!-- Login dropdown -->
+        <li class="login-dropdown stagger-item">
+          <a href="#" id="login-toggle" class="smooth-transition">
+            <i class="fas fa-user-circle"></i> Login
+          </a>
+          <div class="dropdown-content">
+            <span class="dropdown-close" id="login-close" title="Close">✕</span>
+            <div class="dropdown-header">
+              <i class="fas fa-sign-in-alt"></i>
+              <h3>Welcome Back</h3>
+              <p>Sign in to your account</p>
+            </div>
+            <form id="dropdown-login-form">
+              <div class="input-group">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="username" name="username" placeholder="Username or Email" class="smooth-transition" required>
+              </div>
+
+              <div class="input-group">
+                <i class="fas fa-lock input-icon"></i>
+                <div class="password-wrapper">
+                  <input type="password" id="password" name="password" placeholder="Password" class="smooth-transition" required>
+                  <span class="toggle-password smooth-transition" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                  </span>
+                </div>
+              </div>
+
+              <button type="submit" class="login-btn smooth-transition">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+              </button>
+              
+              <div class="error" id="errorMsg"></div>
+            </form>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <!-- Sticky Location Dialog Placeholder - below navbar -->
+  <div id="location-dialog-sticky" class="location-dialog-wrapper" hidden></div>
+</header>
+
+
+<main>
+  <section id="home" class="hero" aria-label="Hero banner">
+    <div class="hero-track" id="heroTrack">
+      <div class="hero-slide" data-bg="images/me1.jpg" role="img" aria-label="Hiyan Jong Rai photo 1"></div>
+      <div class="hero-slide" data-bg="images/me.jpg" role="img" aria-label="Hiyan Jong Rai photo 2"></div>
+      <div class="hero-slide" data-bg="images/me3.jpg" role="img" aria-label="Hiyan Jong Rai photo 3"></div>
+      <div class="hero-slide" data-bg="images/me.jpg" role="img" aria-label="Hiyan Jong Rai photo 4"></div>
+      <div class="hero-slide" data-bg="images/me (2).jpg" role="img" aria-label="Hiyan Jong Rai photo 5"></div>
+      <div class="hero-slide" data-bg="images/me (3).jpg" role="img" aria-label="Hiyan Jong Rai photo 6"></div>
+      <div class="hero-slide" data-bg="images/me (6).jpg" role="img" aria-label="Hiyan Jong Rai photo 7"></div>
+    </div>
+
+  <div class="hero-inner">
+  <h1 class="title">
+    <div style="overflow: hidden; padding-bottom: 5px;"><div class="hero-line">Hi, I'm <span class="highlight">Hiyan</span></div></div>
+    <div style="overflow: hidden; padding-bottom: 5px;"><div class="hero-line"><span class="highlight-sub">Jong Rai</span></div></div>
+  </h1>
+  
+  <div class="hero-divider" style="width: 100%; max-width: 420px; height: 1px; background: rgba(255, 255, 255, 0.15); margin: 12px 0;"></div>
+  
+  <div style="display: flex; gap: 20px; align-items: center; overflow: hidden; font-weight: 600;">
+    <span class="eyebrow hero-left-text" style="color: rgba(255, 255, 255, 0.8);">From Udayapur</span>
+    <span class="eyebrow hero-right-text" style="color: #ff8a00;">Nepal</span>
+  </div>
+  
+  <div class="typed" id="typed" aria-live="polite" style="margin-top: 15px;"></div>
+</div>
+
+
+
+    <!-- side arrows -->
+    <button class="nav-btn prev smooth-transition" id="prevBtn" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15.5 4.5 8 12l7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="nav-btn next smooth-transition" id="nextBtn" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8.5 4.5 16 12l-7.5 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </section>
+
+
+
+  <!-- About Me -->
+ <section id="about" class="about-section">
+  <!-- Section heading -->
+  <div class="about-title reveal fade-in-up">
+    <h2>About Me</h2>
+    <span class="line"></span>
+  </div>
+
+  <div class="about-grid">
+    <!-- LEFT -->
+    <aside class="about-left reveal from-left">
+<figure class="avatar">
+  <img
+    id="avatar"
+    src="images/profile1.jpg"
+    alt="Hiyan Jong Rai portrait"
+    width="160" height="160"
+    fetchpriority="high"
+    decoding="async"
+    style="border-radius:50%; object-fit:cover;"
+  >
+</figure>
+
+      <ul class="facts">
+        <li><strong>Job Role:</strong> Backend / Full-stack</li>
+        <li><strong>Experience:</strong> 2+ Years (projects & internship)</li>
+        <li><strong>Address:</strong> Kathmandu, Nepal</li>
+      </ul>
+
+      <h3 class="skills-title">Skills</h3>
+
+      <div class="bar">
+        <div class="bar-top"><span>SQL</span><b>50%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:50%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>HTML</span><b>80%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:80%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>CSS</span><b>60%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:60%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span>Spring Boot</span><b>30%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:30%"></i></div>
+      </div>
+      <div class="bar">
+        <div class="bar-top"><span> React- Currently learning</span><b>5%</b></div>
+        <div class="bar-track"><i class="bar-fill" style="--p:5%"></i></div>
+      </div>
+<div class="dropdown">
+  <a class="btn badge smooth-transition">CV ▾</a>
+  <div class="dropdown-content">
+    <a href="files/HiyanJongRaiCV.pdf" target="_blank" class="smooth-transition">View CV</a>
+    <a href="files/HiyanJongRaiCV.pdf" download class="smooth-transition">Download CV</a>
+  </div>
+</div>
+
+
+    </aside>
+    <section class="about-right reveal from-right">
+<p class="lead">
+  Hi, I’m <strong>Hiyan Jong Rai</strong>, originally from Udayapur, Bagaha, and currently based in Kathmandu, where I am pursuing my BCA bachelor’s degree at Tribhuvan University.  
+  I’m a developer who enjoys turning ideas into clean, working software. I love being part of technology, exploring new innovations, traveling, photography, making memories, and coding.  
+  I previously worked remotely as an SEO Executive at 
+  <a href="https://miraisigns.com/" target="_blank" rel="noopener noreferrer" class="company-link">
+    <strong>Mirai Design & Print</strong>
+  </a>, <a href="https://delhitokathmandu.com/" target="_blank" rel="noopener noreferrer" class="company-link">
+    <strong>DelhitoKathmandu</strong>
+  </a> and <a href="https://www.himalayanhubs.com/" target="_blank" rel="noopener noreferrer" class="company-link">
+    <strong>HimalayanHub</strong>
+  </a> (U.S.-based companies) and I have successfully completed my internship at <a href="https://www.kritimmind.com/developers" target="_blank" rel="noopener noreferrer" class="company-link">
+    <strong>KritimMind Technology</strong>
+  </a> 
+  as a Backend Developer.
+</p>
+      <p>
+        I’ve built e-commerce platforms, emergency-service apps, event managers, parcel systems, and task boards. I enjoy both the UI side and the backend:
+        Spring Boot, PostgreSQL/MySQL, and solid HTML/CSS.
+      </p>
+
+      <dl class="profile">
+        <div><dt>Profile:</dt><dd>Data / Backend </dd></div>
+        <div><dt>Domain:</dt><dd>E-commerce</dd></div>
+        <div><dt>Education:</dt><dd>Bachelor in Computer Applications</dd></div>
+        <div><dt>Languages:</dt><dd>English, Nepali, Hindi</dd></div>
+        <div><dt>Tech:</dt><dd>Spring Boot, PostgreSQL, MySQL, HTML/CSS</dd></div>
+        <div><dt>Other:</dt><dd>Git</dd></div>
+      </dl>
+
+    
+
+
+      <div class="metrics">
+        <div class="metric">
+          <b class="count" data-target="4">0</b>
+          <span>+ Projects completed</span>
+        </div>
+      </div>
+
+      <a class="btn badge smooth-transition" href="https://www.linkedin.com/in/hiyanjongrai" target="_blank" rel="noopener">LinkedIn</a>
+    </section>
+  </div>
+</section>
+
+<!-- Expertise -->
+<div class="card web" id="expertise">
+  <section class="xp-section">
+    <div class="xp-header">
+      <h2>My Expertise</h2>
+     <p>
+      I have experience in HTML, CSS, Spring Boot, MySQL, and PostgreSQL. I have successfully completed an internship as a Backend Developer at Kritimmind and have previous experience as a Remote SEO Executive at Mirai Design and Prints, HimalayanHub and DelitoKathmandu, combining development and optimization skills to deliver efficient digital solutions.
+     </p>
+  </div>
+
+  <div class="xp-grid">
+    <!-- Web Development -->
+    <article class="xp-card reveal from-left smooth-transition">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- code brackets -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M8 9l-3 3 3 3M16 9l3 3-3 3M12 4l-1 16" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Web Development</h3>
+      <p class="xp-copy">
+        Building responsive, high-performance web apps with modern frameworks and tools.
+    </article>
+
+    <!-- UI/UX Design -->
+    <article class="xp-card reveal smooth-transition">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- pencil -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 21l3.5-.6L20.4 6.5a2.1 2.1 0 0 0 0-3L18.6 1.7a2.1 2.1 0 0 0-3 0L4.9 12.4 4.3 16.1 3 21z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M14.5 4.5l5 5" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">UI/UX Design</h3>
+      <p class="xp-copy">
+        Crafting aesthetically pleasing interfaces using HTML and CSS for optimal user experience.
+      </p>
+    </article>
+
+    <!-- Cloud Architecture -->
+    <article class="xp-card reveal from-right smooth-transition">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- cloud -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M7 18h9a4 4 0 0 0 0-8 6 6 0 0 0-11.7 1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Cloud Architecture</h3>
+      <p class="xp-copy">
+        Designing and deploying scalable, secure, cost-effective cloud infrastructure on leading platforms.
+      </p>
+    </article>
+
+    <!-- Data Management -->
+    <article class="xp-card reveal from-left smooth-transition">
+  <div class="xp-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <ellipse cx="12" cy="5" rx="7" ry="3.5" stroke-width="1.6"/>
+      <path d="M5 5v6c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5V5M5 11v6c0 1.9 3.1 3.5 7 3.5s7-1.6 7-3.5v-6" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <h3 class="xp-title">Database Management</h3>
+  <p class="xp-copy">
+    Managing relational databases like MySQL and PostgreSQL, including schema design, optimization, indexing, and secure data handling.
+  </p>
+</article>
+
+
+    <!-- Cybersecurity -->
+    <article class="xp-card reveal smooth-transition">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- shield -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9.5 12.5l1.8 1.8 3.7-3.7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">SEO</h3>
+      <p class="xp-copy">
+improving website visibility through keyword research, on-page optimization, and enhancing search rankings      </p>
+    </article>
+
+    <!-- DevOps Automation -->
+    <article class="xp-card reveal from-right smooth-transition">
+      <div class="xp-icon" aria-hidden="true">
+        <!-- settings/gear -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" stroke-width="1.6"/>
+          <path d="M19 12a7 7 0 0 0-.2-1.6l2.1-1.6-2-3.4-2.5 1a7 7 0 0 0-2.8-1.6l-.3-2.7h-4l-.3 2.7a7 7 0 0 0-2.8 1.6l-2.5-1-2 3.4 2.1 1.6A7 7 0 0 0 5 12c0 .5.1 1.1.2 1.6L3.1 15.2l2 3.4 2.5-1a7 7 0 0 0 2.8 1.6l.3 2.7h4l.3-2.7a7 7 0 0 0 2.8-1.6l2.5 1 2-3.4-2.1-1.6c.1-.5.1-1.1.1-1.6z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 class="xp-title">Backend</h3>
+      <p class="xp-copy">
+        Streamlining development & operations with SpringBoot.
+    </article>
+  </div>
+</section>
+</div>
+
+<!-- Education -->
+<div class="card web" id="education">
+  <section class="education-section">
+<h2>Education and Professional Growth</h2>
+     <p class="edu-desc">
+      A journey of continuous learning and growth, blending academic knowledge with practical skills.
+    </p>
+    <div class="edu-grid">
+
+      <!-- Row 1 -->
+      <div class="edu-card reveal from-left">
+        <h3 class="edu-year">Up to Class 5</h3>
+        <h4 class="edu-degree">Primary Education</h4>
+        <p class="edu-school">Puspanjali Shishu Batika Boarding School • Gaighat, Udayapur, Nepal</p>
+        <p class="edu-grade">Completed Foundation Level</p>
+        <p class="edu-desc">Early schooling focused on building strong basics in language, math, and science.</p>
+        <ul class="edu-list">
+          <li>Introduction to Nepali, English, Math, Science</li>
+          <li>Developed reading, writing, and foundational skills</li>
+        </ul>
+      </div>
+
+      <div class="edu-card reveal from-right">
+        <h3 class="edu-year">2072 – 2076</h3>
+        <h4 class="edu-degree">Secondary Education Examination (Class 10)</h4>
+        <p class="edu-school">Crimson Academy • Udayapur, Nepal</p>
+        <p class="edu-grade">GPA: 3.50</p>
+        <p class="edu-desc">Completed core subjects with strong academic performance.</p>
+        <ul class="edu-list">
+          <li>Science, Math, Computer Science, Social Studies</li>
+          <li>Exam-focused study habits and discipline</li>
+        </ul>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="edu-card reveal from-left">
+        <h3 class="edu-year">2077 – 2079</h3>
+        <h4 class="edu-degree">Higher Secondary Education (+2)</h4>
+        <p class="edu-school">Triyuga Janta Multiple Campus • Udayapur, Nepal</p>
+        <p class="edu-grade">GPA: 2.49</p>
+        <p class="edu-desc">Balanced academic track with project and activity participation.</p>
+        <ul class="edu-list">
+          <li>Accounting, English, Computer Science, Social Studies</li>
+          <li>Collaborated on coursework and small projects</li>
+        </ul>
+      </div>
+
+      <div class="edu-card reveal from-right">
+        <h3 class="edu-year">2079 – Present</h3>
+        <h4 class="edu-degree">Bachelor’s Degree (BCA)</h4>
+        <p class="edu-school">Aadim National College • Kathmandu, Nepal</p>
+        <p class="edu-grade">Status: Ongoing</p>
+        <p class="edu-desc">Balanced academics and skills improvement.</p>
+        <ul class="edu-list">
+          <li>CMS, Programming, Databases, Web Technologies</li>
+          <li>Projects: E-commerce, Emergency services, Event & parcel systems</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- Work Experience -->
+<div class="card web" id="experience">
+  <section class="education-section">
+    <h2>Professional Experience</h2>
+    <p class="edu-desc">
+      A journey through hands-on development, SEO optimization, and real-world project delivery.
+    </p>
+    <div class="edu-grid">
+
+      <!-- Internship -->
+      <div class="edu-card reveal">
+        <h3 class="edu-year">2024</h3>
+        <h4 class="edu-degree">Backend Developer Intern</h4>
+        <p class="edu-school">KritimMind Technology • Kathmandu, Nepal</p>
+        <p class="edu-grade">Status: Completed (3 Months)</p>
+        <p class="edu-desc">Gained hands-on experience in backend development, building scalable web applications.</p>
+        <ul class="edu-list">
+          <li>Developed REST APIs using Spring Boot and Java</li>
+          <li>Worked with MySQL and PostgreSQL databases</li>
+          <li>Collaborated on e-commerce platform features</li>
+          <li>Implemented authentication and authorization systems</li>
+        </ul>
+      </div>
+
+      <!-- Current Role 1 -->
+      <div class="edu-card reveal">
+        <h3 class="edu-year">2024</h3>
+        <h4 class="edu-degree">SEO Executive (Remote)</h4>
+        <p class="edu-school">Mirai Design & Print • United States</p>
+        <p class="edu-grade">Status: Completed</p>
+        <p class="edu-desc">Optimizing digital presence for a U.S.-based same-day sign printing company.</p>
+        <ul class="edu-list">
+          <li>Keyword research and on-page SEO optimization</li>
+          <li>Content strategy and meta tag implementation</li>
+          <li>Improving search engine rankings and visibility</li>
+          <li>Analytics monitoring and performance reporting</li>
+        </ul>
+      </div>
+
+      
+    </div>
+  </section>
+</div>
+
+<!-- Projects -->
+<div class="card web" id="project">
+  <section class="project">
+    <h2>My Projects</h2>
+    <section class="projects" id="projects-container"></section>
+  </section>
+</div>
+
+
+
+
+  <!-- Contact -->
+<div class="card web" id="contact">
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <div class="contact-wrapper">
+      
+      <div class="contact-card reveal">
+  <form id="contact-form">
+    <!-- add name attributes that match your EmailJS template -->
+    <input type="text" id="name" name="from_name" class="form-control" placeholder="Name" required>
+    <input type="email" id="email" name="from_email" class="form-control" placeholder="Email" required>
+    <textarea id="message" name="message" class="form-control" rows="5" placeholder="Message" required></textarea>
+    <button type="submit" class="send-button smooth-transition">
+      <i class="fa fa-paper-plane"></i> Send
+    </button>
+  </form>
+
+  <!-- Center Message -->
+  <div id="thankyou-popup" class="popup">
+    <div class="popup-content">
+      <p id="popup-message" class="success">✅ Thank you for your message.<br>Please wait while I check that.</p>
+      <button id="close-popup">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+  emailjs.init({ publicKey: "XnRlZuWzp9T1p1js6" });
+</script>
+
+
+
+
+
+      <!-- Info -->
+      <div class="contact-card reveal">
+        <ul class="contact-list">
+          <li class="list-item"><i class="fa fa-map-marker-alt"></i> <span class="contact-text">Nepal, Udayapur</span></li>
+          <li class="list-item"><i class="fa fa-phone"></i> <span class="contact-text"><a href="tel:+9779765006485">+9779765006485</a></span></li>
+          <li class="list-item"><i class="fa fa-envelope"></i> <span class="contact-text"><a href="mailto:raihenjong332@gmail.com">raihenjong332@gmail.com</a></span></li>
+        </ul>
+
+
+        <!-- Follow Text -->
+<p class="follow-text">You can follow me here:</p>
+
+<!-- Social Media Links -->
+<ul class="social-media-list">
+  <li><a href="https://github.com/HiyanjongRai" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></li>
+  <li><a href="https://www.facebook.com/hiyanjong.rai69" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+  <li><a href="https://www.instagram.com/tilung.hiyanjongrai/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+  <li><a href="https://www.pinterest.com/hiyanjongrai" target="_blank" rel="noopener" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a></li>
+  <li><a href="https://twitter.com/yourpage" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+  <li><a href="https://www.youtube.com/channel/UCSw-l6BnDh2kRPH30Y6ugtw" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a></li>
+</ul>
+
+
+
+
+      </div>
+
+    </div>
+  </section>
+</div>
+</main>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-content">
+    <p>&copy; 2025 Hiyan Jong Rai. All rights reserved.</p>
+    
+  </div>
+</footer>
+
+<script src="./config.js"></script>
+<script src="./JS/visitor-tracker.js" defer></script>
+<script src="./JS/nav.js" defer></script>
+<script src="./JS/site-custom.js" defer></script>
+<script src="./JS/hero.js" defer></script>
+<script src="./JS/index.js" defer></script>
+<script src="./JS/aboutus.js" defer></script>
+<script src="./JS/form.js" defer></script>
+<script src="./JS/enhanced-nav.js" defer></script>
+<script src="./JS/gf-loader.js" defer></script>
+<script src="./JS/expertise-modal.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="./JS/hero-entrance.js" defer></script>
+</body>
+</html>
